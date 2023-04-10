@@ -1,0 +1,33 @@
+{
+  "name": "carstore",
+  "version": "1.0.0",
+  "description": "Projeto da rocket seat para criar uma api de cadastro e consulta de carros com banco de dados relacional.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn  src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoaoEudesC/CarStore.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoaoEudesC/CarStore/issues"
+  },
+  "homepage": "https://github.com/JoaoEudesC/CarStore#readme",
+  "dependencies": {
+    "@types/uuid": "^9.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.11",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
+  }
+}
