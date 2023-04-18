@@ -8,9 +8,11 @@ const PORT = process.env.PORT
 
 
 
-//Importação do router
-import { categoriesRoutes } from "./routes/categories.routes"
-app.use("/categories" , categoriesRoutes)
+
+
+
+
+
 
 
 

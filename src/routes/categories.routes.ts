@@ -1,35 +1,31 @@
 //Importação de modulos e tipagens
+import { Request , Response } from "express-serve-static-core";
+import  createCategoryController  from "../modules/cars/useCases/CreateCategory";
+import { listCategoriesController } from "../modules/cars/useCases/ListCategories";
+import { importCategoryController } from "../modules/cars/useCases/importCategory";
+
+
+//Utilização do router
 import { Router } from "express";
 const categoriesRoutes = Router()
-import { Request , Response } from "express-serve-static-core";
-import { CategoriesRepository } from "../repositories/CategoriesRepositorys";
-import { CreateCategoryService } from "../services/CreateCategoryService";
 
+//Configuração do multer
+import multer from "multer"
+const upload = multer({
+    dest: "./tmp",
+})
 
+//const upload = multer({}) //Aqui dentro destas chaves a gente pode utilizar algumas configurações que vai fazer com que a gente consiga colocar o upload, para repassar para outras partes da aplicação, como a gente so quer ler o arquivo aqui,a gente deixa da forma da configuração acima.
 
-
-//Aqui é onde entra a parte mais importante que é a interface, onde a gente vai tipar quais propriedades essa categoria pode possuir , ou seja, de tal forma que eu não posso, passar qualquer nome , como o title ali , tem que ser so  o que eu defini
-
-
-
-
-const categoriesRepository  = new CategoriesRepository()  //Uma boa convenção que é bom adotar quando for chamar uma classe é , a variavel que for igualar ao new, ser com a letra minuscula , enquanto a classe dever ser com letra maiuscula
 
 
 //Rota para cadastrar nova categoria!!!
-
 categoriesRoutes.post("/" , (req:Request , res:Response) =>{
-    const {name , description} = req.body;
-    const createCategoryService = new CreateCategoryService(categoriesRepository)
-    createCategoryService.execute({name:name , description:description});
-    return res.status(201).send()   
-    
-    //Aqui eu substrair tudo, e deixei na rota somenete a função de cadstrar uma nova categoria vindo da pasta repositories.
-    //E aqui nesta camada eu já estou utilizando o service , que eu exportei e criei a new one , para o cadastro de categorias, e a função para verificar se a categoria ja foi cadastrada duas vezes tbm está no service de createUser, tudo que diz respeito a criação do usuário está lá
-    
+    return createCategoryController().handle(req , res)
+    //Agora a gente precisa receber o nosso controller aqui!!, A gente pode criar um arquivo dentro do nosso Usecases , na pasta especifica , um arquivo que vai estanciar o nosso "repositorie" , "O nosso useCase" para instaciar através do controller nas nossas rotas, através do arquivo index.
+    //Em seguida temos que passar o handle dentro dele passando o nosso req e o nosso res
 })
 
-//Essa função de verificar se o nome já existe foi feita no repositories da categoria, onde possui acesso ao banco de dados, foi criado uma função para achar o nome no banco e a validação foi feita aqui
 
 
 
@@ -37,12 +33,22 @@ categoriesRoutes.post("/" , (req:Request , res:Response) =>{
 
 //Rota para listar as categorias presentes na tabela
 categoriesRoutes.get("/" , (req:Request , res:Response) =>{
-    const categoriesList = categoriesRepository.list()
-    return res.status(200).json({
-        message:"Categorias localizadas",
-        category:categoriesList
-    })
+    return listCategoriesController.handle(req , res)
 })
+
+
+//Rota que será testada o upload
+categoriesRoutes.post("/import" , upload.single("file") , (req , res) =>{
+    return importCategoryController.handle(req , res)
+})
+
+
+
+
+
+
+
+
 
 //Perceba que aqui a gente vai utilizar o principio da responsabilidade única , criando um service para fazer o req e res , deixando o as rotas com sua unica função, de passar as rotas
 
