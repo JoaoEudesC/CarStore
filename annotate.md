@@ -342,4 +342,10 @@
 
 ## 3 - Precisamos definir um local onde a gente vai querer registrar e fazer a injeção de dependencia, como a gente vai utilizar para varios modos, entao a gente cria uma pasta shared.
 
-## 4 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/database/migrations/CreateSpecification' , Criar a migration => 'npm run typeorm migration:run'
+## +++++++++++++++++++ COMANDOS ESPECIAIS DE MIGRAÇÃO:
+
+## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/database/migrations/CreateSpecification' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/database/DataSource.ts' sempre passar o comando para criar a migration no banco
+
+## 2 - npm run typeorm migration:revert ./src/database/migrations/CreateSpecification => vai retirar a migration do banco de dados
+
+## 3 - comando para subir as informações da tabela =>
