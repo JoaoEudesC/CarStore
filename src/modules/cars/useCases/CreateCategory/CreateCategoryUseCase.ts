@@ -2,6 +2,7 @@
  //Ou seja , esse metodo execute, que vai estar em cada service de cada tabela, ele vai ser responsave por executar aquilo que por exemplo, precisa ser feito na criação de usuário, como o findByName
  import { CategoriesRepository } from "../../repositories/implementations/CategoriesRepositorys";
  import { inject , injectable } from "tsyringe";
+ import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository";
  
  interface IRequest{
      name: string;
@@ -12,7 +13,7 @@
  class CreateCategoryUseCase {
      constructor(
          @inject("CategoriesRepository")
-         private categoriesRepository: CategoriesRepository
+         private categoriesRepository: ICategoriesRepository
      ){}
  
      async execute({ name, description }: IRequest): Promise<void> {

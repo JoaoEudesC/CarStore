@@ -1,5 +1,6 @@
 import { Request , Response } from "express";
 import { ImportCategoryUseCase } from "./importCategoryUseCase";
+import { container } from "tsyringe";
 
 //A gente pode utilizar uma leitura mais simples que seria utilizando o "read File" do node.js, mas tem um problema em utiliza-lo => Para este caso não tem problema pq estamos trabalhando com um arquivo de tres linhas.
 //Imagina que a gente estivesse trabalhando com um arquivo pesado de 2000 linhas, o read file ele faz a leitura toda de uma vez deste nosso arquivo, então pode ser que na leitura a nossa aplicação fique pesada e consuma muita memoria do nosso servidor
@@ -8,14 +9,17 @@ import { ImportCategoryUseCase } from "./importCategoryUseCase";
 
 
 class ImportCategoryController {
-    constructor(private importCategoryUseCase:ImportCategoryUseCase){}
+    
     async handle(req:Request , res:Response):Promise<Response>{
         const {file} = req;
+        const importCategoryUseCase = container.resolve(ImportCategoryUseCase)
+
+
         if (!file) {
             return res.status(400).json({ error: 'File not provided' });
         }
         try {
-            await this.importCategoryUseCase.execute(file);
+            await importCategoryUseCase.execute(file);
             return res.status(201).send();
             } catch (error) {
             console.error(error);

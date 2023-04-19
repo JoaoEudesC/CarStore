@@ -1,9 +1,7 @@
 //Importação de modulos e tipagens
-import { Request , Response } from "express-serve-static-core";
-import  createCategoryController  from "../modules/cars/useCases/CreateCategory";
-import { listCategoriesController } from "../modules/cars/useCases/ListCategories";
-import { importCategoryController } from "../modules/cars/useCases/importCategory";
-
+import { ListCategoriesController } from "../modules/cars/useCases/ListCategories/ListCategoriesController";
+import { CreateCategoryController } from "../modules/cars/useCases/CreateCategory/CreateCategoryController";
+import { ImportCategoryController } from "../modules/cars/useCases/importCategory/importCategoryController";
 
 //Utilização do router
 import { Router } from "express";
@@ -15,33 +13,25 @@ const upload = multer({
     dest: "./tmp",
 })
 
-//const upload = multer({}) //Aqui dentro destas chaves a gente pode utilizar algumas configurações que vai fazer com que a gente consiga colocar o upload, para repassar para outras partes da aplicação, como a gente so quer ler o arquivo aqui,a gente deixa da forma da configuração acima.
+
+
+//Criação dos controllers que serão passados nas rotas
+const createCategoryController = new CreateCategoryController()
+const importCategoryController = new ImportCategoryController()
+const listCategoriesController = new ListCategoriesController()
 
 
 
 //Rota para cadastrar nova categoria!!!
-categoriesRoutes.post("/" , (req:Request , res:Response) =>{
-    return createCategoryController().handle(req , res)
-    //Agora a gente precisa receber o nosso controller aqui!!, A gente pode criar um arquivo dentro do nosso Usecases , na pasta especifica , um arquivo que vai estanciar o nosso "repositorie" , "O nosso useCase" para instaciar através do controller nas nossas rotas, através do arquivo index.
-    //Em seguida temos que passar o handle dentro dele passando o nosso req e o nosso res
-})
-
-
-
-
+categoriesRoutes.post("/" , createCategoryController.handle)
 
 
 //Rota para listar as categorias presentes na tabela
-categoriesRoutes.get("/" , (req:Request , res:Response) =>{
-    return listCategoriesController.handle(req , res)
-})
+categoriesRoutes.get("/" , listCategoriesController.handle )
 
 
 //Rota que será testada o upload
-categoriesRoutes.post("/import" , upload.single("file") , (req , res) =>{
-    return importCategoryController.handle(req , res)
-})
-
+categoriesRoutes.post("/import" , upload.single("file"), importCategoryController.handle )
 
 
 

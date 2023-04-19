@@ -1,15 +1,17 @@
-import { Category } from "../../model/Category";
+import { Category } from "../../entities/Category";
 import { CategoriesRepository } from "../../repositories/implementations/CategoriesRepositorys"
 import { ICategoriesRepository } from "../../repositories/ICategoriesRepository"
+import { inject, injectable } from "tsyringe";
 
 
 
-
+injectable()
 class ListCategoryUseCase{
-    constructor(private categoriesRepository:CategoriesRepository){  //O tipo dele vai ser do tipo do meu repositorio, porém , eu to criando um novo constructor, utilizando a mesma tipagem, porém não utilizando a criação de um "new Repository"
-    }
-    execute():Category[]{
-            const categories = this.categoriesRepository.list()
+    constructor(
+        @inject("CategoriesRepository")
+        private categoriesRepository:CategoriesRepository){}
+    async execute():Promise <Category[]>{
+            const categories = await this.categoriesRepository.list()
             return categories;
         }
 }

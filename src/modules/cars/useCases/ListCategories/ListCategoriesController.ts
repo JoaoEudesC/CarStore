@@ -1,15 +1,17 @@
 import { Request , Response } from "express";
 
 import { ListCategoryUseCase } from "./ListCategoriesUseCases";
-import { CategoriesRepository } from "../../repositories/implementations/CategoriesRepositorys";
+import { container } from "tsyringe";
+
 
 class ListCategoriesController{
-    constructor(private listCategoryUseCase:ListCategoryUseCase){
+    
 
-    }
+    
 
-    handle(req:Request , res:Response){
-        const all = this.listCategoryUseCase.execute()
+    async handle(req:Request , res:Response):Promise<Response>{
+        const listCategoryUseCase = container.resolve(ListCategoryUseCase)
+        const all = await listCategoryUseCase.execute()
         return res.status(200).json({
             message:"Categorias localizadas",
             data:all

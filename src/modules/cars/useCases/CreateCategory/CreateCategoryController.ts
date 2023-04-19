@@ -4,15 +4,17 @@
 
 import { Request, Response } from "express";
 import { CreateCategoryUseCase } from "./CreateCategoryUseCase";
+import { container } from "tsyringe";
 
 
 class CreateCategoryController {
-    constructor(private createCategoryUseCase: CreateCategoryUseCase){
-        //Utilizo o private para eu poder ter acesso ao "this." ou seja , as propriedades desta classe
-    }
+    
     async handle(req:Request , res:Response):Promise<Response>{
     const {name , description} = req.body;
-    await this.createCategoryUseCase.execute({name:name , description:description});
+
+    const createCategoryUseCase = container.resolve(CreateCategoryUseCase)
+
+    await createCategoryUseCase.execute({name:name , description:description});
     return res.status(201).send()   
     }   
 }

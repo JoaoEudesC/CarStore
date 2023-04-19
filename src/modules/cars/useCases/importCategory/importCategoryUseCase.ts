@@ -5,6 +5,7 @@ import fs from "fs";
 //Importação de bibilioteca para leitura do nosso arquivo csv
 import {parse as csvParse} from "csv-parse"
 import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
+import { inject, injectable } from "tsyringe";
 
 
 //Interface do array que vai salvar todas as informções da nossa categoria do file
@@ -13,9 +14,12 @@ interface IImportCategory{
     description:string;
 }
 
-
+@injectable()
 class ImportCategoryUseCase{
-    constructor(private categoriesRepository:ICategoriesRepository){}
+    constructor(
+        @inject("CategoriesRepository")
+        private categoriesRepository:ICategoriesRepository
+        ){}
     
     loadCategories(file: Express.Multer.File):Promise<IImportCategory[]>{
         return new Promise((resolve , reject) =>{
@@ -48,12 +52,12 @@ class ImportCategoryUseCase{
         
         async execute(file:Express.Multer.File):Promise<void>{
         const categories = await this.loadCategories(file) //Aqui neste caso eu poderia utilizar async e await , ou then and catch , utilizei async and await
-        categories.map(category => {
+        categories.map(async (category) => {
             const {name , description} = category;
-            const existCategory = this.categoriesRepository.findByName(name)
+            const existCategory = await this.categoriesRepository.findByName(name)
 
             if(!existCategory){
-                this.categoriesRepository.create({
+                await this.categoriesRepository.create({
                     name, 
                     description
                 })
