@@ -341,3 +341,5 @@
 ## 2 - A gente vai usar essa bibilioteca para substituir as inserções que a gente faz na mão com o arquivo index.ts em cada pasta
 
 ## 3 - Precisamos definir um local onde a gente vai querer registrar e fazer a injeção de dependencia, como a gente vai utilizar para varios modos, entao a gente cria uma pasta shared.
+
+## 4 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/database/migrations/CreateSpecification' , Criar a migration => 'npm run typeorm migration:run'

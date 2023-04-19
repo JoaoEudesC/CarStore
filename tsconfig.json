@@ -2,12 +2,14 @@
   
    {
     "compilerOptions": {
-        "target": "es2016",
+        "target": "ES2017",
+        "lib": ["es6", "dom"],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "module": "commonjs",
         "rootDir": "src",
         "baseUrl": "./",
+        "sourceMap": true,
         "paths": {
             "@modules/*": ["src/modules/*"],
             "@config/*": ["src/config/*"],
