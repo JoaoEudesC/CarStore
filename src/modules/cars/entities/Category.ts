@@ -1,5 +1,5 @@
 //Importação de uuid V4 para a geração do id
-import {v4 as uuidV4, v4} from "uuid"
+import {v4 as uuidV4, } from "uuid"
 import {Column, CreateDateColumn, Entity, PrimaryColumn} from "typeorm"
 
 //Aqui a gente precisa dizer que essa classe é um referencia para a nossa tabela
@@ -16,11 +16,10 @@ class Category{
     @CreateDateColumn()
     created_at:Date;
 
-    constructor(id:string , name:string , description:string , created_at:Date){
-        this.id = v4()
-        this.name = name
-        this.description = description
-        this.created_at = created_at
+    constructor(){
+        if(!this.id){
+            this.id = uuidV4();
+        }
     }
 }
 

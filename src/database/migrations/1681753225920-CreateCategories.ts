@@ -12,7 +12,7 @@ export class CreateCategories1681753225920 implements MigrationInterface {
                             name:"id",
                             type:"uuid",
                             isPrimary:true
-
+                            
                         },
                         {
                             name:"name",
@@ -28,7 +28,7 @@ export class CreateCategories1681753225920 implements MigrationInterface {
                             name:"created_at",
                             type:"timestamp",
                             default:"now()"
-                        }
+                        },
                         
                     ]
                 }

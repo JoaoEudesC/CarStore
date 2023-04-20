@@ -344,7 +344,7 @@
 
 ## +++++++++++++++++++ COMANDOS ESPECIAIS DE MIGRAÇÃO:
 
-## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/database/migrations/CreateSpecification' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/database/DataSource.ts' sempre passar o comando para criar a migration no banco
+## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/database/migrations/CreateUser' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/database/DataSource.ts' sempre passar o comando para criar a migration no banco
 
 ## 2 - npm run typeorm migration:revert -- -d ./src/database/DataSource.ts => vai retirar a ultima migration colocada no banco de dados
 
@@ -352,4 +352,32 @@
 
 ## 4 - Sempre lembrar de não subir a pasta node_modules.
 
-## OBS => Erro ao utilizar o inject => é porque estou utilizando a versão 5 do typescript , e deveria estar usando a versão "4.95.5"
+## OBS => Erro ao utilizar o inject => é porque estou utilizando a versão 5 do typescript , e deveria estar usando a versão "4.95.5", temos que abrir a palleta "ctrl + shift + p" e selecionar lá a versão que nos desejamos utilizar , para colocar como padrão no vscode, isso serve para toda linguagem.
+
+## 5 - A rota é uma para cada tabela , ou seja, se eu tiver várias funções como listar as categorias da tabela e etc, se for da mesma tabela vai tudo na mesma rota , e tudo no mesmo implementations e repositories , a unica coisa que vai mudar é um useCase para cada função , independente da tabela , seja ela de listar ou cadastrar
+
+## 6 - se o docker e sua aplicação estiver rodando na mesma porta ao mesmo tempo e voce rodar a aplicação no localhost , vai dar que as portas já estao sendo usadas , voce tem que executar um ou outro , ou coloca-los em portas diferentes, se voce executar no localhost a conexão com o banco de dados vai sempre falhar
+
+## ++++++++++++++++++++++++++++++++++++ Continuação da documentação
+
+## 1 - Repare que no path de "specifications" o schema nos colocamos , de forma diferente de categories, nos colocamos o "$ref":"#/definitions/Specification" , ou seja , a gente criou uma referência e no final do "path" a gente criou as 'definitions' com exatamente as properties exatamente como no categories , so que agora a gente está referenciando o "Specification" para aquele definitions , ao inves de passar tudo direto no schema como fizemos no path de "categories"
+
+## 2 - Se voce realizar o teste da rota no swagger , ele vai salvar na tabela do banco de dados com a descrição de swagger "ai voce sabe que foi um teste" é so apagar a linha.
+
+## 3 - Tive que criar outro path para o import (Pq a rota se chama "categories/import" nao so categories) se voce o mesmo path , eu so precisaria criar outro ver http dentro do path , mas como não é, tenho que criar outro "path", ou seja , outra rota.
+
+## 4 - Criação da rota de upload no swagger => no requestBody a gente vai passar "multipart/form-data": , na versão tres do swagger é assim que ele reconhece o upload de arquivos do swagger usa essa especificidade, fazendo com que só seja permitido arquivos dos tipos diversos, ou seja, ele vai bloquear arquivos de outros tipos., e nas properties tive que passar que vai ser um arquivo do tipo "file" que foi a variavel que eu defini para receber o nome do arquivo, do tipo string , com fomrato binario.
+
+## ++++++++++++++++++++++++++++++++++++++++ USUÁRIO (CADASTRO DE USUÁRIOS)
+
+## 1 - Repare que para criar qualquer tabela eu primeiro crio a migração da tabela com o nome que eu quero , a regra é essa, e através dessa migração eu crio a tabela e adiciono as informações nela
+
+## 2 - Se estiver utilizando uma arquitetura msc e a aplicação fo pequena, pode ser ideal usar um controller , um service , um router para toda a aplicação , porém se for uma aplicação melhor , o ideal é utilizar um para cada tabela.
+
+## 3 - Repare que sao criadas as migrations , e das migrations são criadas as entidades
+
+## 4 - Criei um módulo chamado accounts , que vai tudo a respeito da criação de contas de usuário, assim como criei um modulo chamado cars que vai tudo a respeito da criação de tabelas e funções relacionado a carros, como vou ter validação de usuário e tudo mais , faz super sentido que eu crie um modulo só para essa parte.
+
+## 5 - Ou seja , as entidades de cada modulo , ficam em seus respectivos modulos , seja o de account ou seja o cars
+
+## 6 - eu posso utilizar com js puro a migração tbm , e utilizar o getRepository como se fosse minha tabela
