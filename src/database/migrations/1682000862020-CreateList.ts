@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm"
 
-export class Createmumble1681932188975 implements MigrationInterface {
+export class CreateList1682000862020 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
     }

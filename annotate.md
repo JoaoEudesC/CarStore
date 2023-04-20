@@ -346,6 +346,10 @@
 
 ## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/database/migrations/CreateSpecification' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/database/DataSource.ts' sempre passar o comando para criar a migration no banco
 
-## 2 - npm run typeorm migration:revert ./src/database/migrations/CreateSpecification => vai retirar a migration do banco de dados
+## 2 - npm run typeorm migration:revert -- -d ./src/database/DataSource.ts => vai retirar a ultima migration colocada no banco de dados
 
-## 3 - comando para subir as informações da tabela =>
+## 3 - comando para ver o nome das tabelas e ver quais delas foi realizada a migração => "npm run typeorm migration:show -- -d ./src/database/DataSource.ts" , nesses comandos de migration tem sempre que lembrar de passar o DataSource.
+
+## 4 - Sempre lembrar de não subir a pasta node_modules.
+
+## OBS => Erro ao utilizar o inject => é porque estou utilizando a versão 5 do typescript , e deveria estar usando a versão "4.95.5"

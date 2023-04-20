@@ -2,7 +2,7 @@
   
    {
     "compilerOptions": {
-        "target": "ES2017",
+        "target": "ES2016",
         "lib": ["es6", "dom"],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
