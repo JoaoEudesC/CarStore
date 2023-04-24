@@ -442,4 +442,4 @@
 
 ## 11 - Perceba que eu ja sabia que na tabela de users iria ter um canto para avatar, porém , eu não quero que seja passado na rota post de criar um usuário e sim quando um usuário ja estiver cadastrado e autenticado, por isso, eu coloquei ele como opcional , para não ser obrigatório passar na criação , porem ele só vai ser usado na rota de upload de avatar , ou seja para colocar uma foto numa conta já cadastrada e existente.
 
-## 12 -
+## OBS => houve uma atualização na documentação do typeorm, por isso nos não utilizamos "getRepository" do type orm , foi atualizado, agora nos temos que utilizar, o nosso dataSource no lugar , para poder da um get Repository , a gente so import o "Repository".

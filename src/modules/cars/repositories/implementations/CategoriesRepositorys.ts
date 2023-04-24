@@ -1,8 +1,9 @@
 import { Category } from "../../entities/Category";
 
 //Importação de classe do typeOrm(Se voce aplicar um "ctrl + click" em qualquer pacote ou modulo exportado voce consegue ver o que tem dentro dele que pode ser utilizado )
-import {Repository, getRepository} from "typeorm"
+import {Repository} from "typeorm"
 import { ICategoriesRepository } from "../ICategoriesRepository";
+import { AppDataSource } from "../../../../database/DataSource";
 
 
 
@@ -18,7 +19,7 @@ class CategoriesRepository
 implements ICategoriesRepository{
     private repository: Repository<Category> 
     constructor(){
-        this.repository = getRepository(Category)
+        this.repository = AppDataSource.getRepository(Category);
     }
     async create({description , name} : ICreateCategoryDTO):Promise<void>{   
         const category = this.repository.create({
