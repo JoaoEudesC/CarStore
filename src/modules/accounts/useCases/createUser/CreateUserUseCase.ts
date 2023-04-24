@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { ICreateUserDTO, IUsersRepository } from "../../repositories/IUserRepository";
 import { inject , injectable } from "tsyringe";
+import {hash} from "bcrypt"
+import { AppError } from "@errors/AppError";
 
 
 
@@ -9,12 +11,18 @@ class CreateUserUseCase{
     constructor(
         @inject("UsersRepository")
         private usersRepository:IUsersRepository){}
-    async execute({name , username , email , password , driver_license }:ICreateUserDTO):Promise<void>{
+    async execute({name , email , password , driver_license }:ICreateUserDTO):Promise<void>{
+        const passwordHash = await hash(password , 10); //O número significa o salt da senha, para dificultar o hash.
+        const userAlreadyExists = await this.usersRepository.findByEmail(email)
+        
+        if(userAlreadyExists){
+            throw new AppError("User already exists")
+        }
+        
         await this.usersRepository.create({
             name, 
-            username,
             email,
-            password,
+            password:passwordHash,
             driver_license
         })
     }   
@@ -22,3 +30,7 @@ class CreateUserUseCase{
 
 
 export {CreateUserUseCase}
+
+
+//Repare que aqui eu estou pegando a função diretamente  "hash" do bcrypt , diferente dos outros projetos em que eu , pegava uma varivel "bcrypt" e fazi "bcrypt.hash"
+//

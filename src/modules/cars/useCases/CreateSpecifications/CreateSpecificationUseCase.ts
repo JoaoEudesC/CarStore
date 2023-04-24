@@ -1,5 +1,6 @@
 //Estou passando a utilizar a bibilioteca "tsyring, para a implementação das classes", para facilitar a escrita do código.
 
+import { AppError } from "@errors/AppError";
 import { inject, injectable } from "tsyringe";
 import { ISpecificationsRepository } from "../../repositories/ISpecificationsRepository";
 
@@ -18,7 +19,7 @@ class CreateSpecificationUseCase{
         const specicationsRepositoryAlreadyExists = await this.specicationsRepository.findByName(name)
 
         if(specicationsRepositoryAlreadyExists){
-            throw new Error ("Specification already exists")
+            throw new AppError ("Specification already exists")
         }
         await this.specicationsRepository.create({
             name,

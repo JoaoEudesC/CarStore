@@ -1,7 +1,8 @@
 //Importação do express
-import express from "express"
+import express, { Response , Request , NextFunction } from "express"
 const app = express()
 app.use(express.json())
+import "express-async-errors"
 import 'reflect-metadata';
 
 //Importação do dotEnv(Variaveis de ambiente)
@@ -37,7 +38,23 @@ app.use("/api-docs" , swaggerUi.serve , swaggerUi.setup(swaggerFile)) //Url de o
 
 //routers
 import { router } from "./routes"
+import { AppError } from "@errors/AppError";
 app.use( router) //Essa criação de arquivo router diminuiu a quantidade de codigos e organizou
+
+//Importação de middleware de erro, para que nossa rota consiga retornar o nosso erro, quando cai nele
+app.use((err:Error , req:Request , res:Response , next:NextFunction) =>{ 
+//Quando a gente ta trabalhando com middlewares de erro, o nosso erro , sempre tem que vir como parametro de erro
+    if(err instanceof AppError){
+      return res.status(err.statusCode).json({
+        message:err.message
+      })
+
+    }
+    return res.status(500).json({
+      status:"error",
+      message: `Internal server errror - ${err.message}` //Aqui nos aplicamos o nosso middleware de erro costumizado, se o erro não for do tipo AppError, ele vai retornar o status(500) com o status e a mensagem.
+    })
+})
 
 
 

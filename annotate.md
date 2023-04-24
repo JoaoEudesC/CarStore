@@ -381,3 +381,65 @@
 ## 5 - Ou seja , as entidades de cada modulo , ficam em seus respectivos modulos , seja o de account ou seja o cars
 
 ## 6 - eu posso utilizar com js puro a migração tbm , e utilizar o getRepository como se fosse minha tabela
+
+## 7 - Temos que seguir a ordem (1- CriarMigração, 2- CriarEntities, 3- CriarRepository, 4- Criar useCases )
+
+## 8 - Removendo coluna de uma migração já existente => "npm run typeorm migration:create ./src/database/migrations/AlterUserDeleteUsername", cria outra migração que vai ser responsável por remover a coluna dessa determinada tabela(await queryRunner.dropColumn("users" ,"username" )) e passamos este comando dentro do "async up" para deletarmos este campo. e no aync down a gente passa isso ("await queryRunner.addColumn("users" , new TableColumn({name:"username",type:"varchar"}))}) e depois remover , tudo que a gente tem de username nas entidades e criaçaõ de tabela
+
+## 9 - Criptografia de senha => vamos utilizar o bcrypt , e repare que é no nosso useCase onde vai a regra de negocio , que utilizamos o bcrypt , assim como utilizamos no service em outras arquiteturas.
+
+## 10 - Validação no useCase para não permitir cadastro de "emails" iguais.(Poderia ser um 'middleware', igual eu criei nos outros projetos)=> então repare que a função "findByEmail" ela é passada no useCase, porém ela é criada no repositories(IUserRepository.ts). e passada pelo UsersRepository.ts e por ultimo passado para o useCase
+
+## ++++++++++++++++++++++++++++++ Entendendo o jwt(Verificação de permissão e autenticação de usuário através de token) json-web-token
+
+## 1 - Como é outra regra de negócio, eu crio dentro de accounts, dentro de useCases , o authenticateUser folder , dentro dele os meus arquivos "authnticateUserUseCase e o meu controller", repare que isso é outra regra de negocio, a autenticação, ou seja, tem que ser criado uma pasta no useCases para ele, no modulo correspondente que é o de usuário "accounts"., igual quando nos outros projetos eu criava um controller somente para autenticação
+
+## 2 - Criamos uma rota nova só para essa parte de "autenticação"
+
+## 3 - só precisamos fazer um useCase e um controller, justamente porque não temos que criar tabela , migração e mais nada , pq nos vamos trabalhar essa autenticação encima da tabela de usuário.já criada , que ja possui até entidade e tudo mais.
+
+## ++++++++++++++++++++++ ROTAS AUTENTICADAS(SÃO ROTAS QUE SOMENTE O USUÁRIO COM PERMISSÃO PODE ACESSAR.), assim como se fosse a pagina de login, que o usuário so vai acessar aquela rota se o login for feito , que é onde agente verifica se o token criado , é realmente "viavel"
+
+## 1 - A gente vai fazer essa validação através de um middleware, vendo se é um token válido ou não, se o usuário desse token realmente existe.
+
+## 2 - Esses middlewares são passados diretamente nas rotas , para fazer as interveções , estão dentro da pasta middlewares.
+
+## ++++++++++++++++++++++++ Tratamento de execessões
+
+## 1 - Sempre que acontece um erro , nossa aplicação para , e não vai adante, ou seja , agente tem que parar a aplicação e começar de novo e isso não é o correto.
+
+## 2 - Ou seja , a gente vai passar esses erros no nosso "response" (A gente vai aprender a criar o nosso próprio erro), porque toda hora que a gente tem um erro, a gente da um throw new error, ai ele fica como um erro do tipo 500, mas algumas informações são erros do tipo(400), nas outras arquiteturas como , msc a gente envia o erro direto na requisição através do response, já em arquiteturas mais complexas como ("msc" e "clean architeture") , a gente tem que criar o próprio erro para passar na camada de serviço.para não ter que utilizar o throw.
+
+## 3 - Criamos uma pasta chamada "errors" => onde vamos criar a classe que vai nos possibilitar passar statusCode, além das mensagens, sendo assim, substituo todos os "Throw NewError" por ele na aplicação.
+
+## 4 - Precisamos fazer uma tratativa no nosso código, para quando ele der esse erro, ele conseguir dar um "return" neste erro => A gente tem que criar um middleware no app.ts, que vai ser repassado para todas as rotas(O middleware de erro)
+
+## 5 - Essa é a melhor forma de implementação de erro se voce estiver utilizando uma arquitetura "msc ou clean Architeture" tanto com javascript , como em typescript,a estrutura de montagem desse middleeare é igual , a não ser que voce esteja utilizando a arquitetura "mvc" dai voce consegue fornecer esse erro diretamente no controller.
+
+## 6 - Temos que instalar uma bibilioteca para que nossos erros sejam "repassados" de fato para frente => 'npm i express-async-errors' , pq o express não sabe lidar com os throws diretamente , por isso a necessidade da bibilioteca.(Só passar assim depois da importação do express => import "express-async-errors")
+
+## ++++++++++++++++++++++++++ AVATAR DO USUÁRIO, Criação de upload de avatar.
+
+## 1 - O ideal é que na colunar de "users" a gente possua um campo que seja para o avatar, por tanto vamos adcionar mais uma coluna no nosso banco de dados, que vai servir para que a gente consiga, colocar esse avatar
+
+## 2 - Antigamente a gente salva-va a imagem diretamente no banco de dados em formato "base 64" porém o banco ficava pesado , e com o surgimento dos "storages" do google ou da amazon a gente consegue salvar a nossa imagem lá e adicionar no nosso banco de dados a referência dessa imagem para utilizar na aplicação, sem necessidade de salvar a imagem diretamente no banco de dados.(fica muita mais facil), quando a gente quiser utilizar a imagem , a gente recupera através da nossa "url"., a gente vai utilizar a nossa pasta tmp, igual estavamos fazendo com a nossa categoria.
+
+## 3 - A gente vai criar nas nossas pastas, no useCases de account o "updateUserAvatar", sendo assim , se o usuário ja tiver um avatar, a gente vai ter que da a possibilidade deste usuário realizar um update desse avatar e não só adicionar um avatar.
+
+## 4 - Repare que para a criação de uma nova coluna na nossa tabela já criada, nos vamos utilizar o mesmo metodo , que utilizamos para remover uma coluna da nossa tabela já criada , no caso nos removemos a coluna "username", da tabela "user",(Ou seja, nos criamos uma migração "AlterUserAddAvatar" , onde nos vamos realizar essa inserção), é sempre a mesma convenção , alter e o nome da funcionalidade da que voce quer adicionar ou remover dessa determinada tabela.
+
+## 5 - Agora na criação da "tabela" users , na migração, eu vou criar a o campo de avatar, porém ele não será o brigatório e o usuário pode passar se quiser ou não., ou seja , tenho que adicionar estes campos no meu "entities"
+
+## 6 - A gente tem tbm que isolar a função de upload do multer, e tirar das rotas, pq não é responsabilidade das rotas , igual nos fizemos na rota de "categorias", nos vamos ter que isolar isso.
+
+## 7 - Criamos uma pasta chamada "config" , em que nos vamos criar as configurações do nosso projeto, e dentro dela vai ter o arquivo de "upload" , em que nos vamos isolar essa parte dos uploads.
+
+## 8 - No new eviroment do insomnia , eu posso passar qualquer tipo de váriavel como "baseUrl" e tbm o token para que eu não precis ficar pegando , pq nessa rota de upload de avatar eu terei que passar um "token" tbm para autenticar a rota e consegui colocar o avatar.
+
+## 9 - A gente precisa criar uma funcionalidade que vai fazer com que se já existir um avatar, ele vai deletar o anterior, pq quando a gente salva o avatar ele ta salvando na pasta tmp o todos os avatares , assim nossa aplicação vai ficar uma bagunça,
+
+## 10 - Nos vamos criar uma pasta "utils" em que nos vamos colocar a função "deleteFile" dentro dessa pasta utils , fica possiveis funções que vão ser reutilizadas em outras partes do codigo como a função de deletar um file
+
+## 11 - Perceba que eu ja sabia que na tabela de users iria ter um canto para avatar, porém , eu não quero que seja passado na rota post de criar um usuário e sim quando um usuário ja estiver cadastrado e autenticado, por isso, eu coloquei ele como opcional , para não ser obrigatório passar na criação , porem ele só vai ser usado na rota de upload de avatar , ou seja para colocar uma foto numa conta já cadastrada e existente.
+
+## 12 -
