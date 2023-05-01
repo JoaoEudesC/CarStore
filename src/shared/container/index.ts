@@ -5,7 +5,7 @@ import { container } from "tsyringe";
 
 //Importação de elementos para a criação do conteiner de categorias
 import { ICategoriesRepository } from "../../modules/cars/repositories/ICategoriesRepository";
-import { CategoriesRepository } from "../../modules/cars/repositories/implementations/CategoriesRepositorys";
+import { CategoriesRepository } from "../../modules/cars/repositories/implementations/CategoriesRepository";
 
 //Importação de elementos para criação do conteiner de specifications
 import { ISpecificationsRepository } from "../../modules/cars/repositories/ISpecificationsRepository";

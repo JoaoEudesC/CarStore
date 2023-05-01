@@ -1,4 +1,4 @@
-import { User } from "../entities/User";
+import { users } from "../entities/User";
 
 interface ICreateUserDTO{
     name:string;
@@ -19,8 +19,8 @@ interface ICreateUserDTO{
 
 interface IUsersRepository{
     create(data:ICreateUserDTO):Promise<void>;
-    findByEmail(email:string):Promise<User>;
-    findById(id:string):Promise<User>
+    findByEmail(email:string):Promise<users>;
+    findById(id:string):Promise<users>
 
 
 }

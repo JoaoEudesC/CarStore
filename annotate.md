@@ -443,3 +443,9 @@
 ## 11 - Perceba que eu ja sabia que na tabela de users iria ter um canto para avatar, porém , eu não quero que seja passado na rota post de criar um usuário e sim quando um usuário ja estiver cadastrado e autenticado, por isso, eu coloquei ele como opcional , para não ser obrigatório passar na criação , porem ele só vai ser usado na rota de upload de avatar , ou seja para colocar uma foto numa conta já cadastrada e existente.
 
 ## OBS => houve uma atualização na documentação do typeorm, por isso nos não utilizamos "getRepository" do type orm , foi atualizado, agora nos temos que utilizar, o nosso dataSource no lugar , para poder da um get Repository , a gente so import o "Repository".
+
+## ++++++++++++++++++++++++++++++++++ Observações de erros =>
+
+## 1 - "message": "Internal server errror - relation \"categories\" does not exist" (Este erro de relation indica que a tabela não está no banco de dados por isso não pode realcionar a relação) a interação que iria fazer com auquela tabela como listar um usuário ou criar e repare, que se o docker for reiniciando e colocado abaixo as migrations tem que ser feitas todas novamente.
+
+## 2 -

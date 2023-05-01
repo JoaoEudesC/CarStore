@@ -9,7 +9,8 @@ export class CreateUser1682017370074 implements MigrationInterface {
                 columns:[
                     {
                         name:"id",
-                        type:"uuid"
+                        type:"uuid",
+                        isPrimary:true
                     },
                     {
                         name:"name",
@@ -21,7 +22,7 @@ export class CreateUser1682017370074 implements MigrationInterface {
                         isUnique:true
                     },
                     {
-                        name:"pasword",
+                        name:"password",
                         type:"varchar"
                     },
                     {

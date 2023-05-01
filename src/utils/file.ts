@@ -2,7 +2,7 @@
 import fs from "fs"
 
 
-import { fstat } from "fs"
+
 
 export const deleteFile = async(filename:string) =>{
     try {

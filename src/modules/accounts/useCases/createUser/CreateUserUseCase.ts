@@ -12,7 +12,9 @@ class CreateUserUseCase{
         @inject("UsersRepository")
         private usersRepository:IUsersRepository){}
     async execute({name , email , password , driver_license }:ICreateUserDTO):Promise<void>{
+        console.log(password)
         const passwordHash = await hash(password , 10); //O número significa o salt da senha, para dificultar o hash.
+        
         const userAlreadyExists = await this.usersRepository.findByEmail(email)
         
         if(userAlreadyExists){

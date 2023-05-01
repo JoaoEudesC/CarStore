@@ -10,14 +10,10 @@ import { AppError } from "../errors/AppError";
 
 
 export async function ensureAuthenticated(req:Request , res:Response , next:NextFunction){
-    
     const authHeader = req.headers.authorization;
-
-
     if(!authHeader){
         throw new AppError("Token missing" , 401) //Caso o token não tenha sido passado
     }
-    
     const [, token] = authHeader.split(" ")
     const SECRET = process.env.SECRET
     if(!SECRET){

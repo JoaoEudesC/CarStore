@@ -5,7 +5,7 @@ import {Repository} from "typeorm"
 import { ICategoriesRepository } from "../ICategoriesRepository";
 import { AppDataSource } from "../../../../database/DataSource";
 
-
+//Com a nova atualização precisou do typeorm precisou-se colocar eu não posso utilizar o get Repository diretamente do typeorm mais , tenho que utilizar o getRepository do meu DataSource
 
 interface ICreateCategoryDTO{
     name:string;
@@ -35,11 +35,9 @@ implements ICategoriesRepository{
         return categories;
     }
 
-    async findByName(name:string): Promise<Category>  {
-         const category =  await this.repository.findOne( {where:{name}} ) //SELECT * FROM category WHERE name = "name"
-            if (!category) {
-            throw new Error('Category not found');//Quando o find onde não encontra ninguem ele retorna nulo, se ele retornar nulo, ele não vai ser assinable com o tipo, por isso estou fazendo uma verificação, que caso ele retorne diferente de categories , ou seja, nulo, ele vai jogar um erro
-        }
+    async findByName(name:string): Promise<Category | null>  {
+         const category = await this.repository.findOneBy({name}) //SELECT * FROM category WHERE name = "name"
+            
         return category
     }
 }
