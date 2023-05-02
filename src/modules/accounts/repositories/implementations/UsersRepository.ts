@@ -12,25 +12,23 @@ implements IUsersRepository {
     }
 
     //Função de criação de usuários.
-    async create({name,  email , driver_license, password , avatar , id}:ICreateUserDTO):Promise<void>{
+    async create({name,  email , driver_license, password , avatar , id , username}:ICreateUserDTO):Promise<void>{
         const User = this.repository.create({
             name,
             email,
             driver_license,
             password,
             avatar,
-            id
+            id,
+            username
         });
 
         await this.repository.save(User)
     }
     //Função de verificar se o usuário já está cadastrado no banco de dados.
-    async findByEmail(email: string): Promise<users> {
+    async findByEmail(email: string): Promise<users | undefined> {
         const user = await this.repository.findOne({where:{email}})
-        if(!user){
-            throw new Error(`User with this email ${email} not found`) //Essa é uma verificação caso o email passado não exista no banco de dados, se eu não fizer essa verificação, ele da erro, pq o email vai ser do tipo "string e null" e eu defini o tipo como "string", pq possa ser que o email não exista.
-        }
-        return user
+        return user ? user:undefined
     }
 
     //Função findById(Vamos achar o usuário pelo id, para utilizar junto com a autenticação)

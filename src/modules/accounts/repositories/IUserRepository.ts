@@ -20,7 +20,7 @@ interface ICreateUserDTO{
 
 interface IUsersRepository{
     create(data:ICreateUserDTO):Promise<void>;
-    findByEmail(email:string):Promise<users | null>;
+    findByEmail(email:string):Promise<users | undefined>;
     findById(id:string):Promise<users>
 
 

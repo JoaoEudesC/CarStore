@@ -13,7 +13,7 @@ const authenticateUserController = new AuthenticateUserController();
 
 
 //Criação da rota de autenticidade
-authenticateRoutes.post("/sessions" ,ensureAuthenticated   , authenticateUserController.handle);
+authenticateRoutes.post("/sessions"    , authenticateUserController.handle);
 
 
 
