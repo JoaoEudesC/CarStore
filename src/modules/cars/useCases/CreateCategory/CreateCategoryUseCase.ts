@@ -3,8 +3,8 @@
 
  import "reflect-metadata";
  import { inject , injectable } from "tsyringe";
- import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository";
-import { AppError } from "@errors/AppError";
+ import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
+import { AppError } from "../../../../errors/AppError";
  
  interface IRequest{
      name: string;
@@ -22,8 +22,8 @@ import { AppError } from "@errors/AppError";
          const categoryAlreadyExists =  await this.categoriesRepository.findByName(name)
  
          if (categoryAlreadyExists) {
-             throw new AppError ("User already exists")
-         }
+             throw new AppError ("User already exists",400)
+            }
  
          this.categoriesRepository.create({ name, description })
      }      

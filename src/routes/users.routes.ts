@@ -3,11 +3,11 @@ import multer from "multer"
 import uploadConfig from "../config/upload"
 
 //Importação de middlware
-import { ensureAuthenticated } from "src/middlewares/ensureAuthenticated";
+import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 
 //Importação do router
-import { UpdateUserAvatarController } from "@modules/accounts/useCases/updateUserAvatar/UpdateUserAvatarController";
+import { UpdateUserAvatarController } from "../modules/accounts/useCases/updateUserAvatar/UpdateUserAvatarController";
 import {Router} from "express"
 const usersRoutes = Router()
 

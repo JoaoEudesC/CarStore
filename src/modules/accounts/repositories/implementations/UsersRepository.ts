@@ -1,10 +1,11 @@
 //Repare que a estrutura para quase todos os arquivos de criação segue a mesma lógica e o mesmo schema , somente  muda pouquissimas coisas , o implemnetation , entities , migrations , useCases , controllers , Interfaces, geralmente segue a mesma logica em cada arquivo.
-import { users } from "../../../../modules/accounts/entities/User";
-import {AppDataSource} from "src/database/DataSource";
+import { users } from "../../entities/User";
+import {AppDataSource} from "../../../../database/DataSource";
 import {  Repository } from "typeorm";
 import { IUsersRepository , ICreateUserDTO } from "../IUserRepository";
 
-class UsersRepository implements IUsersRepository {
+class UsersRepository 
+implements IUsersRepository {
     private repository: Repository<users>;
     constructor(){
         this.repository = AppDataSource.getRepository(users)

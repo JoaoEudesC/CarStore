@@ -8,6 +8,9 @@ class users {
 
     @Column()
     name:string;
+
+    @Column()
+    username:string;
     
     @Column()
     email:string;

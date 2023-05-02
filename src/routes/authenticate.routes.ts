@@ -1,5 +1,5 @@
 //Importação de controller
-import { AuthenticateUserController } from "@modules/accounts/useCases/authenticateUser/AuthenticateUserController";
+import { AuthenticateUserController } from "../modules/accounts/useCases/authenticateUser/AuthenticateUserController";
 
 //Importação de middlewares
 import {ensureAuthenticated} from "../middlewares/ensureAuthenticated"

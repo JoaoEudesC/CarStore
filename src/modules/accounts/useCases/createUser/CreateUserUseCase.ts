@@ -1,8 +1,7 @@
-import "reflect-metadata";
 import { ICreateUserDTO, IUsersRepository } from "../../repositories/IUserRepository";
 import { inject , injectable } from "tsyringe";
 import {hash} from "bcrypt"
-import { AppError } from "@errors/AppError";
+import { AppError } from "../../../../errors/AppError";
 
 
 
@@ -11,8 +10,7 @@ class CreateUserUseCase{
     constructor(
         @inject("UsersRepository")
         private usersRepository:IUsersRepository){}
-    async execute({name , email , password , driver_license }:ICreateUserDTO):Promise<void>{
-        console.log(password)
+    async execute({name , email , username,  password , driver_license }:ICreateUserDTO):Promise<void>{
         const passwordHash = await hash(password , 10); //O número significa o salt da senha, para dificultar o hash.
         
         const userAlreadyExists = await this.usersRepository.findByEmail(email)
@@ -24,6 +22,7 @@ class CreateUserUseCase{
         await this.usersRepository.create({
             name, 
             email,
+            username,
             password:passwordHash,
             driver_license
         })

@@ -1,7 +1,7 @@
 //Aqui nessa rota nos vamos ter que utilizar o nosso middleware de autenticação, para permitir que somenete um usuário cadastrado possa realizar o upload desse avatar
 //Então a gente só vai adicionar esse avatar na coluna de "users", ou seja, da essa possibilidade do usuário poder da upload de avatar , se o usuário ja for cadastrado.
 
-import { IUsersRepository } from "@modules/accounts/repositories/IUserRepository";
+import { IUsersRepository } from "../../repositories/IUserRepository";
 import { inject, injectable } from "tsyringe";
 import { deleteFile } from "src/utils/file";
 

@@ -1,6 +1,5 @@
 //Estou passando a utilizar a bibilioteca "tsyring, para a implementação das classes", para facilitar a escrita do código.
-
-import { AppError } from "@errors/AppError";
+import { AppError } from "../../../../errors/AppError";
 import { inject, injectable } from "tsyringe";
 import { ISpecificationsRepository } from "../../repositories/ISpecificationsRepository";
 

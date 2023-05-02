@@ -448,4 +448,90 @@
 
 ## 1 - "message": "Internal server errror - relation \"categories\" does not exist" (Este erro de relation indica que a tabela não está no banco de dados por isso não pode realcionar a relação) a interação que iria fazer com auquela tabela como listar um usuário ou criar e repare, que se o docker for reiniciando e colocado abaixo as migrations tem que ser feitas todas novamente.
 
-## 2 -
+## +++++++++++++++++++++++++++++++++++ TESTES UNITÁRIOS E DE INTEGRAÇÃO.
+
+## 1 - Nós possuimos dois tipos de testes, os 'testes unitários' e os 'testes de integração'.(1 - Testes Unitários =>fazemos testes de partes da nossa aplicação, ou seja, teste de serviços e regras de negócio, a gente testa exatamente as funcionalidades da aplicação, Ex:"Testar o useCase de createCategory", ele testa tantos os casos de suceso como os casos de erro, tipo quando entra no nosso if. )(2 - Testes de Integração => Quando testamos a aplicação inteira, a gente testa desde o momento quando a requisição da nossa rota é feita , até a chamada do controller e o retorno da resposta dessa rota, testa o fluxo completo da aplicação, até a criação de um banco de teste para fazer o teste de ligação com o banco de dados, porque a gente tem que ter cuidado para não manipular o banco real de desenvolvimento. ).
+
+## 2 - Testes de integração: routes => controllers => useCases => repository | <= repository <= useCases <= controllers <= routes
+
+## 3 - TDD => é uma metodologia utilizada para fazer os testes (Test Driven Development). => em primeiro lugar a gente começa a criar os testes e depois a gente aplica todo o desenvolvimento da nossa aplicação.(ex: a gente não possuia um createUserUseCase ainda , ou seja , esse serviço , a gente já cria uma classe de teste e já começa o teste para esse serviço que ainda vai ser desenvolvido , já pensando o que é preciso para a gente criar um usuário.).
+
+## 4 - A vantagem de utilizar o teste por exemplo seria , quando uma regra de negócio mudar e eu não alterar no teste, quando eu rodar o teste ele vai falhar e vai me avisar que a regra de negócio mudou e eu vou ter ciencia disso por exemplo, e será que era pra mudar mesmo ?, a gente começa a prever erros e otimizar o tempo.
+
+## +++++++++++++++++++++++++++++++++++ CRIAÇÃO DO PRIMEIRO TESTE(JEST) CONFIGURAÇÕES DO JEST.CONFIG.TS.
+
+## 1 - Nos vamos instalar a bibilioteca "jest" de testes como dpendencia de desenvolvimento e suas tipagens
+
+## 2 - npx jest --init(ele vai fazer algumas perguntas de configuração pra a gente, parecido quando a gente inicia o eslint)., se a gente quer adicionar o arquivo de teste , ambiente onde o teste vai rodar, (Do you want Jest to add coverage reports? => a gente ta falando para o nosso jest mostrar quais são as nossas regras de negócio, quais são os nossos useCases que estão com testes implementados e qual é a parte do nosso código que ainda não tem a parte de teste implementada, a visualização fica melhor.), essas configurações é para que seja criado um "jest.config.ts".
+
+## 3 - Vamos ter que utilizar um preset para trabalhar com o typescript , que no nosso arquivo do jest está como undefined.(npm i ts-jest -D )
+
+## 4 - tbm precisamos passar o mapeamento das classes que nos vamos fazer os testes => "TestMatch": no jest.config.js., é uma boa prática deixar os testes dentro do useCases, ou seja , deixar dentro de cada useCases o respectivo teste(ex: dentro de do createCategory deixar o teste de criação de categoria)., então no "testeMatch" eu vou passar isso => "\*_/_.spec.ts"(mapeaei todas as pastas e que voce procure dentro dessas pastas um arquivo que se encontre spec.ts => é um padrão.)
+
+## 5 - Colocar o "bail" como true, esse arquivo a gente ta dizendo ao jest, se a gente quer ou não que ele pare ou não após o primeiro o erro do teste, caso algum teste tem algum erro, "por default" ele vai como "false" ele vai rodar todos os testes, se a gente coloca como true, quando acontecer o primeiro e tiver erro ele não executa os outros testes.(mas eu não quero que ele vá pra frente caso o segundo teste traga um erro por exemplo , os projetos da rockte deixa como default)
+
+## ++++++++++++++++++++++++++++++++++++ CRIANDO TESTE NO USECASE DE CRIAR CATEGORIA
+
+## 1 - A convenção do nome do teste unitário é sempre criar o nome da regra de negocio igual ta descrito no "service" ou no 'useCase' e em seguida colocar o .spec.ts.
+
+## 2 - Exemplo de teste => describe("Criar categoria" , () =>{
+
+    it("espero que 2 + 2 seja 4" , () =>{
+        const soma = 2 + 2;
+        const resultado = 4
+
+        expect(soma).toBe(resultado);
+    })
+
+}) //Se nessa conta eu colocar o resultado "5" , ele vai errar o test e vai mandar o erro no console dizendo que a gente expected "5" , mas recebeu "4".
+
+## 3 - Ao finalizar o teste é só rodar o comando "npm test". , e ele da até o nome da minha descrição.
+
+## 4 Outro exemplo de teste => describe("Criar categoria" , () =>{
+
+    it("espero que 2 + 2 seja 4" , () =>{
+        const soma = 2 + 2;
+        const resultado = 4
+
+        expect(soma).toBe(resultado);
+    });
+    it("Espero que 2 + 2 não seja 5" , () =>{
+        const soma = 2 +2
+        const resultado = 5;
+
+        expect(soma).not.toBe(resultado)
+    })
+
+}) // NESTE CASO EU ESPERO QUE MINHA SOMA NÃO SEJA 5 ".NOT.tobe"
+
+## ++++++++++++++++++ TESTE DE CRIAÇÃO DE CATEGORIA
+
+## 1 - Quando eu dou um "npm test" ele só acha a pasta pq eu defini no meu arquivo jest.config.ts.
+
+## 2 - A regra é criar um teste para cada useCase da aplicação, ou seja , para cada regra de negocio da aplicação vai ter um teste.
+
+## ++++++++++++++++++++++++++++++++ IMPORTS DA APLICAÇÃO
+
+## 1 - O typescript tem uma forma no tsConfig de deixar "automatizado e mais facil o nosso imports" para que a gente não precise ficar navegando "../../"
+
+## 2 - dentro de 'paths' no tsConfig a gente vai fazer o mapeamento das pastas que a gente mais utiliza , não é preciso fazer de todas("para não poluir muito")
+
+## 3 - "@modules/_":["modules/_"] , como o meu ja tava antes, dessa forma fica muito mais facil de visualizar o import sem o ../../ então a estrutura ficaria assim => "@modules/_":["modules/_"],
+
+            "@config/*":["config/*"],
+            "@shared/*":["shared/*"],
+            "@errors/*":["errors/*"]
+
+## 4 - E no nosso baseUrl , eu vou colocar "./src/.
+
+## 5 - fazer um reload no vsCode => ctrl + shift + p (e digitar reload , e pegar a opção reload window).
+
+## 6 - Para conseguir que eu consiga fazer esse meu arquivo entender os @ , eu tenho que instalar uma biblioteca (npm i tsconfig-paths -D) e vamos utilizar ela para inicializar a nossa aplicação. e alterar o nosso tsconfig para isso => "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --poll --ignore-watch node_modules --respawn src/app.ts",
+
+## 7 - Temos que alterar o jestConfig para el eentender essas nossas importações => import {pathToModuleNameMapper} from "ts-jest/utils". import {compilerOptions} from "./tsconfig.json"
+
+## 8 - dentro de "moduleNameMapper" eu vou passar "moduleNameMapper:pathsToModuleNameMapper(compillerOptions.path, {prefix:"<rootDir>/src/})
+
+## 9 - Ele mesmo assim vai dar erro , pq os arquivos json não foram feitos para ter comentários, então a gente tem que apagar todos os comentários do ts.config.ts, para que volte a funcionar o import que fizemos naquele arquivo do jest.
+
+## +++++++++++++++++++++++++++++++++++++

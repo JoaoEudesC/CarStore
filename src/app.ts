@@ -38,7 +38,7 @@ app.use("/api-docs" , swaggerUi.serve , swaggerUi.setup(swaggerFile)) //Url de o
 
 //routers
 import { router } from "./routes"
-import { AppError } from "@errors/AppError";
+import { AppError } from "./errors/AppError";
 app.use( router) //Essa criação de arquivo router diminuiu a quantidade de codigos e organizou
 
 //Importação de middleware de erro, para que nossa rota consiga retornar o nosso erro, quando cai nele
