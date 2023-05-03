@@ -1,5 +1,5 @@
 import { ICreateUserDTO } from "../IUserRepository";
-import { users } from "../../entities/User";
+import { users } from "../../infra/typeorm/entities/User";
 import { IUsersRepository } from "../IUserRepository";
 
 
@@ -15,9 +15,9 @@ class UsersRepositoryInMemory implements IUsersRepository{
         });
         this.users.push(user);
     }
-    async findByEmail(email: string): Promise<users | null> {
+    async findByEmail(email: string): Promise<users | undefined> {
         //A gente pode criar uma variavel e retornar a variável direto igual nos estavamos fazendo , ou podemos dar logo um return , como vou fazer aqui abaixo.
-        return this.users.find(user => user.email === email) || null //Eu posso fazer uma verificação com if , como tbm posso utilizar o operador logigo "||" no retorno(muito mais prático).
+        return this.users.find(user => user.email === email) || undefined //Eu posso fazer uma verificação com if , como tbm posso utilizar o operador logigo "||" no retorno(muito mais prático).
     }
     async findById(id: string): Promise<users> {
         const user =  this.users.find((user) => user.id === id)

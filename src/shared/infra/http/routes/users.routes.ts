@@ -1,18 +1,18 @@
 //Import de multer e upload
 import multer from "multer"
-import uploadConfig from "../config/upload"
+import uploadConfig from "../../../../config/upload"
 
 //Importação de middlware
-import { ensureAuthenticated } from "../shared/infra/http/middlewares/ensureAuthenticated";
+import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 
 //Importação do router
-import { UpdateUserAvatarController } from "../modules/accounts/useCases/updateUserAvatar/UpdateUserAvatarController";
+import { UpdateUserAvatarController } from "../../../../modules/accounts/useCases/updateUserAvatar/UpdateUserAvatarController";
 import {Router} from "express"
 const usersRoutes = Router()
 
 //Importação do controller
-import { CreateUserController } from "../modules/accounts/useCases/createUser/createUserController"
+import { CreateUserController } from "../../../../modules/accounts/useCases/createUser/createUserController"
 
 
 //Controllers

@@ -1,6 +1,6 @@
 //Basicamente vai ter um arquivo destes para cada useCase que for ter um teste implementando a interface do repository "para virar um fake repository" in memory , para que a gente faç o teste sem interagir diretamente com o arquivo de banco de dados.
 
-import { Category } from "../../entities/Category";
+import { Category } from "../../infra/typeorm/entities/Category";
 import { ICategoriesRepository, ICreateCategoryDTO } from "../ICategoriesRepository";
 
 

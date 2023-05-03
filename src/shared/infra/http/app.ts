@@ -13,7 +13,7 @@ const PORT = process.env.PORT
 
 
 //Importação da ligação com o banco de dados
-import { createConnection1 } from "./database/DataSource";
+import { createConnection1 } from "../database/DataSource";
 createConnection1()
 .then(() =>{
   console.log("Banco de dados conectado")
@@ -23,13 +23,13 @@ createConnection1()
 })
 
 //Importação do conteiner da pasta shared
-import "./shared/container"
+import "../../container"
 
 
 
 //Utilização do swagger 
 import swaggerUi from "swagger-ui-express"
-import swaggerFile from "./swagger.json"  //Importação do arquivo json de documentação
+import swaggerFile from "../../../swagger.json"  //Importação do arquivo json de documentação
 app.use("/api-docs" , swaggerUi.serve , swaggerUi.setup(swaggerFile)) //Url de onde a nossa documentação vai ficar (Uma rota para documentação), o setup é o arquivo json, onde vai ficar toda a nossa documentação , onde vai ter as informações sobre nossa documentação
 
 
@@ -38,7 +38,7 @@ app.use("/api-docs" , swaggerUi.serve , swaggerUi.setup(swaggerFile)) //Url de o
 
 //routers
 import { router } from "./routes"
-import { AppError } from "./errors/AppError";
+import { AppError } from "../../errors/AppError";
 app.use( router) //Essa criação de arquivo router diminuiu a quantidade de codigos e organizou
 
 //Importação de middleware de erro, para que nossa rota consiga retornar o nosso erro, quando cai nele

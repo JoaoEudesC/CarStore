@@ -5,15 +5,15 @@ import { container } from "tsyringe";
 
 //Importação de elementos para a criação do conteiner de categorias
 import { ICategoriesRepository } from "../../modules/cars/repositories/ICategoriesRepository";
-import { CategoriesRepository } from "../../modules/cars/repositories/implementations/CategoriesRepository";
+import { CategoriesRepository } from "../../modules/cars/infra/typeorm/repositories/CategoriesRepository";
 
 //Importação de elementos para criação do conteiner de specifications
 import { ISpecificationsRepository } from "../../modules/cars/repositories/ISpecificationsRepository";
-import { SpecificationsRepository } from "../../modules/cars/repositories/implementations/SpecificationsRepository";
+import { SpecificationsRepository } from "../../modules/cars/infra/typeorm/repositories/SpecificationsRepository";
 
 //Importação de elementos para a criação de conteiner de Criação de usuários(CreateUser)
 import {IUsersRepository} from "../../modules/accounts/repositories/IUserRepository"
-import {UsersRepository} from "../../modules/accounts/repositories/implementations/UsersRepository"
+import {UsersRepository} from "../../modules/accounts/infra/typeorm/repositories/UsersRepository"
 
 
 

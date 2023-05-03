@@ -1,7 +1,7 @@
 //Importação de modulos e tipagens
-import { ListCategoriesController } from "../modules/cars/useCases/ListCategories/ListCategoriesController";
-import { CreateCategoryController } from "../modules/cars/useCases/CreateCategory/CreateCategoryController";
-import { ImportCategoryController } from "../modules/cars/useCases/importCategory/importCategoryController";
+import { ListCategoriesController } from "../../../../modules/cars/useCases/ListCategories/ListCategoriesController";
+import { CreateCategoryController } from "../../../../modules/cars/useCases/CreateCategory/CreateCategoryController";
+import { ImportCategoryController } from "../../../../modules/cars/useCases/importCategory/importCategoryController";
 
 //Utilização do router
 import { Router } from "express";

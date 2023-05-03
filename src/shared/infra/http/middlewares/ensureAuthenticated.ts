@@ -2,11 +2,9 @@
 import { NextFunction, Request , Response } from "express";
 import {verify} from "jsonwebtoken" //Vamos utilizar essa função para verificar o nosso token.
 import dotenv from "dotenv";
-import { UsersRepository } from "../modules/accounts/repositories/implementations/UsersRepository";
+import { UsersRepository } from "../../../../modules/accounts/infra/typeorm/repositories/UsersRepository";
 dotenv.config()
-import { AppError } from "../errors/AppError";
-
-
+import { AppError } from "../../../errors/AppError";
 
 
 export async function ensureAuthenticated(req:Request , res:Response , next:NextFunction){

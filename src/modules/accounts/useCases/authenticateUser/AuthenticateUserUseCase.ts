@@ -3,7 +3,7 @@ import { inject, injectable } from "tsyringe";
 import { IUsersRepository } from "../../repositories/IUserRepository";
 import { sign } from "jsonwebtoken";
 import dotenv from "dotenv"
-import { AppError } from "../../../../errors/AppError";
+import { AppError } from "../../../../shared/errors/AppError";
 dotenv.config()
 
 

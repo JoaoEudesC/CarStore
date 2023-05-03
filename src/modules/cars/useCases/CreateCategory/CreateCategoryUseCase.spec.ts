@@ -1,6 +1,6 @@
 //A gente precisa testar o resultado, ou seja , qual o resultado que a gente espera que determinada requisição demonstre e ai ele vai mostrar para a gente o resultado que realemnte deu (ai faz a comparação com o resultado que a gente espera, que foi colocado no codigo, com o resultado que deu), se os dois forem iguais mostra sucesso , caso contrário não.
 
-import { AppError } from "../../../../errors/AppError";
+import { AppError } from "../../../../shared/errors/AppError";
 import { CategoriesRepositoryInMemory } from "../../repositories/in-memory/CategoriesRepositoryInMemory"
 import { CreateCategoryUseCase } from "../CreateCategory/CreateCategoryUseCase"
 

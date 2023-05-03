@@ -1,8 +1,8 @@
 //Repare que a estrutura para quase todos os arquivos de criação segue a mesma lógica e o mesmo schema , somente  muda pouquissimas coisas , o implemnetation , entities , migrations , useCases , controllers , Interfaces, geralmente segue a mesma logica em cada arquivo.
-import { users } from "../../entities/User";
-import {AppDataSource} from "../../../../database/DataSource";
+import { users } from "../entities/User";
+import {AppDataSource} from "../../../../../shared/infra/database/DataSource";
 import {  Repository } from "typeorm";
-import { IUsersRepository , ICreateUserDTO } from "../IUserRepository";
+import { IUsersRepository , ICreateUserDTO } from "../../../repositories/IUserRepository";
 
 class UsersRepository 
 implements IUsersRepository {

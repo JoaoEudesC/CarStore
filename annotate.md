@@ -534,4 +534,44 @@
 
 ## 9 - Ele mesmo assim vai dar erro , pq os arquivos json não foram feitos para ter comentários, então a gente tem que apagar todos os comentários do ts.config.ts, para que volte a funcionar o import que fizemos naquele arquivo do jest.
 
-## +++++++++++++++++++++++++++++++++++++
+## +++++++++++++++++++++++++++++++++++++ OBS
+
+OBS => Mesmo utilizando javascript puro , você precisa baixar as tipagens do jest, caso o contrário no seu arquivo de testes, funcionará mas não possuirá o autocomplete das propriedades do jest como "describe e etc.."
+
+OBS => Os testes do jeste eles são feitos independentes da sua aplicação , ou seja , ele vai testar o que a sua regra de negocio está fazendo, se estiver utilizando banco de dados, mas vale utilizar um "banco de dados" fake para fazer os testes , para não interagir diretamente com o banco de dados.
+
+OBS => Não é recomendado que os testes do Jest interajam diretamente com o banco de dados. Os testes devem ser executados de forma independente e isolada, sem depender do estado do banco de dados.
+Para testar o código que interage com o banco de dados, é comum utilizar bibliotecas que permitem criar um ambiente de testes separado, como o Jest, que oferece suporte para testes com banco de dados utilizando um banco de dados em memória, como o SQLite.
+Assim, durante a execução dos testes, é possível criar um banco de dados em memória, preencher com dados de teste e testar o comportamento do código em relação a esses dados, sem afetar o banco de dados de produção ou de desenvolvimento. Isso garante que os testes sejam mais confiáveis e que o código seja testado de forma mais segura e consistente.
+
+## ++++++++++++++++++++++++++++++++++ REFATORANDO CÓDIGO
+
+## 1 - Aqui nós vamos separar ainda mais as responsabilidades da nossa aplicação.
+
+## 2 - A nossa entidade ela está totalmente acoplada com o nosso typeOrm, a mesma coisa das implementações dos nossos repositórios, se amanhã ou depois nos precisacimos tirar o typeOrm , comprometeria o projeto , teriamos que criar uma nova implementação.
+
+## 3 - Vamos criar uma pasta chamada "infra" de dentro do module "cars" e dentro do module "accounts", essa pasta infra, ela vai estar totalmente acoplada ao typeOrm , então dentro dessa pasta "infra" nos vamos criar uma pasta chamada "typeOrm" onde nos vamos colocar a nossa entidade lá dentro , a nossa pasta entities vai la pra dentro, pq se um dia a gentre mudar o "orm" a gente cria outra referencia dentro da pasta infra e utilize outra referencia. como "sequelize"
+
+## 4 - Nós tambem temos a implementação do nosso repositório que tambem está totalmente acoplado ao typeorm, se está com a importação do typeOrm está acoplado ao typeOrm dessa forma nos vamos ter que criar outra pasta dentro de "infra", dentro de type "orm" chamada de "repositories"., ou seja , a a pasta de implementations vai para dentro de repositories dentro de "infra", dentro de "typeorm", ou seja , o nosso repositório vai para dentro dessa camada de infra , pq está diretamente com a implementação direta do typeorm.
+
+## 5 - Ou seja, A pasta que antes era chamada de "implementations" agora é chamada de "repositories" e vai estar dentro de "infra" "typeorm" a gente so tinha colocado implementations para não ficar junto com o repositories , agora estão em arquivos separados.
+
+## 6 - O nosso middleware ele está muito solto , o de authentication middlewares, a gente utiliza todo o conceito do esxpress nele , então se a gente mudar de frame work tambem vai dar problema, então dentro de "shared" vamos criar uma pasta chamada "infra" e dentro desse infra , vamos criar uma pasta chamada "http" então tudo que for referente ao "express" rotas e etc a gente vai colocar dentro de http., a pasta "middlewares" vai para dentro do "http".
+
+## 7 - Agora a gente vai passar as nossas rotas para dentro de "shared" tambem , dentro de http, essa camada "infra" é justamente a camada em que nós vamos estar colocando aquielo que tiver interação diretamente com a aplicação.
+
+## 8 - O nosso app.ts, ele está, intimamente ligado com o "express", então ele pode ir para dentro de http tambem, tudo que estiver relacionado diretamente com o express a gente coloca dentro de http, e alterar no package json o caminho tambem.
+
+## 9 - o errors a gente esta usando pra toda a aplicação, pode colocar dentro de shared sem problema.
+
+## 10 - O nosso database está totalmente acoplada ao "typeorm" tbm, se a gente mudar do type orm a gente vai precisar fazer a nossa refatoração aqui, então a pasta "database" ela vai para dentro de "shared" "infra".
+
+## 11 - todos os nossos modules, tem uma camada de infra e tudo que for da camada externa , ou seja , tudo que não fizer parte da nossa regra de negocio da aplicação , for framworks e etc vai para dentro dessa camada de infra., banco , bibilioteca de envio de email.
+
+## 12 -
+
+## ++++++++++++++++++++++++++++++++++++++++++++++++++++ ESCREVENDO OS REQUISITOS DA APLICAÇÃO.
+
+## 1 - Nos vamos aprender a escrever os requisitos da aplicação e escrever cada parte através de um README
+
+## 2 - Que é a "lingugem" de markdown da nossa aplicação, assim será uma maneira muit interessante e organizada de mapear a nossa aplicação em um read-me para o usuário saber o que extamente se trata e faz a nossa aplicação.

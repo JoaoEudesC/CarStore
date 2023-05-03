@@ -1,9 +1,9 @@
-import { Category } from "../../entities/Category";
+import { Category } from "../entities/Category";
 
 //Importação de classe do typeOrm(Se voce aplicar um "ctrl + click" em qualquer pacote ou modulo exportado voce consegue ver o que tem dentro dele que pode ser utilizado )
 import {Repository} from "typeorm"
-import { ICategoriesRepository } from "../ICategoriesRepository";
-import { AppDataSource } from "../../../../database/DataSource";
+import { ICategoriesRepository } from "../../../repositories/ICategoriesRepository";
+import { AppDataSource } from "../../../../../shared/infra/database/DataSource";
 
 //Com a nova atualização precisou do typeorm precisou-se colocar eu não posso utilizar o get Repository diretamente do typeorm mais , tenho que utilizar o getRepository do meu DataSource
 
