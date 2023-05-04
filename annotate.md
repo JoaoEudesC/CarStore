@@ -344,7 +344,7 @@
 
 ## +++++++++++++++++++ COMANDOS ESPECIAIS DE MIGRAÇÃO:
 
-## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/database/migrations/CreateUser' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/database/DataSource.ts' sempre passar o comando para criar a migration no banco
+## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/shared/infra/database/migrations/CreataCars' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/database/DataSource.ts' sempre passar o comando para criar a migration no banco
 
 ## 2 - npm run typeorm migration:revert -- -d ./src/database/DataSource.ts => vai retirar a ultima migration colocada no banco de dados
 
@@ -575,3 +575,21 @@ Assim, durante a execução dos testes, é possível criar um banco de dados em 
 ## 1 - Nos vamos aprender a escrever os requisitos da aplicação e escrever cada parte através de um README
 
 ## 2 - Que é a "lingugem" de markdown da nossa aplicação, assim será uma maneira muit interessante e organizada de mapear a nossa aplicação em um read-me para o usuário saber o que extamente se trata e faz a nossa aplicação.
+
+## +++++++++++++++++++++++++++++++++++++++ CRIAÇÃO DE MIGRATIONS DO CARRO.
+
+## 1 - Neste caso desta tabela nos vamos ter a nossa primeira "foreign key" que antes a gente não tinha, que seria a nossa "Chave estrangeira" => category_id(FK)
+
+## 2 - Basicamente vamos seguir o mesmo raciocinio de todas as migrations, vamos cria-las todas da mesma forma com o mesmo raciocinio.
+
+## 3 - Criação de chave estrangeira => Esta chave está sendo criada com as instruções na tabela "CreateCars".(Na migration).
+
+## +++++++++++++++++++++++++++++++ TDD NA PRÁTICA.
+
+## 1 - Então basicamente a gente vai seguir um "fluxo" de criação diferente , nos vamos criar o teste primeiro e só depois é que nos vamos criar "O controller" "UseCase" e regras de negocio e etc, esse é o conceito de "TDD".
+
+## 2 - Então basicamente a ordem do "TDD" seria => _Write a failing test_, _Make the test Pass_,_Refactor_ => Então basicamente voce vai escrever um teste que vai falhar, em seguida voce vai fazer esse teste passar e depois refatorar o teste com as regras de negocio todas feitas de forma correta.
+
+## 3 - Mas repare que a gente tem que partir de um principio, a gente vai criar um test para o nosso caso de "uso" ou seja , a nossa regra de negocio "useCase" então a gente tem que ter pelo menos esse arquivo criado.
+
+## 4 -

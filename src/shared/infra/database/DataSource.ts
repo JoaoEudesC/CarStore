@@ -10,8 +10,8 @@ import { DataSource } from "typeorm"
   database: "rentx",
   synchronize: false,
   logging: false,
-  entities: ['./src/modules/**/entities/*.ts'], //Tenho qucolocar ** , caso contrário, ele vai indetificar só uma tabela , se eu colocar "cars" por exemplo
-  migrations: ["./src/database/migrations/*.ts"],
+  entities: ['./src/modules/**/infra/entities/entities/*.ts'], //Tenho qucolocar ** , caso contrário, ele vai indetificar só uma tabela , se eu colocar "cars" por exemplo
+  migrations: ["./src/shared/infra/database/migrations/*.ts"],
   subscribers: [],
 })
 
