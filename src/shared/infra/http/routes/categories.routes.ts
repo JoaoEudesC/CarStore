@@ -13,6 +13,10 @@ const upload = multer({
     dest: "./tmp",
 })
 
+//Importação de middlewares
+import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
+import { ensureAdmin } from "../middlewares/ensureAdmin";
+
 
 
 //Criação dos controllers que serão passados nas rotas
@@ -23,7 +27,7 @@ const listCategoriesController = new ListCategoriesController()
 
 
 //Rota para cadastrar nova categoria!!!
-categoriesRoutes.post("/" , createCategoryController.handle)
+categoriesRoutes.post("/" ,ensureAuthenticated ,ensureAdmin ,createCategoryController.handle)
 
 
 //Rota para listar as categorias presentes na tabela
@@ -31,7 +35,7 @@ categoriesRoutes.get("/" , listCategoriesController.handle )
 
 
 //Rota que será testada o upload
-categoriesRoutes.post("/import" , upload.single("file"), importCategoryController.handle )
+categoriesRoutes.post("/import" ,ensureAuthenticated , ensureAdmin, upload.single("file"), importCategoryController.handle )
 
 
 

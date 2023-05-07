@@ -592,4 +592,36 @@ Assim, durante a execução dos testes, é possível criar um banco de dados em 
 
 ## 3 - Mas repare que a gente tem que partir de um principio, a gente vai criar um test para o nosso caso de "uso" ou seja , a nossa regra de negocio "useCase" então a gente tem que ter pelo menos esse arquivo criado.
 
-## 4 -
+## +++++++++++++++++++++++ CRIANDO SEED DE USUÁRIOS(SEED)
+
+## 1 - Nós vamos verificar se o usuário é um "admnistrador ou não dentro do nosso sistema"
+
+## 2 - Como a gente não pode deixar disponivel o campo "isAdmin" para o proprio usuário não conseguir manipular essa informação e colocar que ele é "admin" por exemplo, mesmo que não seja.
+
+## 3 - O conceito de seed é interessante para esse tipo de funcionalidade, onde a gente cria o "dado" e roda diretamente na aplicação
+
+## 4 - Dentro de "shared" e dentro de "infra" vamos criar uma pasta chamada "seed" , com um arquivo dentro chamado "admin.ts", é e neste arquivo em que nos vamos criar o "seed" do nosso usuário administrador
+
+## 5 - Apos criar a função do "seed" a gente precisar chamar aquela função "seed"
+
+## 6 - Temos que criar um script no "package json" => "seed:admin":"ts-node-dev src/shared/infra/database/seed/admin.ts", passando o caminho do meu "seed".
+
+## 7 - npm run seed:admin => para testar o usuário admin.
+
+## 8 - Repare que se a opção der "deprecated" de alguma bibilioteca passe o mouse encima e veja, qual opção nos poderiamos utilizar na nova versão dela (Como foi o caso do "close" que foi substituido por "destroy") para fechar a conexão com o banco de dados no nosso seed.
+
+## 9 - Após o usuário ser criado e rodar o comando para subir o admin, vai mostrar na tabela o usuário que é considerado admin, com seu email e "id" próprio.
+
+## +++++++++++++++++++++++++++++++++++++++ CRIANDO MIDDLEWARE DE ADMINISTRADOR (iSSO PORQUE A GENTE JÁ TEM O NOSSO USUÁRIO ADM CRIADO)
+
+## 1 - A gente vai fazer a verificação com um middleware para saber se o usuário é um administrador ou não.
+
+## 2 - A gente precisa verificar na rota se o usuário ta logado e se ele é um admin.(A gente ja tem a prte de logado , com o middleware "ensureAuthticated").
+
+## 3 - Para testar o admin no insomnia => será preciso passar o token de login e se o usuário não for admin, vai dar erro ao cadastrar o carro, pq a nossa regra de negocio diz que só se pode cadastrar um carro se o usuário for um admin.
+
+## 4 - Você vai ter que utilizar as credenciais para logar como admin criadas no banco através do meu "seed", para que o erro do middleware de não administrador não seja ativado , somente aquele usuário poderá cadastrar um carro, pq ele é o administrador.
+
+## 5 - Nos tambem vamos passar os dois middlewares de "autenticar" e de "admin" para a rota de criar categoria, ou seja , so vai poder cadastrar uma categoria quem estiver logado e quem for um usuário administrador, vamos fazer isso na rota de import tambem.
+
+## 6 - As ordens do middlewares importam, qual middleware voce quer que execute primeiro, voce passa primeiro e segue essa ordem para todos os middlewares.

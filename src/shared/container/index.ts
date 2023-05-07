@@ -15,6 +15,10 @@ import { SpecificationsRepository } from "../../modules/cars/infra/typeorm/repos
 import {IUsersRepository} from "../../modules/accounts/repositories/IUserRepository"
 import {UsersRepository} from "../../modules/accounts/infra/typeorm/repositories/UsersRepository"
 
+//Importação de elementos para a criação de conteiner de criação de carro(CreateCar)
+import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
+import { CarsRepository } from "@modules/cars/infra/typeorm/repositories/CarsRepository";
+
 
 
 
@@ -42,6 +46,12 @@ container.registerSingleton<IUsersRepository>(
     UsersRepository         //Esse uso de conteiners facilita muito para que a gente consiga escrever menos codigo e importações na hora de utilizar as classes nos nossos useCases de cada regra de negocio
 
 );
+
+//4 - conteiner de criação de carro (CreateCar)
+container.registerSingleton<ICarsRepository>(
+    "CarsRepository",
+    CarsRepository
+)
 
 
 

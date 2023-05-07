@@ -35,10 +35,10 @@ implements ICategoriesRepository{
         return categories;
     }
 
-    async findByName(name:string): Promise<Category | null>  {
+    async findByName(name:string): Promise<Category | undefined>  {
          const category = await this.repository.findOneBy({name}) //SELECT * FROM category WHERE name = "name"
             
-        return category
+        return category || undefined
     }
 }
 
