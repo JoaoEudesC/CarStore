@@ -644,6 +644,56 @@ Assim, durante a execução dos testes, é possível criar um banco de dados em 
 
 ## 8 - Para eu conseguir criar o usuário admin diretamente no banco de dados através do "seed" eu preciso altera o "host" de "database" para localhost por conta dos erros entre o docker e o postgree , mas eu faço o seed dessa maneira para que o usuário não tenha acesso ao campo "isAdmin" de forma que ele consiga alterar, por isso é importante adicionar através do seed com sql puro , para que a gente consiga ter controle e não deixar disponibilizado para o usuário e eu consigo definir se um campo é obrigatório ou não se eu colocar ele na migration com "default:false" e posso definir que ele seja nullo com o campo "isNullable".
 
-## +++++++++++++++++++++++++++++++++++++++++
+## +++++++++++++++++++++++++++++++++++++++++ Listando Carros Disponivéis
 
-## 1 -
+## 1 - O pensamento e lógica vai ser muito similar a lógica de listagem de categorias , so que dessa vez vamos listar os carros.
+
+## 2 - A ordem que nós estamos seguindo agora é criar o nosso useCase de determinada regra de negócio e em seguida criar o teste unitário daquele useCase, para seguir a regra e conceito do "TDD". , nós só criamos a class do useCase e mais nada, com o metodo execute vazio, so para fazer falhar ou passar o teste e depois realizar a implementação.
+
+## 3 - Ou seja, as informações do banco não importam na hora do nosso teste, pois não vamos utiliza-las diretamente com o banco e portanto podemos passar dados ficticios para os campos exigidos.
+
+## 4 - Repare que para fazer as pesquisas , a gente vai utilizar o "req.query" que é como se fosse um parametro igual a gente passava o "id" nas nossas primeiras aplicações, porém como a gente não quer que essa busca seja obrigatória, nos não vamos passar o "req.params", vamos utilizar o "req.query" que não é obrigatório passar pq a gente não passa diretamente na rota, igual nós fazemos com os parametros.
+
+## +++++++++++++++++++++++++++++++++++++++ CRIANDO MIGRATION ESPECIFICAÇÃO DE CARROS (MANY TO MANY)
+
+## 1 - Essa tabela vai ser uma tabela de relacionamento, Nós só vamos armazenar dentro dela as chaves estrangeiras , a chave de carro e a chave de especificação, ela faz o relacionamento entre o "id" do carro e o "id" de specification.
+
+## 2 - Então agora nos vamos criar uma tabela que possua duas chaves estrangeiras
+
+## 3 - Eu posso adicionar e remover colunas de uma tabela através de sua migração => como foi feito na migração "AlterUserAddAvatar.ts", que foi usado para adicionar o campo avatar a tabela de usuário, mas eu posso seguuir a mesma logica para remover uma coluna tambem. ("Utilizando o dropColumn")
+
+## ++++++++++++++++++++++++ CASO DE USO DO CADASTRO DE ESPECIFICAÇÃO PARA CARRO
+
+## 1 - Vamos ter que alterar a entidade de "Car.ts" pq ela vai receber a propriedade das especificações que a gente quer cadastrar dentro dela.
+
+## 2 - //Criei esse atributo de specificação, por isso é um array, pq cada carro vai poder receber mais que uma "specificação". , esse atributo foi criado entre as colunas.
+
+## 3 - Quando eu tenho um relacionamento de tabelas, eu coloco que é uma realação "many to many" e o nome da tabela que eu quero establecer essa relação nas entidades.
+
+## 4 - Utilizando a lógica do "tdd" a gente começa criando um arquivo de "useCase" e um arquivo "spec de teste para esse useCase" e crio uma função "execute" vazia sem passar nada para ser utilizado no teste e passar e depois implementar a logica => ex => import { CreateCarSpecificationUseCase } from "./CreateCarSpecificationUseCase"
+
+let createCarSpecificationUseCase:CreateCarSpecificationUseCase
+
+describe("Create Car Specification" , () =>{
+
+    beforeEach(() =>{
+        createCarSpecificationUseCase = new CreateCarSpecificationUseCase();
+    })
+
+
+    it("should be able to add a new specification to the car", async () =>{
+        await createCarSpecificationUseCase.execute();
+    })
+
+})
+
+class CreateCarSpecificationUseCase{
+async execute():Promise<void>{
+
+    }
+
+}
+
+export {CreateCarSpecificationUseCase} //Dessa forma o teste já vai passar e voce vai poder já escrever a lógica depois.
+
+## 5 -

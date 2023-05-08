@@ -1,13 +1,25 @@
-import { CreateCarController } from "../../../../modules/cars/useCases/CreateCar/CreateCarController";
+//Controllers, Middlewares , routes
 import {Router} from "express"
+import { CreateCarController } from "../../../../modules/cars/useCases/CreateCar/CreateCarController";
+import { ListAvailableCarsController } from "@modules/cars/useCases/listAvailableCars/ListAvailableCarsController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { ensureAdmin } from "../middlewares/ensureAdmin";
 
+
+//Criação de rotas
 const carsRoutes = Router();
 
+// instancia dos Controllers
 const  createCarController = new CreateCarController()
+const listAvailableCarsController = new ListAvailableCarsController
 
+
+
+//Rota de criação de carros
 carsRoutes.post("/",ensureAuthenticated ,ensureAdmin,createCarController.handle )
+
+//Rota para listar os carros disponiveis existentes
+carsRoutes.get("/available" , listAvailableCarsController.handle)
 
 
 
@@ -16,6 +28,9 @@ carsRoutes.post("/",ensureAuthenticated ,ensureAdmin,createCarController.handle 
 
 
 export { carsRoutes}
+
+
+
 
 
 // 1 - Perceba que nos routes nos sempre passamos só o "/" , pq a referencia da rota vai ser sempre passada no "index", ou seja se eu passasse alguma referencia aqui com "/games", eu teria que passar nas rotas "games" e mais o que tem no index..ts
