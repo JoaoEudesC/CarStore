@@ -12,15 +12,15 @@ implements IUsersRepository {
     }
 
     //Função de criação de usuários.
-    async create({name,  email , driver_license, password , avatar , id , username}:ICreateUserDTO):Promise<void>{
+    async create({name,  email , driver_license, password , avatar , id }:ICreateUserDTO):Promise<void>{
         const User = this.repository.create({
             name,
             email,
             driver_license,
             password,
             avatar,
-            id,
-            username
+            id
+            
         });
 
         await this.repository.save(User)

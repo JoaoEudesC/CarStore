@@ -23,7 +23,6 @@ describe("Authenticate User", ()  =>{
         const user: ICreateUserDTO ={
             driver_license:"00123",
             email:"user@teste.com",
-            username:"user2501",
             password:"1234",
             name:"User Test"
         };
@@ -51,7 +50,6 @@ describe("Authenticate User", ()  =>{
             const user: ICreateUserDTO ={
                 driver_license:"9999",
                 email:"user@user.com",
-                username:"user",
                 password:"1234",
                 name:"User Test Error"
             }

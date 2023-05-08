@@ -9,7 +9,7 @@ export async function ensureAdmin(req:Request,res:Response,next:NextFunction){
     const usersRepository = new UsersRepository();
     const user = await usersRepository.findById(id);
 
-    if(user.isAdmin){
+    if(!user.isAdmin){
         throw new AppError("User is not Admin"); //Se o campo isAdmin for "true" não vai dar erro, caso o contrário vao nos forncecer um erro, para isso voce vai ter que logar com o usuário administrador que está criado no banco através do seed.
     }
 

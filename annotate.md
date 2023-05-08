@@ -625,3 +625,25 @@ Assim, durante a execução dos testes, é possível criar um banco de dados em 
 ## 5 - Nos tambem vamos passar os dois middlewares de "autenticar" e de "admin" para a rota de criar categoria, ou seja , so vai poder cadastrar uma categoria quem estiver logado e quem for um usuário administrador, vamos fazer isso na rota de import tambem.
 
 ## 6 - As ordens do middlewares importam, qual middleware voce quer que execute primeiro, voce passa primeiro e segue essa ordem para todos os middlewares.
+
+## OBS => Resumindo como testar a nossa aplicação
+
+## 1 - Temos que fazer um cadastro como usuário
+
+## 2 - Realizar o login na rota de login após o usuário já está cadastrado, para que possa ser gerado o token
+
+## 3 - Esse token vai ser necessário para que voce possa cadastrar categorias, especificações e faça qualquer utilização da aplicação
+
+## 4 - A rota para cadatrar um carro vai ser preciso , passar o nosso seed para ela ser executada, pois só "admins" podem cadastrar um carro, tem que usar as credenciais de adm e passar o token de cadastro
+
+## 5 - A rota para cadastrar um carro recebe uma chave estrangeira da tabela de categorias, portanto "o id" gerado na criação de categoria deve ser passado no campo "category_id" da rota de "create Car", pq voce ta basicamente cadastrando um carro naquela categoria.
+
+## 6 - Na rota de admin eu tenho que enviar com o "token" do admin e utilizar as credenciais do admin, ou seja , sua senha e seu email por exmplo, para que essa rota funcione.
+
+## 7 - Então repare que a gente pode criar um usuário administrador na mão e deixar lá no banco para que essa crendencial seja de admin, nos podemos fazer isso através do insomnia ou diretamente no banco de dados na interface gráfica (ou através de um seed como fizemos nesse aplicativo).
+
+## 8 - Para eu conseguir criar o usuário admin diretamente no banco de dados através do "seed" eu preciso altera o "host" de "database" para localhost por conta dos erros entre o docker e o postgree , mas eu faço o seed dessa maneira para que o usuário não tenha acesso ao campo "isAdmin" de forma que ele consiga alterar, por isso é importante adicionar através do seed com sql puro , para que a gente consiga ter controle e não deixar disponibilizado para o usuário e eu consigo definir se um campo é obrigatório ou não se eu colocar ele na migration com "default:false" e posso definir que ele seja nullo com o campo "isNullable".
+
+## +++++++++++++++++++++++++++++++++++++++++
+
+## 1 -

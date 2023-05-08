@@ -16,7 +16,7 @@ class CreateUserController{
             email,
             password,
             driver_license,
-            username
+            
         });
 
         return res.status(201).send()

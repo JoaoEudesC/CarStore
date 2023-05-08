@@ -30,7 +30,7 @@ export class CreataCars1683217053041 implements MigrationInterface {
                         default:"true"
                     },
                     {
-                        name: "licence_plate",
+                        name: "license_plate",
                         type:"varchar"
                     },
                     {
