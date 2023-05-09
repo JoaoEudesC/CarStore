@@ -696,4 +696,6 @@ async execute():Promise<void>{
 
 export {CreateCarSpecificationUseCase} //Dessa forma o teste já vai passar e voce vai poder já escrever a lógica depois.
 
-## 5 -
+## +++++++++++++++++++++++++++++++++++++++++++++ CRIANDO MIGRATIONS DE IMAGENS DE CARRO
+
+## 1 -

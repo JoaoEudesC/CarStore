@@ -13,7 +13,7 @@ export class CarsRepository implements ICarsRepository{
         this.repository = AppDataSource.getRepository(Car)
     }
 
-    async create({brand , category_id , daily_rate , description , fine_amount , license_plate, name}:ICreateCarDTO): Promise<Car> {
+    async create({brand , category_id , daily_rate , description , fine_amount , license_plate, name , specifications, id}:ICreateCarDTO): Promise<Car> {
         const car =  this.repository.create({
             brand,
             category_id,
@@ -21,7 +21,9 @@ export class CarsRepository implements ICarsRepository{
             description,
             fine_amount,
             license_plate,
-            name
+            name,
+            specifications,
+            id
         });
         await this.repository.save(car)
         return car
@@ -49,9 +51,11 @@ export class CarsRepository implements ICarsRepository{
         
         return cars
     }
-    
-    
-    
+
+    async findById(id: string): Promise<Car | undefined> {
+        const car = await this.repository.findOneBy({id})
+        return car || undefined
+    }
 }
 
 
