@@ -344,7 +344,7 @@
 
 ## +++++++++++++++++++ COMANDOS ESPECIAIS DE MIGRAÇÃO:
 
-## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/shared/infra/database/migrations/CreataCars' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/database/DataSource.ts' sempre passar o comando para criar a migration no banco
+## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/shared/infra/database/migrations/CreataCars' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/shared/infra/database/DataSource.ts' sempre passar o comando para criar a migration no banco
 
 ## 2 - npm run typeorm migration:revert -- -d ./src/database/DataSource.ts => vai retirar a ultima migration colocada no banco de dados
 

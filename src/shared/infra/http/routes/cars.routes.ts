@@ -5,6 +5,9 @@ import { ListAvailableCarsController } from "@modules/cars/useCases/listAvailabl
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { ensureAdmin } from "../middlewares/ensureAdmin";
 import { CreateCarSpecificationController } from "@modules/cars/useCases/createCarSpecification/CreateCarSpecificationController";
+import { UploadCarImageController } from "@modules/cars/useCases/uploadCarImage/UploadCarImageController";
+import multer from "multer"
+import uploadConfig from "../../../../config/upload"
 
 
 //Criação de rotas
@@ -14,6 +17,7 @@ const carsRoutes = Router();
 const  createCarController = new CreateCarController()
 const listAvailableCarsController = new ListAvailableCarsController()
 const createCarSpecificationController = new CreateCarSpecificationController() //Repare que eu estou utilizando a rota de cars para passar a função da rota da tabela de "CreateCarSpecification" que é uma tabela que vai receber as chaves estrangeiras das tabelas "car" e "specifications", mas faz mais sentido, deixar essa rota no "router" de cars.
+const uploadCarImagesController = new UploadCarImageController()
 
 
 
@@ -25,6 +29,14 @@ carsRoutes.get("/available" , listAvailableCarsController.handle)
 
 //Rota para CreateCarSpecifications (Chaves estrangeiras das tabelas "cars" e "specifications")
 carsRoutes.post("/specifications/:id", ensureAuthenticated, ensureAdmin, createCarSpecificationController.handle)
+
+
+// Função de upload do nosso config
+const uploadImageCar =   multer(uploadConfig.upload("./tmp/cars"))
+
+
+//Criação de post de imagens
+carsRoutes.post("/images:/id" , ensureAuthenticated ,ensureAdmin , upload.array("images")    ,uploadCarImagesController.handle )
 
 
 //Só quem vai poder realizar as atividades dessa rota é um usuário "admin" e autenticado
@@ -44,6 +56,8 @@ carsRoutes.post("/specifications/:id", ensureAuthenticated, ensureAdmin, createC
 //6 - ele adiciona essa camada de specification a nossa tabela de "cars" entre aspas , o retorno dessa rota vai se retornar o carro que foi passado o id com o retorno da  nova especificação passado para ele.
 
 //7 - Também posso salvar duas especificações ao mesmo tempo dentro desse array, por isso eu salvo como um array, para eu poder passar mais de uma especificação.
+
+//8 - Posso adicionar quantas
 
 
 

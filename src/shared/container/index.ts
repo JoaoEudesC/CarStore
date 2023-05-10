@@ -20,6 +20,12 @@ import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
 import { CarsRepository } from "@modules/cars/infra/typeorm/repositories/CarsRepository";
 
 
+//Importação de elementos para a criação de conteiner de criação de carro (CreateCar)
+import { ICarsImagesRepository } from "@modules/cars/repositories/ICarsImageRepository";
+import { CarsImageRepository } from "@modules/cars/infra/typeorm/repositories/CarImagensRepository";
+
+
+
 
 
 
@@ -54,6 +60,11 @@ container.registerSingleton<ICarsRepository>(
 )
 
 
+//5 - conteiner de criação de upload de imagem do carro
+container.registerSingleton<ICarsImagesRepository>(
+    "CarsImagesRepository", 
+    CarsImageRepository
+);
 
 
 //Então com essa bibilioteca as implementações das instancias vão facilitar , porque não será preciso fazer na mão.(A gente consegue até registrar um singleton)

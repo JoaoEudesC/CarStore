@@ -1,5 +1,6 @@
-//Esse arquivo "config" ele vai receber as configurações "suplementares" do nosso projeto
-//Dentro deste arquivo config , upload.ts, vai ser onde vai ser isolado as funções de upload do nosso projeto, e é uma boa prática isolar esta parte, pois não é função das rotas passar isso.
+// Esse arquivo "config" ele vai receber as configurações "suplementares" do nosso projeto
+
+// Dentro deste arquivo config , upload.ts, vai ser onde vai ser isolado as funções de upload do nosso projeto, e é uma boa prática isolar esta parte, pois não é função das rotas passar isso.
 
 import multer from "multer"
 import {resolve} from "path"    //A gente vai utilizar o "resolve" para que seja possivél , nos passarmos o caminho da nossa pasta
@@ -23,4 +24,4 @@ export default {
 
 
 
-//Vou utilizar a função "diskStorage" do multer , para poder passar "o destino do nosso upload e o fileName desse arquivo"
+// Vou utilizar a função "diskStorage" do multer , para poder passar "o destino do nosso upload e o fileName desse arquivo"
