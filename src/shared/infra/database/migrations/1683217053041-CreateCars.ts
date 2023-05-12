@@ -1,7 +1,6 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm"
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreataCars1683217053041 implements MigrationInterface {
-
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
@@ -10,69 +9,66 @@ export class CreataCars1683217053041 implements MigrationInterface {
                     {
                         name: "id",
                         type: "uuid",
-                        isPrimary: true
+                        isPrimary: true,
                     },
                     {
-                        name:"name",
-                        type:"varchar"
+                        name: "name",
+                        type: "varchar",
                     },
                     {
-                        name:"description",
-                        type:"varchar"
+                        name: "description",
+                        type: "varchar",
                     },
                     {
-                        name:"daily_rate",
-                        type:"numeric"
+                        name: "daily_rate",
+                        type: "numeric",
                     },
                     {
-                        name:"available",
-                        type:"boolean",
-                        default:"true"
+                        name: "available",
+                        type: "boolean",
+                        default: "true",
                     },
                     {
                         name: "license_plate",
-                        type:"varchar"
+                        type: "varchar",
                     },
                     {
-                        name:"fine_amount",
-                        type:"numeric"
+                        name: "fine_amount",
+                        type: "numeric",
                     },
                     {
                         name: "brand",
-                        type: "varchar"
+                        type: "varchar",
                     },
                     {
-                        name:"category_id",
-                        type:"uuid",
-                        isNullable: true
+                        name: "category_id",
+                        type: "uuid",
+                        isNullable: true,
                     },
                     {
-                        name:"created_at",
+                        name: "created_at",
                         type: "timestamp",
-                        default:"now()"
+                        default: "now()",
                     },
                 ],
-                foreignKeys:[
+                foreignKeys: [
                     {
-                        name: "FKCategoryCar", //Nome da nossa chave estrangeira, ela ta na tabela com o nome category_id, mas a gente da um nome para referenciar seguindo a convenção(FKNomeDaTabelaEstrangeira:NomeDaTabelaCriada)
-                        referencedTableName:"categories",//A referência de qual tabela a gente ta pegando a chave estrangeira.
-                        referencedColumnNames:["id"],//Referencia da coluna que a gente ta pegando da tabela, que está fornecendo a chave estrangeira.
-                        columnNames:["category_id"],//A coluna desta nossa tabela atual que vai ser referenciada com a chave estrnageira.
-                        onDelete:"SET NULL", //Se a categoria referenciada do nosso carro for removida na outra tabela, esse campo vai ser colocado como "nulo", mas tbm tem a opção de caso isso aconteça a gente apagar o registro inteiro de cars da tabela que foi referencida. (Cascade).
-                        onUpdate: "SET NULL"
-                    }
-                ]
+                        name: "FKCategoryCar", // Nome da nossa chave estrangeira, ela ta na tabela com o nome category_id, mas a gente da um nome para referenciar seguindo a convenção(FKNomeDaTabelaEstrangeira:NomeDaTabelaCriada)
+                        referencedTableName: "categories", // A referência de qual tabela a gente ta pegando a chave estrangeira.
+                        referencedColumnNames: ["id"], // Referencia da coluna que a gente ta pegando da tabela, que está fornecendo a chave estrangeira.
+                        columnNames: ["category_id"], // A coluna desta nossa tabela atual que vai ser referenciada com a chave estrnageira.
+                        onDelete: "SET NULL", // Se a categoria referenciada do nosso carro for removida na outra tabela, esse campo vai ser colocado como "nulo", mas tbm tem a opção de caso isso aconteça a gente apagar o registro inteiro de cars da tabela que foi referencida. (Cascade).
+                        onUpdate: "SET NULL",
+                    },
+                ],
             })
-        )
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable("cars");
     }
-
 }
-
-
 
 // OBS => Chave estrangeira, como fazer uma criação de "chave estrangeira" ? , ou seja um relacionamento entre tabelas através de um campo.
 
@@ -88,4 +84,4 @@ export class CreataCars1683217053041 implements MigrationInterface {
 
 // 6 - No beekeeper , ele deixa o campo de "foreign key" com um icone de "chave", para deixar claro que aquilo é uma "Chave Estrangeira".
 
-// 7 - 
+// 7 -

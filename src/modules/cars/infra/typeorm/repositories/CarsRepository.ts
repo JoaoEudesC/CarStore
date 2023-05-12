@@ -1,20 +1,31 @@
-import { ICarsRepository, ICreateCarDTO } from "@modules/cars/repositories/ICarsRepository";
+import { Repository } from "typeorm";
+
 import { AppDataSource } from "../../../../../shared/infra/database/DataSource";
-import {  Repository } from "typeorm";
+import {
+    ICarsRepository,
+    ICreateCarDTO,
+} from "../../../repositories/ICarsRepository";
 import { Car } from "../entities/Car";
 
+export class CarsRepository implements ICarsRepository {
+    private repository: Repository<Car>;
 
-
-export class CarsRepository implements ICarsRepository{
-
-    private repository: Repository<Car>
-
-    constructor(){
-        this.repository = AppDataSource.getRepository(Car)
+    constructor() {
+        this.repository = AppDataSource.getRepository(Car);
     }
 
-    async create({brand , category_id , daily_rate , description , fine_amount , license_plate, name , specifications, id}:ICreateCarDTO): Promise<Car> {
-        const car =  this.repository.create({
+    async create({
+        brand,
+        category_id,
+        daily_rate,
+        description,
+        fine_amount,
+        license_plate,
+        name,
+        specifications,
+        id,
+    }: ICreateCarDTO): Promise<Car> {
+        const car = this.repository.create({
             brand,
             category_id,
             daily_rate,
@@ -23,41 +34,45 @@ export class CarsRepository implements ICarsRepository{
             license_plate,
             name,
             specifications,
-            id
+            id,
         });
-        await this.repository.save(car)
-        return car
+        await this.repository.save(car);
+        return car;
     }
     async findByLicensePlate(license_plate: string): Promise<Car | undefined> {
-        const car = await this.repository.findOneBy({license_plate})
-        return car || undefined
+        const car = await this.repository.findOneBy({ license_plate });
+        return car || undefined;
     }
 
-    async findAvailable(brand?: string , category_id?: string , name?: string):Promise<Car[]>{
-        const carsQuery =   this.repository.createQueryBuilder("c")
-        .where("available = :available", {available:true})
+    async findAvailable(
+        brand?: string,
+        category_id?: string,
+        name?: string
+    ): Promise<Car[]> {
+        const carsQuery = this.repository
+            .createQueryBuilder("c")
+            .where("available = :available", { available: true });
 
-        if(brand){
-            carsQuery.andWhere("c.brand = :brand" , {brand})
+        if (brand) {
+            carsQuery.andWhere("c.brand = :brand", { brand });
         }
-        if(name){
-            carsQuery.andWhere("c.name = :name" , {name})
+        if (name) {
+            carsQuery.andWhere("c.name = :name", { name });
         }
-        if(category_id){
-            carsQuery.andWhere("c.category_id = :category_id" , {category_id})
+        if (category_id) {
+            carsQuery.andWhere("c.category_id = :category_id", { category_id });
         }
 
-        const cars = await carsQuery.getMany()
-        
-        return cars
+        const cars = await carsQuery.getMany();
+
+        return cars;
     }
 
     async findById(id: string): Promise<Car | undefined> {
-        const car = await this.repository.findOneBy({id})
-        return car || undefined
+        const car = await this.repository.findOneBy({ id });
+        return car || undefined;
     }
 }
-
 
 // 1 - Repare que a construção de todos os "repository"  seguem a mesma linha de raciocinio, o que diz respeito que a logica para a criação do repositorio que vai interagir com o banco de dados diretamente para cada "tabela" são iguais.
 
@@ -73,4 +88,4 @@ export class CarsRepository implements ICarsRepository{
 
 // 7 - Dessa forma é mais fácil porque a gente não precisa ficar criando "findAvailableByname", "findAvailableBybrand", "findAvailableByCategory_id", fazemos logo tudo de uma só maneira.
 
-// 8 - 
+// 8 -

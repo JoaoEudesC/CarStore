@@ -1,57 +1,54 @@
-
 import { AppError } from "../../../../shared/errors/AppError";
-import { CarsRepositoryInMemory } from "../../../../modules/cars/repositories/in-memory/CarsRepositoryInMemory";
-import { CreateCarUseCase } from "./CreateCarUseCase"
+import { CarsRepositoryInMemory } from "../../repositories/in-memory/CarsRepositoryInMemory";
+import { CreateCarUseCase } from "./CreateCarUseCase";
 
+let createCarUseCase: CreateCarUseCase;
+let carsRepositoryInMemory: CarsRepositoryInMemory;
 
-
-let createCarUseCase:CreateCarUseCase;
-let carsRepositoryInMemory:CarsRepositoryInMemory
-
-describe("Create Car" , () =>{
-    beforeEach(() =>{
-        carsRepositoryInMemory = new CarsRepositoryInMemory()
+describe("Create Car", () => {
+    beforeEach(() => {
+        carsRepositoryInMemory = new CarsRepositoryInMemory();
         createCarUseCase = new CreateCarUseCase(carsRepositoryInMemory);
-    })
-    
-    it("should be able to create a new car" , async() =>{
+    });
+
+    it("should be able to create a new car", async () => {
         const car = await createCarUseCase.exexute({
-            name:"Name Car",
-            description:"Description Car", 
-            daily_rate:100,
-            license_plate:"ABC-1234",
-            fine_amount:60,
-            brand:"Brand",
-            category_id:"Category"
+            name: "Name Car",
+            description: "Description Car",
+            daily_rate: 100,
+            license_plate: "ABC-1234",
+            fine_amount: 60,
+            brand: "Brand",
+            category_id: "Category",
         });
 
         expect(car).toHaveProperty("id");
     });
-    
-    it("should not me able to create  a car with exists licence plate", () =>{
-        expect(async () =>{
+
+    it("should not me able to create  a car with exists licence plate", () => {
+        expect(async () => {
             await createCarUseCase.exexute({
-                name:"Car1",
-                description:"Description Car", 
-                daily_rate:100,
-                license_plate:"ABC-1234",
-                fine_amount:60,
-                brand:"Brand",
-                category_id:"Category"
+                name: "Car1",
+                description: "Description Car",
+                daily_rate: 100,
+                license_plate: "ABC-1234",
+                fine_amount: 60,
+                brand: "Brand",
+                category_id: "Category",
             });
             await createCarUseCase.exexute({
-                name:"Car2",
-                description:"Description Car", 
-                daily_rate:100,
-                license_plate:"ABC-1234",
-                fine_amount:60,
-                brand:"Brand",
-                category_id:"Category"
+                name: "Car2",
+                description: "Description Car",
+                daily_rate: 100,
+                license_plate: "ABC-1234",
+                fine_amount: 60,
+                brand: "Brand",
+                category_id: "Category",
             });
-        }).rejects.toBeInstanceOf(AppError)
-    })
-    
-    it("should be able to create a car with available true by default ", async () =>{
+        }).rejects.toBeInstanceOf(AppError);
+    });
+
+    it("should be able to create a car with available true by default ", async () => {
         const car = await createCarUseCase.exexute({
             name: "Car Available",
             description: "Description Car",
@@ -59,9 +56,9 @@ describe("Create Car" , () =>{
             license_plate: "ABCD-1234",
             fine_amount: 60,
             brand: "Brand",
-            category_id: "category"
+            category_id: "category",
         });
 
         expect(car.available).toBe(true);
-    })
+    });
 });

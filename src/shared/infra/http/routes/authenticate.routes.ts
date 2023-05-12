@@ -1,34 +1,15 @@
-//Importação de controller
+// Importação de controller
+import { Router } from "express";
+
 import { AuthenticateUserController } from "../../../../modules/accounts/useCases/authenticateUser/AuthenticateUserController";
 
-//Importação de middlewares
-import {ensureAuthenticated} from "../middlewares/ensureAuthenticated"
+// Importação do router
+const authenticateRoutes = Router();
 
-//Importação do router
-import { Router } from "express";
-const authenticateRoutes = Router()
-
-//Nova instacia do controller
+// Nova instacia do controller
 const authenticateUserController = new AuthenticateUserController();
 
+// Criação da rota de autenticidade
+authenticateRoutes.post("/sessions", authenticateUserController.handle);
 
-//Criação da rota de autenticidade
-authenticateRoutes.post("/sessions"    , authenticateUserController.handle);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export {authenticateRoutes}
+export { authenticateRoutes };

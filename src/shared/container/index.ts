@@ -1,70 +1,52 @@
-
 // Importe a biblioteca antes de usar o tsyringe
-import "reflect-metadata"; 
 import { container } from "tsyringe";
 
-//Importação de elementos para a criação do conteiner de categorias
-import { ICategoriesRepository } from "../../modules/cars/repositories/ICategoriesRepository";
+import "reflect-metadata";
+import "./providers";
+import { UsersRepository } from "../../modules/accounts/infra/typeorm/repositories/UsersRepository";
+import { IUsersRepository } from "../../modules/accounts/repositories/IUserRepository";
+import { CarsImageRepository } from "../../modules/cars/infra/typeorm/repositories/CarImagensRepository";
+import { CarsRepository } from "../../modules/cars/infra/typeorm/repositories/CarsRepository";
 import { CategoriesRepository } from "../../modules/cars/infra/typeorm/repositories/CategoriesRepository";
-
-//Importação de elementos para criação do conteiner de specifications
-import { ISpecificationsRepository } from "../../modules/cars/repositories/ISpecificationsRepository";
 import { SpecificationsRepository } from "../../modules/cars/infra/typeorm/repositories/SpecificationsRepository";
+import { ICarsImagesRepository } from "../../modules/cars/repositories/ICarsImageRepository";
+import { ICarsRepository } from "../../modules/cars/repositories/ICarsRepository";
+import { ICategoriesRepository } from "../../modules/cars/repositories/ICategoriesRepository";
+import { ISpecificationsRepository } from "../../modules/cars/repositories/ISpecificationsRepository";
+import { RentalsRepository } from "../../modules/rentals/infra/typeorm/repositories/RentalsRepository";
+import { IRentalsRepository } from "../../modules/rentals/repositories/IRentalsRepository";
 
-//Importação de elementos para a criação de conteiner de Criação de usuários(CreateUser)
-import {IUsersRepository} from "../../modules/accounts/repositories/IUserRepository"
-import {UsersRepository} from "../../modules/accounts/infra/typeorm/repositories/UsersRepository"
-
-//Importação de elementos para a criação de conteiner de criação de carro(CreateCar)
-import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
-import { CarsRepository } from "@modules/cars/infra/typeorm/repositories/CarsRepository";
-
-
-//Importação de elementos para a criação de conteiner de criação de carro (CreateCar)
-import { ICarsImagesRepository } from "@modules/cars/repositories/ICarsImageRepository";
-import { CarsImageRepository } from "@modules/cars/infra/typeorm/repositories/CarImagensRepository";
-
-
-
-
-
-
-
-//1 - Conteiner de categorias
+// 1 - Conteiner de categorias
 container.registerSingleton<ICategoriesRepository>(
     "CategoriesRepository",
     CategoriesRepository
 );
 
-
-
-//2 - conteiner de specification
+// 2 - conteiner de specification
 container.registerSingleton<ISpecificationsRepository>(
     "SpecificationsRepository",
     SpecificationsRepository
-
 );
 
-
-//3 - conteiner de criação de usuário (CreateUser)
+// 3 - conteiner de criação de usuário (CreateUser)
 container.registerSingleton<IUsersRepository>(
-    "UsersRepository",      //Repare que a criação de conteiner recebe todos os mesmos atributos quase , a logoca para criaçaõ é quase a mesma, "register" e passa a nossa interface e em seguida dentro passa o nome do conteiner e a "classe", que á a classe do nosso repository que ta dentro do nosso implementation(Que é o nosso repository)
-    UsersRepository         //Esse uso de conteiners facilita muito para que a gente consiga escrever menos codigo e importações na hora de utilizar as classes nos nossos useCases de cada regra de negocio
-
+    "UsersRepository", // Repare que a criação de conteiner recebe todos os mesmos atributos quase , a logoca para criaçaõ é quase a mesma, "register" e passa a nossa interface e em seguida dentro passa o nome do conteiner e a "classe", que á a classe do nosso repository que ta dentro do nosso implementation(Que é o nosso repository)
+    UsersRepository // Esse uso de conteiners facilita muito para que a gente consiga escrever menos codigo e importações na hora de utilizar as classes nos nossos useCases de cada regra de negocio
 );
 
-//4 - conteiner de criação de carro (CreateCar)
-container.registerSingleton<ICarsRepository>(
-    "CarsRepository",
-    CarsRepository
-)
+// 4 - conteiner de criação de carro (CreateCar)
+container.registerSingleton<ICarsRepository>("CarsRepository", CarsRepository);
 
-
-//5 - conteiner de criação de upload de imagem do carro
+// 5 - conteiner de criação de upload de imagem do carro
 container.registerSingleton<ICarsImagesRepository>(
-    "CarsImagesRepository", 
+    "CarsImagesRepository",
     CarsImageRepository
 );
 
+// 6 - conteiner de Criação de rentals
+container.registerSingleton<IRentalsRepository>(
+    "RentalsRepository",
+    RentalsRepository
+);
 
-//Então com essa bibilioteca as implementações das instancias vão facilitar , porque não será preciso fazer na mão.(A gente consegue até registrar um singleton)
+// Então com essa bibilioteca as implementações das instancias vão facilitar , porque não será preciso fazer na mão.(A gente consegue até registrar um singleton)

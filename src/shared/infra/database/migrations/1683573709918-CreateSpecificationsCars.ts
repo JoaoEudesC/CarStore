@@ -1,71 +1,72 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm"
+import {
+    MigrationInterface,
+    QueryRunner,
+    Table,
+    TableForeignKey,
+} from "typeorm";
 
-export class CreateSpecificationsCars1683573709918 implements MigrationInterface {
-
+export class CreateSpecificationsCars1683573709918
+    implements MigrationInterface
+{
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
                 name: "specifications_cars",
-                columns:[
+                columns: [
                     {
                         name: "car_id",
-                        type:"uuid"
+                        type: "uuid",
                     },
                     {
                         name: "specification_id",
-                        type:"uuid"
+                        type: "uuid",
                     },
                     {
-                        name:"created_at",
-                        type:"timestamp",
-                        default:"now()"
-                    }
+                        name: "created_at",
+                        type: "timestamp",
+                        default: "now()",
+                    },
                 ],
             })
-            
         );
         await queryRunner.createForeignKey(
             "specifications_cars",
             new TableForeignKey({
-                    name: "FKSpecificationCar", //Nome da nossa chave estrangeira, ela ta na tabela com o nome category_id, mas a gente da um nome para referenciar seguindo a convenção(FKNomeDaTabelaEstrangeira:NomeDaTabelaCriada)
-                    referencedTableName:"specifications",//A referência de qual tabela a gente ta pegando a chave estrangeira.
-                    referencedColumnNames:["id"],//Referencia da coluna que a gente ta pegando da tabela, que está fornecendo a chave estrangeira.
-                    columnNames:["specification_id"],//A coluna desta nossa tabela atual que vai ser referenciada com a chave estrnageira.
-                    onDelete:"SET NULL", //Se a categoria referenciada do nosso carro for removida na outra tabela, esse campo vai ser colocado como "nulo", mas tbm tem a opção de caso isso aconteça a gente apagar o registro inteiro de cars da tabela que foi referencida. (Cascade).
-                    onUpdate: "SET NULL"
-                
+                name: "FKSpecificationCar", // Nome da nossa chave estrangeira, ela ta na tabela com o nome category_id, mas a gente da um nome para referenciar seguindo a convenção(FKNomeDaTabelaEstrangeira:NomeDaTabelaCriada)
+                referencedTableName: "specifications", // A referência de qual tabela a gente ta pegando a chave estrangeira.
+                referencedColumnNames: ["id"], // Referencia da coluna que a gente ta pegando da tabela, que está fornecendo a chave estrangeira.
+                columnNames: ["specification_id"], // A coluna desta nossa tabela atual que vai ser referenciada com a chave estrnageira.
+                onDelete: "SET NULL", // Se a categoria referenciada do nosso carro for removida na outra tabela, esse campo vai ser colocado como "nulo", mas tbm tem a opção de caso isso aconteça a gente apagar o registro inteiro de cars da tabela que foi referencida. (Cascade).
+                onUpdate: "SET NULL",
             })
         );
-        
+
         await queryRunner.createForeignKey(
             "specifications_cars",
             new TableForeignKey({
-                    name: "FKCarSpecification", //Nome da nossa chave estrangeira, ela ta na tabela com o nome category_id, mas a gente da um nome para referenciar seguindo a convenção(FKNomeDaTabelaEstrangeira:NomeDaTabelaCriada)
-                    referencedTableName:"cars",//A referência de qual tabela a gente ta pegando a chave estrangeira.
-                    referencedColumnNames:["id"],//Referencia da coluna que a gente ta pegando da tabela, que está fornecendo a chave estrangeira.
-                    columnNames:["car_id"],//A coluna desta nossa tabela atual que vai ser referenciada com a chave estrnageira.
-                    onDelete:"SET NULL", //Se a categoria referenciada do nosso carro for removida na outra tabela, esse campo vai ser colocado como "nulo", mas tbm tem a opção de caso isso aconteça a gente apagar o registro inteiro de cars da tabela que foi referencida. (Cascade).
-                    onUpdate: "SET NULL"
-                
+                name: "FKCarSpecification", // Nome da nossa chave estrangeira, ela ta na tabela com o nome category_id, mas a gente da um nome para referenciar seguindo a convenção(FKNomeDaTabelaEstrangeira:NomeDaTabelaCriada)
+                referencedTableName: "cars", // A referência de qual tabela a gente ta pegando a chave estrangeira.
+                referencedColumnNames: ["id"], // Referencia da coluna que a gente ta pegando da tabela, que está fornecendo a chave estrangeira.
+                columnNames: ["car_id"], // A coluna desta nossa tabela atual que vai ser referenciada com a chave estrnageira.
+                onDelete: "SET NULL", // Se a categoria referenciada do nosso carro for removida na outra tabela, esse campo vai ser colocado como "nulo", mas tbm tem a opção de caso isso aconteça a gente apagar o registro inteiro de cars da tabela que foi referencida. (Cascade).
+                onUpdate: "SET NULL",
             })
         );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropForeignKey(
-            "specifications_cars", "FKCarSpecification"
+            "specifications_cars",
+            "FKCarSpecification"
         );
         await queryRunner.dropForeignKey(
-            "specifications_cars", "FKSpecificationCar"
+            "specifications_cars",
+            "FKSpecificationCar"
         );
 
-        await queryRunner.dropTable("specifications_cars")
-
+        await queryRunner.dropTable("specifications_cars");
     }
-
 }
-
-
 
 // 1 - Geralemente quando uma tabela é inteiramente de relacionamentos, nos utilizamos o nome das duas tabelas que estão se relacionando, ou seja ,  a tabela "specifications_cars" é a tabela de especificações e tabela de carros.
 

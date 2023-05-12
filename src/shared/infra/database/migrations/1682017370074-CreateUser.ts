@@ -1,54 +1,51 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm"
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateUser1682017370074 implements MigrationInterface {
-
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name:"users",
-                columns:[
+                name: "users",
+                columns: [
                     {
-                        name:"id",
-                        type:"uuid",
-                        isPrimary:true
+                        name: "id",
+                        type: "uuid",
+                        isPrimary: true,
                     },
                     {
-                        name:"name",
-                        type:"varchar"
+                        name: "name",
+                        type: "varchar",
                     },
                     {
-                        name:"password",
-                        type:"varchar"
+                        name: "password",
+                        type: "varchar",
                     },
                     {
-                        name:"email",
-                        type:"varchar"
+                        name: "email",
+                        type: "varchar",
                     },
                     {
-                        name:"driver_license",
-                        type:"varchar"
+                        name: "driver_license",
+                        type: "varchar",
                     },
                     {
                         name: "isAdmin",
-                        type:"boolean",
-                        default:false
+                        type: "boolean",
+                        default: false,
                     },
                     {
-                        name:"created_at",
-                        type:"timestamp",
-                        default:"now()"
+                        name: "created_at",
+                        type: "timestamp",
+                        default: "now()",
                     },
-                ]
+                ],
             })
-        )
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable("users");
     }
-
 }
-
 
 // 1 - Coloquei a coluna username como única com a flag isUnique, o username da pessoa vai ser unico (ou seja , a gente não vai permitir que seja criado dois usernames iguais no mesmo banco).
 

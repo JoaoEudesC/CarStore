@@ -1,34 +1,25 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
-import {v4 as uuiV4} from "uuid"
-
-
+import { v4 as uuiV4 } from "uuid";
 
 @Entity("cars_image")
-class CarImage{
-
+class CarImage {
     @PrimaryColumn()
-    id:string;
+    id: string;
 
     @Column()
-    car_id:string;
+    car_id: string;
 
     @Column()
     image_name: string;
 
     @CreateDateColumn()
-    created_at:Date
+    created_at: Date;
 
-
-
-    constructor(){
-        if(!this.id){
-            this.id = uuiV4()
+    constructor() {
+        if (!this.id) {
+            this.id = uuiV4();
         }
     }
 }
 
-
-
-
-
-export {CarImage}
+export { CarImage };

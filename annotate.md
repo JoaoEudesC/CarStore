@@ -344,7 +344,7 @@
 
 ## +++++++++++++++++++ COMANDOS ESPECIAIS DE MIGRAÇÃO:
 
-## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/shared/infra/database/migrations/CreataCars' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/shared/infra/database/DataSource.ts' sempre passar o comando para criar a migration no banco
+## 1 - Comando para a criação da migration => 'npm run typeorm migration:create ./src/shared/infra/database/migrations/CreateCars' , Criar a migration no banco => 'npm run typeorm migration:run -- -d ./src/shared/infra/database/DataSource.ts' sempre passar o comando para criar a migration no banco
 
 ## 2 - npm run typeorm migration:revert -- -d ./src/database/DataSource.ts => vai retirar a ultima migration colocada no banco de dados
 
@@ -696,6 +696,40 @@ async execute():Promise<void>{
 
 export {CreateCarSpecificationUseCase} //Dessa forma o teste já vai passar e voce vai poder já escrever a lógica depois.
 
-## +++++++++++++++++++++++++++++++++++++++++++++ CRIANDO MIGRATIONS DE IMAGENS DE CARRO
+## +++++++++++++++++++++++++++++++++++++++++++++ UTILIZANDO ESLINT NO PROJETO
+
+## 1 - Repare que nos utilizamos o eslint no projeto, mas só criamos o eslint depois que o app já estava praticamente construido, sendo assim, podemos utilizar um comando chamado => "ESLint: Fix all auto-fixable Problems"
+
+## 2 - Após executar esse comando o código seguirá e concertará quase tudo , algumas coisas que ele não concertar voce pode simplesmente, concertar na mão.
+
+## 3 - você consegue desabilitar qualquer regra do eslint que voce queira acessando "o quick fixible" e desabilitando determinada regra daquela linha ou documento em especifico.
+
+## 4 - Temos uma regra que é para que quando a gente fizer o "import" de arquivos no meu documento nos temos que da uma linha de espaço entre os "imports de bibilioteca" e os "imports de arquivos do nosso projeto". que é tudo que está dentro dessa regra => ""import-helpers/order-imports":"
+
+## +++++++++++++++++++++++++++++++++++++ CRIANDO MIGRATIONS DO ALUGUEL E DICA DE QUERY DO BEKEEPER
+
+## 1 - Se voce quiser adicionar ou alterar qualquer dado de qualquer tabela manualmente como corrigir um campo ou qualquer coisa , voce pode ir no "query" do beekeeper e escrever a query lá diretamente , ex => "alter table users add primary key(Id)" este comando vai fazer com que esse meu id que antes não tinha chave como "primary key" agora terá, e ele será uma chave primaria (unica).
+
+## ++++++++++++++++++++++++++++++++++++ TRABALHANDO COM BIBILIOTECAS DE DATAS (DAY.JS)
+
+## 1 - Essa bibilioteca ela é usada para o tratamento e uso de datas na nossa aplicação
+
+## 2 - npm i dayjs
+
+## 3 - Depois importamos essa bibilioteca no arquivo que vamos utilizar, neste caso é no useCase de "rental",
+
+## ++++++++++++++++++++++++++++++++++++ CRIANDO PROVIDER PARA DATA
+
+## 1 - Nós vamos criar o nosso provider, na pasta "shared" ou seja, um container, porque a gente ta utilizando a bibilioteca "day.js" em quase todo lugar, mas se amanhã a gente quiser trocar de bibilioteca de datas é muito mais fácil se tiver sido criado um provider.
+
+## 2 - Então dentro de "container" a gente vai criar uma pasta chamada "provider" e sempre que a gente tiver uma bibilioteca nova a ser utilizada para alguma funcionalidade a gente cria uma pasta descrita com a funcionalidade com "DateProvider" que está dentro da pasta "Provider" porém se tiver outra bibilioteca é só criar dentro dela outra pasta referente a função da bibilioteca que neste caso é prover a "data".
+
+## 3 - E dentro dessa "pasta qua descreve a funcionalidade" ex:"DateProvider", nós vamos possuir também uma pasta chamada "implementations" onde vai ter a implementação da class utilizada para fazer esse serviço.
+
+## 4 - Porque utilizar pasta "implementations" => A ideia aqui é que você possa ter várias implementações diferentes para essa mesma interface, cada uma com uma implementação diferente para os métodos definidos na interface. Por exemplo, você poderia ter uma implementação usando a biblioteca moment.js, outra usando a biblioteca nativa Date do JavaScript, e uma terceira usando o Luxon.Ao ter essas implementações separadas em arquivos diferentes e organizadas em uma pasta específica, você pode alternar facilmente entre elas apenas trocando a importação da classe que implementa a interface. Além disso, essa abordagem torna o código mais fácil de ler, testar e manter, pois separa as responsabilidades de cada classe e torna a arquitetura mais modular.Dessa forma, a pasta implementations é utilizada para armazenar as implementações concretas das interfaces definidas na sua aplicação, seguindo as práticas da arquitetura limpa.
+
+## 5 - Perceba que quase sempre que a gente for utilizar implementações e "funções" de outra classe para utilizar suas funcionalidades nós vamos utilizar um private tipando aquela classe com aquela classe que a gente quer utilizar fazendo uma "implementação".
+
+## +++++++++++++++++++++++++++++++++++++++++++++ CRIANDO CONTROLLER
 
 ## 1 -

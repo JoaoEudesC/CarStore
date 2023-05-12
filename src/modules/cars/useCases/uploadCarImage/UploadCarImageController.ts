@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-
 import { container } from "tsyringe";
 
 import { UploadCarImageUseCase } from "./UploadCarImageUseCase";
@@ -26,4 +25,3 @@ class UploadCarImageController {
 }
 
 export { UploadCarImageController };
-
