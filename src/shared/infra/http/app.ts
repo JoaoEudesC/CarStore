@@ -3,7 +3,6 @@ import "reflect-metadata";
 import "express-async-errors";
 
 // Importação do dotEnv(Variaveis de ambiente)
-import dotenv from "dotenv";
 import express, { Response, Request, NextFunction } from "express";
 // Importação da ligação com o banco de dados
 // Importação do conteiner da pasta shared
@@ -19,8 +18,6 @@ import { router } from "./routes";
 
 const app = express();
 app.use(express.json());
-dotenv.config();
-const { PORT } = process.env;
 createConnection1()
     .then(() => {
         console.log("Banco de dados conectado");
@@ -46,7 +43,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-// Servidor onde a aplicação vai rodar
-app.listen(PORT, () => {
-    console.log(`O servidor está rodando em http://localhost:${PORT}`);
-});
+export { app };

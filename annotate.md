@@ -730,6 +730,76 @@ export {CreateCarSpecificationUseCase} //Dessa forma o teste já vai passar e vo
 
 ## 5 - Perceba que quase sempre que a gente for utilizar implementações e "funções" de outra classe para utilizar suas funcionalidades nós vamos utilizar um private tipando aquela classe com aquela classe que a gente quer utilizar fazendo uma "implementação".
 
-## +++++++++++++++++++++++++++++++++++++++++++++ CRIANDO CONTROLLER
+## +++++++++++++++++++++++++++++++++++++++++++++ TESTES DE INTEGRAÇÃO ("SuperTest")
 
-## 1 -
+## 1 - Nós vamos utilizar a bibilioteca "SuperTest" para realizar os testes de integração
+
+## 2 - ele permite que a gente crie um "servidro http" dentro dos nossos métodos para que a gente consiga ter acesso aos métodos "post" "get" e etc, a gente consegue definie o que a gente espera de cada requisição também.
+
+## 3 - "npm i supertest @types/supertest -D"
+
+## 4 - A gente começa a fazer estes testes "por modulos" ou seja, eu tenho tres "modulos" na minha aplicação, eu vou ter que começar por algum módulo,e vou começar pelo modulo de carros.
+
+## 5 - eu entro na pasta "useCases" e em seguida eu eu escolho um "arquivo do useCase" vou começar pelo createCategory e criar um arquivo "CreateCategoryController.spec.ts" sendo assim , todos os testes de integração vão seguir uma ordem de "nome" vai ser criado um "controller" assim para cada useCase de cada modulo.
+
+## 6 - A documentação manda a gente criar um "app" com o superTest , porém a gente já tem um criado no nosso "arquivo server.ts" mas a gente não pode reutilizar ele porque ele está intimamente ligado com o nosso "server".
+
+## 7 - Então basicamente o que eu vou fazer é, criar um arquivo "server.ts" e exportar o app para lá para que o "app.listen" permaneça isolado em um arquivo para que eu consiga utilizar somente "o app" sem a necessidade de pega-lo intimamente ligado ao meu servidor correndo risco de ocasionar um "erro".
+
+## 8 - Temos que fazer isso, porque eu vou dizer ao meu "teste" que eu não quero que o nosso servidor seja executado quando executar os nossos testes, ou seja, que a porta seja ouvida quando eu executar os nossos testes.(por isso é uma boa pratica dividir em um arquivo separado a porta em que o servidor vai ser executado);
+
+## 9 - Separando assim termemos acesso a todas as informações do "app" sem ter que subir o servidor da nossa aplicação.
+
+## 10 - Exemplo de uso => import request from "supertest";
+
+describe("Create Category Controller", () => {
+it("should return a 200 status code", async () => {
+await request(app).get("/cars/available").expect(200);
+});
+});
+
+## 11 - Rodar o teste => "npm test" é o mesmo comando de sempre, a não ser que voce esteja utilizando o "yarn".
+
+## 12 -
+
+## OBS - IMPORTANTE => colocar todos os @types como dependencias de desenvolvimento ou seja , eles tem que está em "devdependencies" no package json, checar sempre neste projeto quais estão em desenvolvimento e quais não estão para fazer certo em outros (-D => FAZ IR PARA "DEVDEPENDENCIES").
+
+## ++++++++++++++++++++++++++++++++++++++++++++++ ALTERAÇÃO NA APLICAÇÃO PARA UTILIZAR ESTRUTURA DE BANCO DE DADOS COM O SUPERTES
+
+## 1 - Se a gente não fizer essas alterações nos vamos obter erro sempre que rodar o "superTest" porque ele não vai encontrar uma ligação com o banco de dados.
+
+## 2 - Criando primeiro teste de integração => // 1 - POST => A gente para testar a rota tem que enviar exatamente o que é passada naquela rota de "post" ou seja o campos como "name" "categories" para que possa ser testada essa rota e essa lógica serve para todos os testes com esse verbo http.
+
+// 2 - Repare que a gente deve utilizar um "expect" para que a gente consiga falar o que a gente espera a seguir que seja feito um " post " com aquelas credencias necessárias e sendo assim verificar isso é como funciona para as rotas de "post por exemplo"
+
+## 3 - CRIAÇÃO DE BANCO DE TESTES PARA TESTAR OS TESTES DE INTEGRAÇÃO
+
+## // Na mesma ligação do "beekeper" eu posso criar clicando no "+" um "rentx_test" que eu posso alternar entre vários bancos na mesma criação
+
+## // Posso escrever na "query" também assim => "create database rentx_test" e da no mesmo.
+
+## // O intuito de fazer isso é evitar testes que sejam feitos no banco de dados que vai ser utilizado em "produção" para não ocorrer erros, o conceito de "tdd" não se aplica aos testes de "integração" eles devem ser feitos somenete após as rotas estiverem prontas visto que ele testa a rota inteira.
+
+## // Esse erro ocorre pelo mesmo motivo de a gente não ter conseguido rodar "seed" pq o test tbm não entende o "database" que o docker usa , ele só entende o "localhost" então sendo assim, sempre que a gente for fazer teste a gente vai ter que criar a connection com ("host = "localhost")
+
+## // Então quando nos formos rodar os testes de integração nos vamos fazer igual fazemos para rodar o "seed" nos vamos alterar o "DataSource" para localHost onde está "database".
+
+## // Nós também vamos fazer uma verificação para saber se o "ambiente é de teste" se o ambiente for de teste a gente vai utilizar outro database()
+
+## // de onde vem o "NODE_ENV" => // OBS => de onde vem o "NODE_ENV" => no nosso package json, nos scripts na parte do "jest" a gente consegue definir que o nosso NODE_ENV = "test" => "test": "NODE_ENV=test jest" e cada vez que a gente rodar essa aplicação ele vai definir essa variavel de ambinete como test.
+
+## // OBS => Então basicamente para eu rodar os testes eu vou precisar mudar o "host para "localhost"" e para testar a aplicação no insomnia vamos precisar mudar para "database" que é o nome definido no docker isso serve justamente para que nós possamos driblar o erro do docker com o localhost.
+
+## ++++++++++++++++++++++++++++++++++ CONTINUAÇÃO DE TESTE DE INTEGRAÇÃO
+
+## 1 - Criação das tabelas no banco de dados para teste => 1 - "await connection.runMigrations();"" => coloco este comando na função deixando claro que antes de cada teste eu vou rodar todas as nossa migrações
+
+## 2 - adicionar este comando => --detectOpenHandles ao jest no packje json para que mostre informações caso algo esteja impedindo de finalizar o teste.
+
+## 3 - Para testar se ele realmente está criando no banco de dados remova a linha => "await connection.dropDatabase();" e veja se as migrations estão ficando no banco de dados quando rodamos o teste.
+
+## CRIANDO TESTE DE LISTAGEM DE CATEGORIAS
+
+## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando juntio.
+
+## OBS => SECRET => SECRET = "cfe275e5908b5650488e0b0342c2d6cq"

@@ -4,7 +4,7 @@ import { v4 as uuidV4 } from "uuid";
 import { createConnection1 } from "../DataSource";
 
 async function create() {
-    const connection = createConnection1();
+    const connection = await createConnection1();
 
     const id = uuidV4();
     const password = await hash("admin", 8);
@@ -16,7 +16,7 @@ async function create() {
         values('${id}', 'admin', 'admin@rentx.com.br', '${password}', true, 'now()', 'XXXXXX')
         `
     );
-    await (await connection).destroy();
+    await connection.destroy();
 }
 
 create()
