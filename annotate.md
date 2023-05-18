@@ -204,7 +204,7 @@
 
 ## 9 - sudo docker run -p 3333:3333 rentx => utilizar o nosso conteiner através do dockerFile
 
-## 10 - sudo service docker start => comando para iniciar o docker . depois de instala-lo
+## 10 - sudo service start docker => comando para iniciar o docker . depois de instala-lo
 
 ## 11 - sudo docker exec -it confident_pike /bin/bash => ver se o conteiner esta sendo executado ("ls" para ver as pastas)
 
@@ -736,7 +736,7 @@ export {CreateCarSpecificationUseCase} //Dessa forma o teste já vai passar e vo
 
 ## 2 - ele permite que a gente crie um "servidro http" dentro dos nossos métodos para que a gente consiga ter acesso aos métodos "post" "get" e etc, a gente consegue definie o que a gente espera de cada requisição também.
 
-## 3 - "npm i supertest @types/supertest -D"
+## 3 - "npm i supertest @types/supertest"
 
 ## 4 - A gente começa a fazer estes testes "por modulos" ou seja, eu tenho tres "modulos" na minha aplicação, eu vou ter que começar por algum módulo,e vou começar pelo modulo de carros.
 
@@ -803,3 +803,5 @@ await request(app).get("/cars/available").expect(200);
 ## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando juntio.
 
 ## OBS => SECRET => SECRET = "cfe275e5908b5650488e0b0342c2d6cq"
+
+## OBS => npm test -- --runInBand ("Utilizar este comando para nao rodar os testes unitários ao mesmo tempo que o de integração pode dar erro de chave duplicada por exemplo").

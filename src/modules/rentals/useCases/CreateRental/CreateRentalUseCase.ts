@@ -16,7 +16,7 @@ class CreateRentalUseCase {
         @inject("RentalsRepository")
         private rentalsRepository: IRentalsRepository,
 
-        @inject("DayjsDateProvider")
+        @inject("DateProvider")
         private dateProvider: IDateProvider
     ) {}
     async execute({
@@ -44,7 +44,7 @@ class CreateRentalUseCase {
         const dateNow = this.dateProvider.dateNow();
         // O aluguel deve ter duração minima de 24 horas.
         const compare = this.dateProvider.compareInHours(
-            dateNow,
+            dateNow, // Pegando a hora de agora atual e dizeendo que essa hora não deve ser menor que 24 horas , cada aluguel deve durar no minimo 24horas caso contrário vai ocasionar erro
             expected_return_date
         );
 

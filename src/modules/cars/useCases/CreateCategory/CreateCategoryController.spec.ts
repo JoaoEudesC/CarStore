@@ -28,16 +28,17 @@ describe("Create Category Controller", () => {
         await connection.destroy();
     });
 
-    it("should be able to create  a new category", async () => {
+    it("should be able to create a new category", async () => {
         const responseToken = await request(app).post("/sessions").send({
             email: "admin@rentx.com.br",
             password: "admin",
         });
         const { token } = responseToken.body;
+        const categoryName = `Category_${uuidV4()}`;
         const response = await request(app)
             .post("/categories")
             .send({
-                name: "Category Supertest",
+                name: categoryName,
                 description: "Description Supertest",
             })
             .set({
@@ -46,22 +47,37 @@ describe("Create Category Controller", () => {
         expect(response.status).toBe(201);
     });
 
-    it("should not be able to create  a new category with name exists ", async () => {
+    it("should not be able to create a new category with name that already exists", async () => {
         const responseToken = await request(app).post("/sessions").send({
             email: "admin@rentx.com.br",
             password: "admin",
         });
         const { token } = responseToken.body;
-        const response = await request(app)
+        const categoryName = `Category_${uuidV4()}`;
+
+        // Cria uma categoria com um nome único
+        const response1 = await request(app)
             .post("/categories")
             .send({
-                name: "Category Supertest",
+                name: categoryName,
                 description: "Description Supertest",
             })
             .set({
                 Authorization: `Bearer ${token}`,
             });
-        expect(response.status).toBe(400);
+        expect(response1.status).toBe(201);
+
+        // Tenta criar uma segunda categoria com o mesmo nome
+        const response2 = await request(app)
+            .post("/categories")
+            .send({
+                name: categoryName,
+                description: "Description Supertest",
+            })
+            .set({
+                Authorization: `Bearer ${token}`,
+            });
+        expect(response2.status).toBe(400);
     });
 });
 

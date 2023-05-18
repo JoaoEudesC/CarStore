@@ -56,7 +56,20 @@ Deve ser possível cadastrar um aluguel.
 **RNF**
 
 **RN**
-O aluguel deve ter duração mínima de 24 hora.
+O aluguel deve ter duração mínima de 24 horas.
 Não deve ser possível cadastrar um novo aluguel caso já exista um aberto para o mesmo o usuário.
 Não deve ser possível cadastrar um novo aluguel caso já exista um aberto para o mesmo o carro.
 O usuário deve estar logado na aplicação.
+
+**PARA TESTAR A APLICAÇÃO**
+1 - Mudar no DataSource o host para localhost na função createConnection1 para que seja possivel rodar o seed e testar os testes de integração visto que o docker tem um bug.
+
+2 - Mudar no DataSource o host para o que se refere no "dockerCompose" para "database" para que seja possivel conectar o banco para testar no insomnia as rotas no codigo de produção.
+
+3 - Colocar um arquivo no dotenv chamado PORT = 3000 and SECRET = "cfe275e5908b5650488e0b0342c2d6cq".
+
+4 - Utilizar o comando "npm install" para instalar todas as dependencias do projeto.
+
+5 - Utilizar os comandos do docker-compose para iniciar a aplicação , startar o docker na sua máquina e subir os conteiners(Assumimos que se voce tem interesse na nossa app voce sabe como utilizar o docker)
+
+6 - Voce pode testar se o aplicativo esta rodando na sua maquina ao menos com o comando "npm run dev"
