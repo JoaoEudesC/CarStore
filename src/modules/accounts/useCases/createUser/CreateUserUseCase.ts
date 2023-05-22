@@ -37,6 +37,3 @@ class CreateUserUseCase {
 }
 
 export { CreateUserUseCase };
-
-// Repare que aqui eu estou pegando a função diretamente  "hash" do bcrypt , diferente dos outros projetos em que eu , pegava uma varivel "bcrypt" e fazi "bcrypt.hash"
-//

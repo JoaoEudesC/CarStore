@@ -2,9 +2,9 @@
 import { Router } from "express";
 import multer from "multer";
 
-import { CreateCategoryController } from "../../../../modules/cars/useCases/CreateCategory/CreateCategoryController";
+import { CreateCategoryController } from "../../../../modules/cars/useCases/createCategory/CreateCategoryController";
 import { ImportCategoryController } from "../../../../modules/cars/useCases/importCategory/importCategoryController";
-import { ListCategoriesController } from "../../../../modules/cars/useCases/ListCategories/ListCategoriesController";
+import { ListCategoriesController } from "../../../../modules/cars/useCases/listCategories/ListCategoriesController";
 // Utilização do router
 // Configuração do multer
 // Importação de middlewares

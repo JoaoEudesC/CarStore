@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
 import { AppError } from "../../../../shared/errors/AppError";
+import { ICarsRepository } from "../../../cars/repositories/ICarsRepository";
 import { Rental } from "../../infra/typeorm/entities/Rental";
 import { IRentalsRepository } from "../../repositories/IRentalsRepository";
 
@@ -17,7 +18,10 @@ class CreateRentalUseCase {
         private rentalsRepository: IRentalsRepository,
 
         @inject("DateProvider")
-        private dateProvider: IDateProvider
+        private dateProvider: IDateProvider,
+
+        @inject("CarsRepository")
+        private carsRepository: ICarsRepository
     ) {}
     async execute({
         user_id,
@@ -57,8 +61,14 @@ class CreateRentalUseCase {
             car_id,
             expected_return_date,
         });
+
+        await this.carsRepository.updateAvailable(car_id, false); // Aqui eu estou chamando a função que vai dar um update no available car, que recebe como parametro o "id" do carro, e um booleano no campo "avaialble".
         return rental;
     }
 }
 
 export { CreateRentalUseCase };
+
+// 1 - A gente aqui vai ter que colocar a regra para quando um carro for alugado, ou seja, passar o id do carro e o expected_return_date  o status deste carro vai ser mudado para "unavailable" por isso nós tivemos que receber o "inject" do carsRepository aqui.
+// 2 - A gente vai no nosso "ICarsRepository" e vamos colocar um campo como "update available" para que a gente não precise fazer d duas buscas no "findById".
+// 3 -

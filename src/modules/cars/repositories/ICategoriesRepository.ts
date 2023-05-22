@@ -16,3 +16,6 @@ interface ICategoriesRepository {
 }
 
 export { ICategoriesRepository };
+
+// Repare que aqui eu tipei o "name" direto dentro do findByName e assim eu não preciso criar outra interface porque é somente um elemento, não tem necessidade
+// A interface foi criada somente para o "create" porque possuia dois elementos e eu vou utilizar no "useCase" mas eu poderia tipar diretamente dentro da função igual eu fiz om o "findByName"

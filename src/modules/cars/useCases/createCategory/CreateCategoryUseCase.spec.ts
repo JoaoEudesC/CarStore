@@ -1,16 +1,6 @@
-// A gente precisa testar o resultado, ou seja , qual o resultado que a gente espera que determinada requisição demonstre e ai ele vai mostrar para a gente o resultado que realemnte deu (ai faz a comparação com o resultado que a gente espera, que foi colocado no codigo, com o resultado que deu), se os dois forem iguais mostra sucesso , caso contrário não.
-
 import { AppError } from "../../../../shared/errors/AppError";
 import { CategoriesRepositoryInMemory } from "../../repositories/in-memory/CategoriesRepositoryInMemory";
 import { CreateCategoryUseCase } from "./CreateCategoryUseCase";
-
-// O describe serve para agrupar os nossos testes, eu coloco dentro dele tudo que está fazendo o nosso teste.
-// Para a gente criar os testes, eu tenho que colocar dentro de um "it". , dentro do it a gente descreve o que a gente espera que aquele teste faça.(Como por exemplo, espero que 2 +2 => 4)
-// Dentro do expect a gente vai colocar o que a gente espera que aconteça , passando o que a gente espera que aquela variável que está dentro faça.(A gente pode colocar quantos expecs a gente quiser)
-
-// Eu posso criar quantos testes eu quiser , ou seja quantos "it" eu quiser dentro do mesmo describe, ou criar varios describes , no mesmo arquivo de teste("porque o useCase pode ter mais que uma função especifica.")
-
-// Eu posso utilizar o "not.tobe" para negar o resultado para dizer que eu não quero que seja aquele resultado, então por exemplo eu espero que minha soma não seja 5.
 
 let createCategoryUseCase: CreateCategoryUseCase;
 let categoriesRepositoryInMemory: CategoriesRepositoryInMemory;

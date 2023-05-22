@@ -31,7 +31,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         });
     }
     next();
-    // Remova o next() daqui para corrigir a ordem de execução dos middlewares
     return res.status(500).json({
         status: "error",
         message: `Internal server error - ${err.message}`,

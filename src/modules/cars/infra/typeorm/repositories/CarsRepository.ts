@@ -72,6 +72,21 @@ export class CarsRepository implements ICarsRepository {
         const car = await this.repository.findOneBy({ id });
         return car || undefined;
     }
+
+    async updateAvailable(id: string, available: boolean): Promise<void> {
+        await this.repository
+            .createQueryBuilder()
+            .update()
+            .set({ available })
+            .where("id = :id")
+            .setParameters({ id }) // Aqui é como se eu estivesse fazendo uma busca "findById" só que estou utilizando um novo metodo do "createQueryBuilder" ta na documentação.
+            .execute();
+        // Seto uma condição em que eu digo que o nome "id" no banco de dados deve ser o igual passado no parametro.
+        // o setParameters serve para definir os valores dos parametros da consulta(neste caso será o id que recebemos como parametro da função).
+        // Em seguida, chamamos o método set({ available }), onde { available } é uma sintaxe abreviada que significa { available: available }. Isso define o valor do campo available no banco de dados com o valor passado como parâmetro.
+        // É como se eu estivesse escrevendo um "sql" puro ("update cars set available = 'true' where id = :id").
+        // O método execute ele não retorna nada, por isso tive que mudar a "promise" para void,e no ICars Repository também a função "update available" vai ser promise<void> também.
+    }
 }
 
 // 1 - Repare que a construção de todos os "repository"  seguem a mesma linha de raciocinio, o que diz respeito que a logica para a criação do repositorio que vai interagir com o banco de dados diretamente para cada "tabela" são iguais.

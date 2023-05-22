@@ -798,7 +798,52 @@ await request(app).get("/cars/available").expect(200);
 
 ## 3 - Para testar se ele realmente está criando no banco de dados remova a linha => "await connection.dropDatabase();" e veja se as migrations estão ficando no banco de dados quando rodamos o teste.
 
-## CRIANDO TESTE DE LISTAGEM DE CATEGORIAS
+## +++++++++++++++++++++++++++++++++++++++ CONTINUAÇÃO DA DOCUMENTAÇÃO, PASSAR PARA O SWAGGER QUE A GENTE ESTÁ UTILIZANDO JWT COMO AUTENTICAÇÃO
+
+## 1 - Depois de "definitions" nós passamos este objeto => "components": {
+
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    } // isso vai gerar um obejto de autenticação que a gente vai poder utilizar nas nossas rotas da documentação
+
+## 2 - Passamos isso => "security": [
+
+            { "bearerAuth": []}
+          ], passamos isso na documentação , na rota , poder ser embaixo da description da rota para afirmar que estamos querendo um segurança e referenciado o "securitySchemes".
+
+## 3 - ele cria um cadeado na rota e quando voce clicar para acessar essa rota vai pedir que voce passe um token.
+
+## 4 - Criar sessão na documentação => criamos mais uma rota de "sessions" que é justamente a rota que temos que realiza o login do usuário, ou seja , a sessão do usuário, seguindo a mesma lógica da documentação das outras rotas de post e etc na documentação.
+
+## 5 - Testar => Faça o teste com o admin , então voce deve estar com a aplicação rodando pq os testes consultam o banco de dados, apos criar é so conferir no banco de dados que voce vai ter a certeza que está funcionando.
+
+## +++++++++++++++++++++++++++++++++++++++ REPLICANDO AUTENTICAÇÃO PARA A DOCUMENTAÇÃO
+
+## 1 - Repare que como foi feito em specifications nos tambem vamos fazer em cars o schema nós vamos utilizar uma referencia da nossa "definitions" pq o schema de carros é grande para não poluir o código, fica mais oeganizado assim ("definitions" está no final da documentação para referenciar).
+
+## +++++++++++++++++++++++++++++++++++++++ DOCUMENTAÇÃO PARA UPLOAD DE IMAGENS DE CARRO
+
+## 1 - Na nossa rota de imagens a gente recebe um parametro id que é passado na url, sendo assim para referenciar no swagger a gente utiliza chaves /{id} como foi feito na rota /cars/images/{id}.
+
+## 2 - Também vamos utilizar o security nessa rota porque só quem pode realizar esse upload de imagens é um usuário autenticado.
+
+## 3 - Recebendo parametro na documentção através da url => "parameters": [
+
+                    {
+                        "name": "id", //qual o nome do parametro
+                        "in": "path", //de onde vem o parametro
+                        "description": "Car id", //Uma descrição desse parametro
+                        "required": "true",// se é obrigatório
+                        "schema": {
+                            "type": "string" //Tipo do parametro
+                        }
+                    }
+                ]
 
 ## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando juntio.
 

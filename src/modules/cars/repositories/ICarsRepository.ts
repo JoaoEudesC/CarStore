@@ -22,6 +22,10 @@ interface ICarsRepository {
         name?: string
     ): Promise<Car[]>;
     findById(id: string): Promise<Car | undefined>;
+    updateAvailable(id: string, available: boolean): Promise<void>;
 }
 
 export { ICarsRepository, ICreateCarDTO };
+
+// 1 - Coloquei o available como boolean , porque eu quero que quando o carro seja alugado ele fique como "falso" o carro não ta disponivel , porém quando o carro for devolvido quero que fique como "true" afirmando que o carro está disponível.
+// 2 -

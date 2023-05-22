@@ -1,4 +1,3 @@
-// Note que cada arquivo do model diz respeito a uma tabela , essa é a tabela de especificações, a que a gente fez anteriormente foi a tabela de Categoria
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
@@ -19,5 +18,3 @@ export class Specification {
         }
     }
 }
-
-// Perceba que a gente utiliza os decorators  para definir que essa nossa entidade vai estar junto com o banco de dados, se por acaso a nossa migration tiver com um nomde diferente da nossa entitty nos atributos , a gente pode passar dentro do parenteses de column Ex:@colum("nome")

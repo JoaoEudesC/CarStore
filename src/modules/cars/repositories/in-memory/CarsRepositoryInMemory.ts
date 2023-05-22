@@ -60,8 +60,15 @@ class CarsRepositoryInMemory implements ICarsRepository {
     async findById(id: string): Promise<Car | undefined> {
         return this.cars.find((car) => car.id === id) || undefined;
     }
+
+    async updateAvailable(id: string, available: boolean): Promise<void> {
+        const findIndex = this.cars.findIndex((car) => car.id === id);
+        this.cars[findIndex].available = available;
+    }
 }
 
 export { CarsRepositoryInMemory };
 
 // 1 - Perceba que por conta do uso dos operadores lógicos, nos transformamos o car available em obrigatótio, porque nos estamos utilizando o "&&" , as outras condições é que podem ser opcionais, podem acontecer ou não, pq estamos utilizando o operador "||"
+// 2 - A função index vai fazer um map para achar o index desse meu objeto.
+// 3 - Função findIndex => retorna o indice do elemento encontrado no array ou -1 se nenhum elemento satisfazer a condição , neste caso o indice é usado para acessar o objeto do carro no array e modificar sua propriedade 'available'.
