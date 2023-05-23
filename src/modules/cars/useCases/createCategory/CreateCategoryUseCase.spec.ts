@@ -30,20 +30,22 @@ describe("Create Category", () => {
     });
 
     it("should be able not be able to create a new category with same name", async () => {
-        expect(async () => {
-            const category = {
-                name: "Category Test",
-                description: "Category description Test",
-            };
-            await createCategoryUseCase.execute({
+        const category = {
+            name: "Category Test",
+            description: "Category description Test",
+        };
+
+        await createCategoryUseCase.execute({
+            name: category.name,
+            description: category.description,
+        });
+
+        await expect(
+            createCategoryUseCase.execute({
                 name: category.name,
                 description: category.description,
-            });
-            await createCategoryUseCase.execute({
-                name: category.name,
-                description: category.description,
-            });
-        }).rejects.toBeInstanceOf(AppError); // Coloquei toda a função dentro do expec  pq eu espero esse erro de fato , e utilizei a função rejects , para dizer que se ocorrer o erro , ou seja , se for rejeitado porque criou o mesmo erro, ele vai me retornar a instancia do meu "appError".
+            })
+        ).rejects.toEqual(new AppError("Category already exists")); // Essa mensagem deve ser exatamente igual a mensagem passada no useCase de category, caso contrário ele vai dar erro de incompatibilidade entre as duas mensagens, a que é passada no test e a do useCase
     });
 });
 

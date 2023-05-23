@@ -14,7 +14,7 @@ const listRentalsByUserController = new ListRentalsByUserController();
 rentalRoutes.post("/", ensureAuthenticated, createRentalController.handle);
 rentalRoutes.post(
     // Para testar essa rota nós vamos ter que passar o "id" do createRentals como parametro para "entregar" o carro e fechar aquele aluguel e estar autemticado para passar o token(Rota:Devolution);
-    "devolution/:id",
+    "/devolution/:id",
     ensureAuthenticated,
     devolutionRentalController.handle
 );

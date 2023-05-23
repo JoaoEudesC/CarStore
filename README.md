@@ -91,7 +91,7 @@ O usuário deve estar logado na aplicação.
 **PARA TESTAR A APLICAÇÃO**
 1 - Mudar no DataSource o host para localhost na função createConnection1 para que seja possivel rodar o seed e testar os testes de integração visto que o docker tem um bug.
 
-2 - Mudar no DataSource o host para o que se refere no "dockerCompose" para "database" para que seja possivel conectar o banco para testar no insomnia as rotas no codigo de produção.
+2 - Mudar no DataSource o host para o que se refere no "docker-Compose" para "database" para que seja possivel conectar o banco para testar no insomnia as rotas no codigo de produção.
 
 3 - Colocar um arquivo no dotenv chamado PORT = 3000 and SECRET = "cfe275e5908b5650488e0b0342c2d6cq".
 

@@ -1,10 +1,9 @@
-import { inject, injectable } from "tsyringe";
+import { injectable, inject } from "tsyringe";
 
 import { Rental } from "../../infra/typeorm/entities/Rental";
 import { IRentalsRepository } from "../../repositories/IRentalsRepository";
 
-// eslint-disable-next-line prettier/prettier
-injectable()
+@injectable()
 class ListRentalsByUserUseCase {
     constructor(
         @inject("RentalsRepository")

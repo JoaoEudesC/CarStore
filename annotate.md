@@ -214,7 +214,7 @@
 
 ## 14 - sudo docker-compose down => para remover o docker compose com os serviçoes criados(ele remove tudo criado dentro do serviço)
 
-## 15 - sudo service docker start => iniciar o servidor docker no terminal
+## 15 - => iniciar o servidor docker no terminal
 
 ## 16 - sudo service docker status => ver o status se está iniciado ou não
 

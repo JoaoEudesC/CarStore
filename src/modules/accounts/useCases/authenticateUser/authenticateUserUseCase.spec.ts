@@ -33,30 +33,30 @@ describe("Authenticate User", () => {
         expect(result).toHaveProperty("token");
     });
 
-    it("should not be able to authenticate an noneexistent user", () => {
+    it("should not be able to authenticate an non existent user", async () => {
         // Aqui nos vamos utilizar o rejects tbm , pq aqui nos vamos utilizar o "app.Error" para verificar.
-        expect(async () => {
-            await authenticateUserUseCase.execute({
+        await expect(
+            authenticateUserUseCase.execute({
                 email: "false@email.com",
                 password: "1234",
-            });
-        }).rejects.toBeInstanceOf(AppError); // Repare que o email eu pude passar qualquer um , a senha passei igual mas é indiferente pq so do usuário não existir ele ja vai dar erro.
+            })
+        ).rejects.toEqual(new AppError("Email or password incorrect")); // Nós aqui estamos utilizando o "to Equal" no lugar de "to be instaceOf" porque a gente te vários erros e assim faz com que a gente consiga passar exatamente a mensagem que a gente ta enviando daquele useCase(Porque a mensagem tem que bater com o useCase) se não da erro de compatibilidade assim fica mais forçado e orgnizado.
     });
 
-    it("should not be able to authenticate with incorrect password", () => {
-        expect(async () => {
-            const user: ICreateUserDTO = {
-                driver_license: "9999",
-                email: "user@user.com",
-                password: "1234",
-                name: "User Test Error",
-            };
-            await createUserUseCase.execute(user);
-            await authenticateUserUseCase.execute({
+    it("should not be able to authenticate with incorrect password", async () => {
+        const user: ICreateUserDTO = {
+            driver_license: "9999",
+            email: "user@user.com",
+            password: "1234",
+            name: "User Test Error",
+        };
+        await createUserUseCase.execute(user);
+        await expect(
+            authenticateUserUseCase.execute({
                 email: user.email,
                 password: "incorretct Password",
-            });
-        }).rejects.toBeInstanceOf(AppError);
+            })
+        ).rejects.toEqual(new AppError("Email or password incorrect"));
     });
 });
 

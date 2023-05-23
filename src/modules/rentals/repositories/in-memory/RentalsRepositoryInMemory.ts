@@ -3,18 +3,18 @@ import { Rental } from "../../infra/typeorm/entities/Rental";
 import { IRentalsRepository } from "../IRentalsRepository";
 
 class RentalsRepositoryInMemory implements IRentalsRepository {
-    retals: Rental[] = [];
+    rentals: Rental[] = [];
 
     async findOpenRentalByCar(car_id: string): Promise<Rental | undefined> {
         return (
-            this.retals.find(
+            this.rentals.find(
                 (rental) => rental.car_id === car_id && !rental.end_date
             ) || undefined
         );
     }
     async findOpenRentalByUser(user_id: string): Promise<Rental | undefined> {
         return (
-            this.retals.find(
+            this.rentals.find(
                 (rental) => rental.user_id === user_id && !rental.end_date
             ) || undefined
         );
@@ -33,9 +33,16 @@ class RentalsRepositoryInMemory implements IRentalsRepository {
             start_date: new Date(),
         });
 
-        this.retals.push(rental);
+        this.rentals.push(rental);
 
         return rental;
+    }
+    async findById(id: string): Promise<Rental | undefined> {
+        return this.rentals.find((rental) => rental.id === id);
+    }
+
+    async findByUser(user_id: string): Promise<Rental[]> {
+        return this.rentals.filter((rental) => rental.user_id === user_id);
     }
 }
 
