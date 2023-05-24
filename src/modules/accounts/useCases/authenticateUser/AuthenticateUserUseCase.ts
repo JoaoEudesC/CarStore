@@ -1,12 +1,12 @@
 import { compare } from "bcrypt";
-import dotenv from "dotenv";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
+import auth from "../../../../config/auth";
+import { DayjsDateProvider } from "../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider";
 import { AppError } from "../../../../shared/errors/AppError";
 import { IUsersRepository } from "../../repositories/IUserRepository";
-
-dotenv.config();
+import { IUsersTokensRepository } from "../../repositories/IUsersTokensRepository";
 
 interface IRequest {
     email: string;
@@ -19,13 +19,20 @@ interface IResponse {
         email: string; // Estou criando essa interface para retornar somente o nome e o email , pq eu nao quero o retorno da senha(eu poderia colocar:user.email , user.name) mas assim fica mais sintatico, e passo essa interface como o retorno do "execute" Promise<IResponse>
     };
     token: string;
+    refresh_token: string;
 }
 
 @injectable()
 class AuthenticateUserUseCase {
     constructor(
         @inject("UsersRepository")
-        private usersRepository: IUsersRepository
+        private usersRepository: IUsersRepository,
+
+        @inject("UsersTokensRepository")
+        private usersTokensRepository: IUsersTokensRepository,
+
+        @inject("DateProvider")
+        private dateProvider: DayjsDateProvider
     ) {}
     // se o email está correto
     async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -40,15 +47,27 @@ class AuthenticateUserUseCase {
             throw new AppError("Email or password incorrect");
         }
 
-        // Geração de token
-        const { SECRET } = process.env; // Variavel de ambiente
-        if (!SECRET) {
-            throw new AppError("SECRET NÃO VALIDADO");
-        }
-
-        const token = sign({ user: user.name }, SECRET, {
+        // Geração de token Normal e criação
+        const token = sign({ user: user.name }, auth.secret_token, {
             subject: user.id,
-            expiresIn: "1d",
+            expiresIn: auth.expires_in_token,
+        });
+
+        // Criação e implementação de REFRESH TOKEN (POSSO CRIAR O REFRESH TOKEN UTILIZANDO O JWT TAMBÉM).
+
+        const refresh_token = sign({ email }, auth.secret_refresh_token, {
+            subject: user.id,
+            expiresIn: auth.expires_in_refresh_token,
+        }); // Eu quero que o nosso sistema tenha uma chave para o nosso token e outra chave para o nosso Refresh_token, caso a gente queira fazer uma validação separada fica mais fácil.
+
+        const refresh_token_expires_date = this.dateProvider.addDays(
+            auth.expires_refresh_token_days
+        );
+
+        await this.usersTokensRepository.create({
+            expires_date: refresh_token_expires_date, // Vamos utilizar o dayjs para fazer o calculo da quantidade de dias para dizer quando esse token vai ser expirado.(Vamos seguir a mesma lógica de utilizar o nosso provider também). que está com o nosso dayjs.
+            refresh_token,
+            user_id: user.id,
         });
 
         const tokenReturn: IResponse = {
@@ -58,6 +77,7 @@ class AuthenticateUserUseCase {
                 name: user.name,
                 email: user.email,
             },
+            refresh_token,
         };
         return tokenReturn;
     }

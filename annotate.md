@@ -845,6 +845,32 @@ await request(app).get("/cars/available").expect(200);
                     }
                 ]
 
+## +++++++++++++++++++++++++++++++++ REFRESH TOKEN
+
+## 1 - Toda vez que o token expira, para o usuário não ter que fazer sempre o login ali, como em aplicativos de banco que voce volta 15 minutos depois e a sua sessão ja está expirada.
+
+## 2 - Ou seja, o usuário sempre vai conseguir ficar logado, mas o token que é gerado ele vai "mudando" de tempos em tempos, sempre gerando um novo token um por cima do outro de tempos em tempos.
+
+## 3 - Nós vamos criar uma tabela em que nós vamos armazenar os dados do usuário, a gente vai poder ter mais de um token para o mesmo usuário, porque ele pode querer logar em uma aplicação web e depois logar em uma aplicação "mobile".
+
+## 4 - Nós vamos criar uma tabela só para isso, ou seja, nós temos que criar uma migration para essa tabela de tokens também.
+
+## +++++++++++++++++++++++++++++++++ REFATORANDO AUTENTICAÇÃO DE USUÁRIO E TESTANDO ROTA DE SESSIONS COM REFRESH TOKEN.
+
+## 1 - // Neste arquivo a gente vai isolar as informações de cada usuário como o "secret" que a gente utiliza tanto no "ensureAuthenticate" que é um middleware como tambem vamos utilizar no "AuthenticateUserUseCase", o tempo de expiração do token tambem, vamos fazer isso por questões de organização.
+
+## 2 - // Vamos também ter informações do nosso refreshToken dentro deste arquivo.
+
+## 3 - Agora quando eu fizer uma sessão, eu vou receber duas respostas na requisição, vou receber dois tokens diferentes e o segundo token ele vai adicionar no beekeper o refresh token para guardar a informação.
+
+## +++++++++++++++++++++++++++++++++ CRIANDO CASO DE USO COM REFRESH TOKEN.
+
+## 1 - Vamos criar uma requisição para que quem tiver acessando nossa api vai poder fazer a criação de um refreshToken.
+
+## 2 - por exemplo so o token for expirado, o front-end vai mandar uma requisição pra a gente para que seja possível gerar um refresh token baseado no token que foi expirado.
+
+## 3 - 
+
 ## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando juntio.
 
 ## OBS => SECRET => SECRET = "cfe275e5908b5650488e0b0342c2d6cq"

@@ -4,7 +4,9 @@ import { container } from "tsyringe";
 import "reflect-metadata";
 import "./providers";
 import { UsersRepository } from "../../modules/accounts/infra/typeorm/repositories/UsersRepository";
+import { UsersTokensRepository } from "../../modules/accounts/infra/typeorm/repositories/UsersTokenRepository";
 import { IUsersRepository } from "../../modules/accounts/repositories/IUserRepository";
+import { IUsersTokensRepository } from "../../modules/accounts/repositories/IUsersTokensRepository";
 import { CarsImageRepository } from "../../modules/cars/infra/typeorm/repositories/CarImagensRepository";
 import { CarsRepository } from "../../modules/cars/infra/typeorm/repositories/CarsRepository";
 import { CategoriesRepository } from "../../modules/cars/infra/typeorm/repositories/CategoriesRepository";
@@ -47,6 +49,12 @@ container.registerSingleton<ICarsImagesRepository>(
 container.registerSingleton<IRentalsRepository>(
     "RentalsRepository",
     RentalsRepository
+);
+
+// 7 - conteiner de Criação de tokens para cada usuárió
+container.registerSingleton<IUsersTokensRepository>(
+    "UsersTokensRepository",
+    UsersTokensRepository
 );
 
 // Então com essa bibilioteca as implementações das instancias vão facilitar , porque não será preciso fazer na mão.(A gente consegue até registrar um singleton)
