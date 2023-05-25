@@ -1,10 +1,8 @@
 import { Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../../shared/infra/database/DataSource";
-import {
-    ICarsRepository,
-    ICreateCarDTO,
-} from "../../../repositories/ICarsRepository";
+import { ICreateCarDTO } from "../../../DTO/ICreateCarDTO";
+import { ICarsRepository } from "../../../repositories/ICarsRepository";
 import { Car } from "../entities/Car";
 
 export class CarsRepository implements ICarsRepository {

@@ -1,10 +1,8 @@
 import { Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../../shared/infra/database/DataSource";
-import {
-    IUsersTokensRepository,
-    ICreateUserTokenDTO,
-} from "../../../repositories/IUsersTokensRepository";
+import { ICreateUserTokenDTO } from "../../../DTO/ICreateUserTokenDTO";
+import { IUsersTokensRepository } from "../../../repositories/IUsersTokensRepository";
 import { UserTokens } from "../entities/UserToken";
 
 class UsersTokensRepository implements IUsersTokensRepository {

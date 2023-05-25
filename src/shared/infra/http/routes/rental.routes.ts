@@ -11,13 +11,18 @@ const createRentalController = new CreateRentalController();
 const devolutionRentalController = new DevolutionRentalController();
 const listRentalsByUserController = new ListRentalsByUserController();
 
+// Rota de criação de rental
 rentalRoutes.post("/", ensureAuthenticated, createRentalController.handle);
+
+// Rota de devolução de carro e fechar rental
 rentalRoutes.post(
     // Para testar essa rota nós vamos ter que passar o "id" do createRentals como parametro para "entregar" o carro e fechar aquele aluguel e estar autemticado para passar o token(Rota:Devolution);
     "/devolution/:id",
     ensureAuthenticated,
     devolutionRentalController.handle
 );
+
+// Rota de pegar todos os rentals de um usuário especifico
 rentalRoutes.get("/", ensureAuthenticated, listRentalsByUserController.handle);
 
 export { rentalRoutes };

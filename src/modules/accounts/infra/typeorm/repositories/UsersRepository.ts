@@ -2,10 +2,8 @@
 import { Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../../shared/infra/database/DataSource";
-import {
-    IUsersRepository,
-    ICreateUserDTO,
-} from "../../../repositories/IUserRepository";
+import { ICreateUserDTO } from "../../../DTO/ICreateUserDTO";
+import { IUsersRepository } from "../../../repositories/IUserRepository";
 import { Users } from "../entities/User";
 
 class UsersRepository implements IUsersRepository {

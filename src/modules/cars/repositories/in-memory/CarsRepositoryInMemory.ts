@@ -1,5 +1,6 @@
+import { ICreateCarDTO } from "../../DTO/ICreateCarDTO";
 import { Car } from "../../infra/typeorm/entities/Car";
-import { ICarsRepository, ICreateCarDTO } from "../ICarsRepository";
+import { ICarsRepository } from "../ICarsRepository";
 
 class CarsRepositoryInMemory implements ICarsRepository {
     cars: Car[] = []; // Basicamente eu estou dizendo que cars , é uma variavel que recebe um array de Car, então a variavel é "cars"

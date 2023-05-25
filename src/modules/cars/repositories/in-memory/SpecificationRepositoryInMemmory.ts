@@ -1,8 +1,6 @@
+import { ICreateSpecificationDTO } from "../../DTO/ICreateSpecificationDTO";
 import { Specification } from "../../infra/typeorm/entities/Specifications";
-import {
-    ICreateSpecificationDTO,
-    ISpecificationsRepository,
-} from "../ISpecificationsRepository";
+import { ISpecificationsRepository } from "../ISpecificationsRepository";
 
 class SpecificationRepositoryInMemory implements ISpecificationsRepository {
     specifications: Specification[] = [];

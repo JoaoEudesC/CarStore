@@ -1,22 +1,32 @@
 // Repare que a estrutura para montar os testes vai ser igual para todos os useCases, criação de repository in memory, criação de cada teste unitário dentro de cada useCase e etc..
+import { DayjsDateProvider } from "../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider";
 import { AppError } from "../../../../shared/errors/AppError";
+import { ICreateUserDTO } from "../../DTO/ICreateUserDTO";
 import { UsersRepositoryInMemory } from "../../repositories/in-memory/UsersRepositoryInMemory";
-import { ICreateUserDTO } from "../../repositories/IUserRepository";
+import { UsersTokensRepositoryInMemory } from "../../repositories/in-memory/UsersTokensRepositoryInMemory";
 import { CreateUserUseCase } from "../createUser/CreateUserUseCase";
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
 
 let authenticateUserUseCase: AuthenticateUserUseCase;
 let usersRepositoryInMemory: UsersRepositoryInMemory;
 let createUserUseCase: CreateUserUseCase;
+let dateProvider: DayjsDateProvider;
+let usersTokensRepositoryInMemory: UsersTokensRepositoryInMemory;
 
 describe("Authenticate User", () => {
     beforeEach(() => {
         usersRepositoryInMemory = new UsersRepositoryInMemory();
+        usersTokensRepositoryInMemory = new UsersTokensRepositoryInMemory();
+        dateProvider = new DayjsDateProvider();
+
         authenticateUserUseCase = new AuthenticateUserUseCase(
-            usersRepositoryInMemory
+            usersRepositoryInMemory,
+            usersTokensRepositoryInMemory,
+            dateProvider
         ); // Aqui vai seguir a mesma linha de raciocinio, vamos colocar o repository in memmory , dentro do useCase , para a gente não trabalhar diretamente com o repositório que traz o banco de dados, que é basicamente o nosso banco de dados fake.
         createUserUseCase = new CreateUserUseCase(usersRepositoryInMemory);
     });
+
     it("should be able to authenticate an user", async () => {
         const user: ICreateUserDTO = {
             driver_license: "00123",

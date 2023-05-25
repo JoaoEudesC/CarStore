@@ -1,24 +1,15 @@
-// Import de multer e upload
 import { Router } from "express";
 import multer from "multer";
 
 import uploadConfig from "../../../../config/upload";
-// Importação de middlware
 import { CreateUserController } from "../../../../modules/accounts/useCases/createUser/createUserController";
 import { UpdateUserAvatarController } from "../../../../modules/accounts/useCases/updateUserAvatar/UpdateUserAvatarController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
-// Importação do router
-
-// Importação do controller
-
 const usersRoutes = Router();
 
-// Controllers
 const createUserController = new CreateUserController();
 const updateUserAvatarController = new UpdateUserAvatarController();
-
-// Rotas
 
 // Criação da rota de post de usuários
 usersRoutes.post("/", createUserController.handle);
@@ -31,8 +22,5 @@ usersRoutes.patch(
     uploadAvatar.single("avatar"),
     updateUserAvatarController.handle
 );
-
-// Nessa rota acima, nós vamos utilizar o patch, porque justamente nós queremos, fazer uma pequena alteração que é justamente o nosso upload de "avatar", que até então foi passado nulo na criação de usuário "ou foi passado lá".
-// Eu preciso passar o meu middleware de validação , porque o usuário para autenticar o avatar terá que ser autenticado, ou seja , ter um cadastro, porque na criação nao vai ser preciso passar o avatar, mas depois de autenticado voce pode dar um uploada nesse avatar, que vai ser nulo quando voce cria.
 
 export { usersRoutes };

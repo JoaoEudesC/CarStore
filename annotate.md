@@ -869,7 +869,37 @@ await request(app).get("/cars/available").expect(200);
 
 ## 2 - por exemplo so o token for expirado, o front-end vai mandar uma requisição pra a gente para que seja possível gerar um refresh token baseado no token que foi expirado.
 
-## 3 - 
+## +++++++++++++++++++++++++++++++++ CASCADE E SET NULL
+
+## 1 => 'Ondelete AND Onupdate - CASCADE' - Com esses dois campos relacionados a cascade => qualquer ação de exclusão ou atualização na tabela principal afetará automaticament as linhas correspondentes na tabela relacionada. isso significa se uma linha for atualizada ou excluida na tabela principal todas as linhas relacionadas na tabela secundária tambem serão excluidas ou atualizadas em conformidade(Isso é util quando voce deseja manter a integridade referencial entre as tabelas e garantir que não haja registros orfãos).
+
+## 2 => 'Ondelete AND Onupdate - SET NULL' - Quando voce define os campos como SET NULL => Qualquer ação de exclusão ou atualização na tabela principal resultará em definição do valor das colunas correspondentes nas tabelas secundárias como 'NULL' , isso significa que quando as linhas forem excluidas ou atualizadas da tabela principal as colunas relacionadas nas tabelas secundárias vão ter o campo definido como "null", permitindo valores nulos nestas colunas, (esse metodo é bom quando voce quer permitir registros orfãos na tabela secundária ou quando as colunas relacionadas não são obrigatórias)
+
+## +++++++++++++++++++++ ANALISE DE TABELAS E MIGRATIONS E FOREIGN KEYS
+
+## 1 - PORQUE EU CRIEI UM CONTEINER PARA O DATE PROVIDER ? => // Eu utilizo a data como uma injeção porque eu criei um provider "que é um conteiner" com as implementações das datas que está dentro de "shared" container , providers, porque se eu tiver que usar as datas em diferentes arquivos eu utilizo aquele container de implementação,e não fica como responsabilidade de um useCase fazer toda aquela implementação porque por exemplo eu utilizo ela na criação do refresh token e na criação da devolução e do rentals então eu posso isolar essa responsabilidade, se eu fosse somente utilizar em um arquivo em um unico "useCase" eu poderia fazer a implementação diretamente no arquivo.
+
+## ++++++++++++++++++++++++++++++++++++++++ MODIDICAÇÃO DO MIDDLEWARE PARA REFRESH TOKEN
+
+## 1 - O Nosso middleware ele está só verificando o "Normal Token" por isso vamos ter que modificar o nosso midleware para verificar também o "Refresh_Token"
+
+## 2 - Eu preciso fazer essa modificação para que seja possível, eu utilizar o refresh_token tambem para fazer coisas que só usuários autenticados podem, como criar uma "specificação" e acessar essas rotas privadas , os dois tokens devem funcionar.
+
+## 3 - Ao invés da gente receber o "Secret" do token , que vinha do dotenv, nós vamos receber o 'auth.secret_refresh_token' , do secret do "RefreshToken" na função verify do middlware
+
+## 4 - E temos que receber o new UsersTokensRepository();
+
+## 5 - Ao invés da gente utilizar o 'UsersRepository' nós vamos utilizar o const user = await usersTokenRepository.findByUserIdAndRefreshToken(
+
+            user_id,
+            token
+        ); e assim a a gente consegue fazer a nossa validação a gente vai substituir um repositório no lugar do outro.
+
+## 6 - Eu tenho que gerar o refresh_token baseado nele mesmo ou seja, eu pego o refresh_token gerado que eu utilizei para acessar alguma rota e passo novamente , na rota refresh_token, gerando um novo token com base naquele.
+
+## 7 - E se eu gerar um novo a partir desse , se eu passar o antigo novamente ele não deve existir na minha base de dados porque eu já gerei um novo no lugar dele.
+
+## 8 - então após gerar outro token se eu tentar fazer uma criação em uma rota privada com o token antigo que foi utilizado para gerar outro ele deve me fornecer um erro, de que o token não existe
 
 ## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando juntio.
 

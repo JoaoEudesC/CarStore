@@ -1,5 +1,5 @@
 import { verify, sign } from "jsonwebtoken";
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
 import auth from "../../../../config/auth";
 import { DayjsDateProvider } from "../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider";
@@ -11,16 +11,17 @@ interface IPayload {
     email: string;
 }
 
+@injectable()
 class RefreshTokenUseCase {
     constructor(
         @inject("UsersTokensRepository")
         private userTokensRepository: IUsersTokensRepository,
 
-        @inject("dateProvider")
+        @inject("DateProvider") // Eu utilizo a data como uma injeção porque eu criei um provider "que é um conteiner" com as implementações das datas que está dentro de "shared" container , providers, porque se eu tiver que usar as datas em diferentes arquivos eu utilizo aquele container de implementação,e não fica como responsabilidade de um useCase fazer toda aquela implementação porque por exemplo eu utilizo ela na criação do refresh token e na criação da devolução e do rentals então eu posso isolar essa responsabilidade, se eu fosse somente utilizar em um arquivo em um unico "useCase" eu poderia fazer a implementação diretamente no arquivo.
         private dateProvider: DayjsDateProvider
     ) {}
 
-    async execute(token: string) {
+    async execute(token: string): Promise<string> {
         const decode = verify(token, auth.secret_refresh_token) as IPayload; // Com isso ele vai fazer a verificação do nosso refreshToken baseado nessa nossa chave.
         const user_id = decode.sub; // Eu poderia ter criado uma interface Payload e passaod a variavel sub:string e tipado o decode com ela mas assim tambem serve.
 

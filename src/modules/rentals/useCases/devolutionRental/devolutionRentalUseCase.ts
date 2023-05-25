@@ -23,7 +23,7 @@ class DevolutionRentalUseCase {
         private dateProvider: IDateProvider // Aqui nós vamos utilizar o provider de data igual nós utilizamos no createRental, por isso nós criamos um conteiner provider e não diretamente no arquivo createRentals, porque nós iriamos utilizar em outros arquivos tambem como esse agora de devolução.
     ) {}
 
-    async execute({ id, user_id }: IRequest): Promise<Rental> {
+    async execute({ id }: IRequest): Promise<Rental> {
         const rental = await this.rentalsRepository.findById(id); // Verificando pelo o id do carro se existe um aluguel, se não existir um aluguel, o carro não pode ser devolvido.
         const car = await this.CarsRepository.findById(rental?.car_id ?? ""); // Tive que fazer essa verificação devido as tipagens do typescript, porque o rental.car_id pode ser undefined e eu defini como string
         const minimum_daily = 1;
@@ -36,7 +36,7 @@ class DevolutionRentalUseCase {
 
         let daily = this.dateProvider.compareInDays(
             rental.start_date,
-            this.dateProvider.dateNow() // Qunatas diárias o nosso aluguel tem
+            this.dateProvider.dateNow() // Quantas diárias o nosso aluguel tem.
         );
 
         if (daily <= 0) {

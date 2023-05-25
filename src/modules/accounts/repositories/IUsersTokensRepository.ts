@@ -1,10 +1,5 @@
+import { ICreateUserTokenDTO } from "../DTO/ICreateUserTokenDTO";
 import { UserTokens } from "../infra/typeorm/entities/UserToken";
-
-export interface ICreateUserTokenDTO {
-    user_id: string;
-    expires_date: Date;
-    refresh_token: string;
-}
 
 interface IUsersTokensRepository {
     create({

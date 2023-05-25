@@ -21,9 +21,9 @@ class UserTokens {
     @Column()
     user_id: string;
 
-    @ManyToOne(() => Users)
-    @JoinColumn({ name: "user_id" })
-    user: Users;
+    @ManyToOne(() => Users) // Entidade que vai ter uma relação many to one
+    @JoinColumn({ name: "user_id" }) // Campo que vai juntar como referencia da tabela "users" e receber o valor da chave estrangeira nesse campo (ou seja o campo "id")
+    user: Users; // Objeto relacionado a tabela que o usuário vai receber a entidade algum campo como chave estrangeira
 
     @Column()
     expires_date: Date;

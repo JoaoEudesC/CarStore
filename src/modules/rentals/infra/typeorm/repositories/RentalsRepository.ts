@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { IsNull, Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../../shared/infra/database/DataSource";
 import { ICreateRentalDTO } from "../../../dtos/ICreateRentalDTO";
@@ -15,7 +15,7 @@ class RentalsRepository implements IRentalsRepository {
     async findOpenRentalByCar(car_id: string): Promise<Rental | undefined> {
         const openByCar = await this.repository.findOneBy({
             car_id,
-            end_date: undefined, // Aqui é como se eu estivesse utilizando um "where" mas como estou utilizando um findOneBy e não um findOne . não precisei utilizar o "where".
+            end_date: IsNull(), // Tenho que passar aqui como "IsNull" se eu passar como undefined ele vai da erro quando eu entrar o carro, ele vai alterar o campo "available" para true sendo que quando eu tentar fazer um rental com esse carro devolvido ele vai cair no "car unavailable".
         });
         return openByCar || undefined;
     }
@@ -23,7 +23,7 @@ class RentalsRepository implements IRentalsRepository {
     async findOpenRentalByUser(user_id: string): Promise<Rental | undefined> {
         const openByUser = await this.repository.findOneBy({
             user_id,
-            end_date: undefined,
+            end_date: IsNull(),
         });
         return openByUser || undefined;
     }
