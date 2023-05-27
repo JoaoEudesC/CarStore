@@ -2,7 +2,7 @@
 
 import { container } from "tsyringe";
 
-import { IDateProvider } from "./DateProvider/IDateProvider";
-import { DayjsDateProvider } from "./DateProvider/implementations/DayjsDateProvider";
+import { IDateProvider } from "../IDateProvider";
+import { DayjsDateProvider } from "./DayjsDateProvider";
 
 container.registerSingleton<IDateProvider>("DateProvider", DayjsDateProvider);

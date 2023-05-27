@@ -14,6 +14,8 @@ interface IUsersTokensRepository {
     ): Promise<UserTokens>; // Aqui ele vai retornar um array porque o usuário vai poder ter mais de um token.
 
     deleteById(id: string): Promise<void>;
+
+    findByRefreshToken(refresh_token: string): Promise<UserTokens | undefined>;
 }
 
 export { IUsersTokensRepository };

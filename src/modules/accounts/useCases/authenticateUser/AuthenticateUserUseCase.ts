@@ -3,7 +3,7 @@ import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
 import auth from "../../../../config/auth";
-import { DayjsDateProvider } from "../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider";
+import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
 import { AppError } from "../../../../shared/errors/AppError";
 import { IUsersRepository } from "../../repositories/IUserRepository";
 import { IUsersTokensRepository } from "../../repositories/IUsersTokensRepository";
@@ -32,7 +32,7 @@ class AuthenticateUserUseCase {
         private usersTokensRepository: IUsersTokensRepository,
 
         @inject("DateProvider")
-        private dateProvider: DayjsDateProvider
+        private dateProvider: IDateProvider
     ) {}
     // se o email está correto
     async execute({ email, password }: IRequest): Promise<IResponse> {

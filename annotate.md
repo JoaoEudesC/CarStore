@@ -901,6 +901,34 @@ await request(app).get("/cars/available").expect(200);
 
 ## 8 - então após gerar outro token se eu tentar fazer uma criação em uma rota privada com o token antigo que foi utilizado para gerar outro ele deve me fornecer um erro, de que o token não existe
 
+## ++++++++++++++++++++++++++++++++++++++++++++++ RECUPERAÇÃO DE SENHA, CRIANDO CASO DE USO.
+
+## 1 - Ferramenta para o ambiente de teste que vamos utilizar para realizar o envio dos nossos "emails" diferente do que fizemos no crm que colocamos diretamente um email pessoaç para enviar os emails.
+
+## 2 - O nome da ferramenta é "Ethereal"., ele tambem usa o nodemailler para enviar o email, assim como utilizamos já, porém vai fazer o mesmo trabalho do "mailTrap".
+
+## 3 - Nós não precisamos criar uma conta real, com email e tal , ele cria uma conta fake com o "smt" já fake personalizado para testes, isso é só para testes.
+
+## +++++++++++++++++++++++++++ CRIANDO PROVIDER DE EMAIL
+
+## 1 - Assim como criamos um provider para as "datas" nós tambem vamos criar um provider para o email , utilizando o nodemailler, igual foi feito no crm.
+
+## ++++++++++++++++++++++ INSERINDO TEMPLATE ENGINE PARA ENVIO DE EMAIL (HANDLE-BARS)
+
+## 1 - A gente vai utilizar essa view engine para que a gente consiga "Formatar e organizar o nosso email de uma forma correta" para que nos seja enviado mais informações e um email mais detalhado para que o usuário possa entender.
+
+## 2 - Nós vamos utilizar o "handle-bars" , para criar um template de html e css dentro dela , é basicamente a criação de um template.
+
+## 3 - Temos que criar uma pasta "views" dentro dessa pasta nós criamos uma pasta descrevendo o nosso serviço , nesse caso "emails".
+
+## 4 - No Nosso arquivo handleBars tudo que a gente quiser passar como variavel tem que ser {{}} dentro de duas chaves, porque depois a gente vai passar essas variaveis dentro do nosso código e o nosso código vai converter, todas as váriaveis para o handleBars entender.
+
+## 5 - A gente pode estilizar o "handleBars" através de uma taga "style" utilizando classes do css ou nomes das tags.
+
+## +++++++++++++++++++ CASO DE USO DE RESET DA SENHA
+
+## 1 -
+
 ## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando juntio.
 
 ## OBS => SECRET => SECRET = "cfe275e5908b5650488e0b0342c2d6cq"

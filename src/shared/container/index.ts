@@ -2,7 +2,8 @@
 import { container } from "tsyringe";
 
 import "reflect-metadata";
-import "./providers"; // Tenho que passar o provider criado para que eu possa utilizar ele como conteiner para fazer a implementação das datas nos useCases.
+import "./providers/DateProvider/implementations"; // Tenho que passar o provider criado para que eu possa utilizar ele como conteiner para fazer a implementação das datas nos useCases.
+import "./providers/MailProvider/Implementations";
 import { UsersRepository } from "../../modules/accounts/infra/typeorm/repositories/UsersRepository";
 import { UsersTokensRepository } from "../../modules/accounts/infra/typeorm/repositories/UsersTokenRepository";
 import { IUsersRepository } from "../../modules/accounts/repositories/IUserRepository";

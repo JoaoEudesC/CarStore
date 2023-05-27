@@ -31,6 +31,14 @@ class DayjsDateProvider implements IDateProvider {
     addDays(days: number): Date {
         return dayjs().add(days, "days").toDate();
     }
+
+    addHours(hours: number): Date {
+        return dayjs().add(hours, "hour").toDate(); // Tenho que passar o "To date" pq eu quero que ele converta essa adição de 3 horas ao horário atual, em formato de "data" para que eu possa pegar
+    }
+
+    compareIfBefore(start_date: Date, end_date: Date): boolean {
+        return dayjs(start_date).isBefore(end_date); // Essa função vai verificar o nosso token de alterar senha está expirado comparando duas datas, comparado a data atual , com a data que o token foi gerado "a data atual é o end_date".
+    }
 }
 
 export { DayjsDateProvider };

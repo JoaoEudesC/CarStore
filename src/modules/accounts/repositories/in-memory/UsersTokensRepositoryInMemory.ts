@@ -3,7 +3,7 @@ import { UserTokens } from "../../infra/typeorm/entities/UserToken";
 import { IUsersTokensRepository } from "../IUsersTokensRepository";
 
 class UsersTokensRepositoryInMemory implements IUsersTokensRepository {
-    private tokens: UserTokens[] = [];
+    private usertokens: UserTokens[] = [];
 
     async create({
         expires_date,
@@ -18,7 +18,7 @@ class UsersTokensRepositoryInMemory implements IUsersTokensRepository {
             refresh_token,
         });
 
-        this.tokens.push(userToken);
+        this.usertokens.push(userToken);
 
         return userToken;
     }
@@ -27,10 +27,10 @@ class UsersTokensRepositoryInMemory implements IUsersTokensRepository {
         user_id: string,
         refresh_token: string
     ): Promise<UserTokens> {
-        const userToken = this.tokens.find(
-            (token) =>
-                token.user_id === user_id &&
-                token.refresh_token === refresh_token
+        const userToken = this.usertokens.find(
+            (usertokens) =>
+                usertokens.user_id === user_id &&
+                usertokens.refresh_token === refresh_token
         );
         if (!userToken) {
             throw new Error("User token not found"); // ou lançar o erro personalizado da sua preferência
@@ -40,8 +40,17 @@ class UsersTokensRepositoryInMemory implements IUsersTokensRepository {
     }
 
     async deleteById(id: string): Promise<void> {
-        const index = this.tokens.findIndex((token) => token.id === id);
-        this.tokens.splice(index, 1);
+        const index = this.usertokens.findIndex(
+            (usertokens) => usertokens.id === id
+        );
+        this.usertokens.splice(index, 1);
+    }
+
+    findByRefreshToken(refresh_token: string): Promise<UserTokens | undefined> {
+        const userToken = this.usertokens.find(
+            (ut) => ut.refresh_token === refresh_token
+        );
+        return Promise.resolve(userToken);
     }
 }
 

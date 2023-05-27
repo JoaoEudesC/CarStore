@@ -3,6 +3,7 @@ import { Router } from "express";
 import { authenticateRoutes } from "./authenticate.routes";
 import { carsRoutes } from "./cars.routes";
 import { categoriesRoutes } from "./categories.routes";
+import { passwordRoutes } from "./password.routes";
 import { rentalRoutes } from "./rental.routes";
 import { specificationRoutes } from "./specifications.routes";
 import { usersRoutes } from "./users.routes";
@@ -27,5 +28,8 @@ router.use(authenticateRoutes); // Se eu passo a rota deste jeito , eu não prec
 
 // Rota de RentalCar
 router.use("/rental", rentalRoutes);
+
+// Rota para envio de email para recuperação de senha
+router.use("/password", passwordRoutes);
 
 export { router };
