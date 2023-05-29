@@ -34,3 +34,5 @@ export { rentalRoutes };
 // 4 - A data tem que ser passado neste formato , que é o formato do insomnia "timestamp iso" e deve ser passado o return date 24 horas depois da data atual fornecida, porque cada aluguel deve durar pelo menos 24horas.
 // 5 - tem que ser passado um id de um carro criado no banco de dados.
 // 6 - Após o carro ser alugado, ou seja , passar o "expected return date" o status do carro na tabela cars, tem que mudar para "false". e quando devolvido mudar para "true"
+// 7 - perceba que nessa rota eu recebo duas chaves estrangeiras "createRental" o id do usuário que eu recebo através do "token" do usuário e o car_id do corpo da requisição
+// 8 -

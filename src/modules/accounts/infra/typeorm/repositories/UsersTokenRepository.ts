@@ -51,7 +51,7 @@ class UsersTokensRepository implements IUsersTokensRepository {
     async findByRefreshToken(refresh_token: string): Promise<UserTokens> {
         const userToken = await this.repository.findOneBy({ refresh_token });
         if (!userToken) {
-            throw new Error("User Token is null");
+            throw new Error("User Token is null"); // Esse new Error vai dar a partir do momento que eu utilizar o mesmo token mais de uma vez para enviar alterar a mesma senha , sem gerar outro, pq estou utilizando o "deleteById".
         }
 
         return userToken;

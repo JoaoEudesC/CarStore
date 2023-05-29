@@ -25,7 +25,7 @@ carsRoutes.post(
 );
 
 // Rota para listar os carros disponiveis existentes
-carsRoutes.get("/available", listAvailableCarsController.handle);
+carsRoutes.get("/available", listAvailableCarsController.handle); // Aqui eu listo todos os carros disponíveis, mas tambem coloquei um mecanismo de pesquisa através do query.
 
 // Rota para CreateCarSpecifications (Chaves estrangeiras das tabelas "cars" e "specifications")
 carsRoutes.post(

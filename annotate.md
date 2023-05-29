@@ -925,12 +925,38 @@ await request(app).get("/cars/available").expect(200);
 
 ## 5 - A gente pode estilizar o "handleBars" através de uma taga "style" utilizando classes do css ou nomes das tags.
 
-## +++++++++++++++++++ CASO DE USO DE RESET DA SENHA
+## +++++++++++++++++++ TESTE DE ENVIO DE EMAIL (SEND FORGOT PASSWORD EMAIL)
 
-## 1 -
+## 1 - A gente vai ver como fazer os testes quando a gente ta utilizando uma bibilioteca externa e a gente depende dessa bibilioteca para conseguir enviar o email
 
-## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando juntio.
+## 2 - Vamos ter que criar um repositório in memory para o nosso "mailProvider" igual nós fazemos com os nossos repositórios de cada useCase.
 
-## OBS => SECRET => SECRET = "cfe275e5908b5650488e0b0342c2d6cq"
+## 3 - a nossa função "sendMail" que vai ser utilizado no repositoryInMemory do mail provider, não vai ter funcionalidade nenhuma, porque eu não vou realmente enviar o email por parte dele é como se fosse informações "mocadas".
+
+## 4 - Posso testar testes em especifico sem ter que rodar todos os testes de uma só vez => "npm test src/modules/accounts/sendForgotPasswordMail/sendForgotPsswordMailUseCase.spec.ts" , posso navegar até um determinado teste e executalo.
+
+## +++++++++++++++++++ COVERAGE REPORTS
+
+## 1 - Nós conseguimos ver a cobertura dos nossos testes, ver se a gente cobriu todas as funcionalidades do useCase da nossa aplicação, o que precisa cobrir ainda
+
+## 2 - O certo seria a gente entrar em cada caso de uso da nossa aplicação e verificar isso , mas a gente pode utilizar uma funcionalidade do jest "collectCoverage" para verificar essa cobertura dos nossos testes.
+
+## 3 - A gente vai habilitar para true o "collectCoverage" e dentro de "collectCoverageFrom" a gente vai colocar quais as classes que a gente quer mapear com o coverage para ps testes, a gente tem várias pastas , a gente vai pedir para ele verificar só o que está dentro do nosso useCase.
+
+## 4 - Passamos o nosso arquivo assim => collectCoverageFrom: ["<rootDir>/src/modules/**/useCases/**/*.ts"], tudo que tiver asterisco é "generico" ou seja ele vai verificar todos os arquivos dentro dessa determinada pasta.
+
+## 5 - A gente vai criar uma pasta chamada "coverageDirectory", onde a gente vai colocar todas as informações do nosso coverage ele vai gerar um arquivo para a gente mostrando quais são todas as coberturas dos nossos testes. => coverageDirectory: "coverage",
+
+## 6 - coverageReporters: ["text-summary", "lcov"], com esse summary ele vai dizer pra a gente o que está acontecendo no nosso código.
+
+## 7 - Quando eu rodar o "npm test" ele vai me mostrar em porcentagem na minha aplicação como "statments" , "branches", "functions", "lines" tudo que está lá se ta tudo coberto pra a gente ter uma noção da cobertura dos nossos testes.
+
+## 8 - ele cria para a gente uma pasta "coverage" com uma pasta "icov-report" com algumas informaçãoes dentro e com as pastas dos nossos modules "accounts", "cars", "rentals"
+
+## 9 - ele cria uma arquivo html e eu posso abrir esse arquivo no browser, ele vai me mostrar um gráfico, com todos os useCases que agente mapeou e ele mostra tud que aborda dentro dos nossos testes e mostra tudo aquilo que a gente não testou também., ele mostra em resumo e grifa partes do codigo que não foi testado.
+
+## 10 - Mostra quantidade de linhas em cada arquivo e quantas linhas dessas nós estamos abordando nos nossos testes.
+
+## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando junto, ele testa as rotas da aplicação e não os metodos.
 
 ## OBS => npm test -- --runInBand ("Utilizar este comando para nao rodar os testes unitários ao mesmo tempo que o de integração pode dar erro de chave duplicada por exemplo").

@@ -53,7 +53,7 @@ class ResetPasswordUserUseCase {
         await this.usersRepository.create(user);
 
         // Apagar o token após o usuário ter utilizado ele
-        await this.usersTokensRepository.deleteById(userToken.id);
+        await this.usersTokensRepository.deleteById(userToken.id); // Se eu utilizar o token uma vez e dar update na senha, em seguida usar ele de novo ele vai dar que o token é null, pq ele não existe mais.
     }
 }
 
