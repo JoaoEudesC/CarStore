@@ -458,7 +458,7 @@
 
 ## 4 - A vantagem de utilizar o teste por exemplo seria , quando uma regra de negócio mudar e eu não alterar no teste, quando eu rodar o teste ele vai falhar e vai me avisar que a regra de negócio mudou e eu vou ter ciencia disso por exemplo, e será que era pra mudar mesmo ?, a gente começa a prever erros e otimizar o tempo.
 
-## +++++++++++++++++++++++++++++++++++ CRIAÇÃO DO PRIMEIRO TESTE(JEST) CONFIGURAÇÕES DO JEST.CONFIG.TS.
+## +++++++++++++++++++++++++++++++++++ CRIAÇÃO DO PRIMEIRO TESTE JEST CONFIGURAÇÕES DO JEST.CONFIG.TS.
 
 ## 1 - Nos vamos instalar a bibilioteca "jest" de testes como dpendencia de desenvolvimento e suas tipagens
 
@@ -956,6 +956,10 @@ await request(app).get("/cars/available").expect(200);
 ## 9 - ele cria uma arquivo html e eu posso abrir esse arquivo no browser, ele vai me mostrar um gráfico, com todos os useCases que agente mapeou e ele mostra tud que aborda dentro dos nossos testes e mostra tudo aquilo que a gente não testou também., ele mostra em resumo e grifa partes do codigo que não foi testado.
 
 ## 10 - Mostra quantidade de linhas em cada arquivo e quantas linhas dessas nós estamos abordando nos nossos testes.
+
+## ++++++++++++++++++++++++++++++ ENVIO DE SMS (TWILLO)
+
+## 1 - Uma bibilioteca muito boa para o envio de sms é o "Twillo", muita famosa, faz envios de sms , whatsapp , e email tambem.
 
 ## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando junto, ele testa as rotas da aplicação e não os metodos.
 

@@ -50,7 +50,7 @@ class ResetPasswordUserUseCase {
         user.password = await hash(password, 8);
 
         // Criar o update do usuário com a nova senha
-        await this.usersRepository.create(user);
+        await this.usersRepository.create(user); // Posso fazer assim porque eu utilizo outra extancia, é como se eu recriasse o campo da senha e não desse update no atual.
 
         // Apagar o token após o usuário ter utilizado ele
         await this.usersTokensRepository.deleteById(userToken.id); // Se eu utilizar o token uma vez e dar update na senha, em seguida usar ele de novo ele vai dar que o token é null, pq ele não existe mais.
