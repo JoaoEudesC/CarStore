@@ -4,6 +4,7 @@ import multer from "multer";
 import { CreateCategoryController } from "../../../../modules/cars/useCases/createCategory/CreateCategoryController";
 import { ImportCategoryController } from "../../../../modules/cars/useCases/importCategory/importCategoryController";
 import { ListCategoriesController } from "../../../../modules/cars/useCases/listCategories/ListCategoriesController";
+import { categoryCreateValidation } from "../../../../validations/CategoryCreateValidations";
 import { ensureAdmin } from "../middlewares/ensureAdmin";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
@@ -19,6 +20,7 @@ const listCategoriesController = new ListCategoriesController();
 // Rota para cadastrar nova categoria!!!
 categoriesRoutes.post(
     "/",
+    categoryCreateValidation,
     ensureAuthenticated,
     ensureAdmin,
     createCategoryController.handle

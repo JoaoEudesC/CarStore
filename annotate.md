@@ -961,6 +961,100 @@ await request(app).get("/cars/available").expect(200);
 
 ## 1 - Uma bibilioteca muito boa para o envio de sms é o "Twillo", muita famosa, faz envios de sms , whatsapp , e email tambem.
 
+## +++++++++++++++++++++++++++++++ CORRIGINDO O REFRESH_TOKEN
+
+## 1 - O refresh_token é necessário para que o usuário não precise caso o token dele expire fazer o login novamente, ele só precisa passar na rota de refreshToken aquele token dele que já foi gerado e conseguirá gerar outro token.
+
+## 2 - O "Token" normal ficou sem sentido para o propósito que ele foi criado, isso porque a gente só ta utilizando o refresh_token para fazer as validações até então.
+
+## 3 - A nossa lógica se tornou errada , pq o usuário tem um "token" normal e a partir do momento que esse token normal expira o usuário deve utilizar o refresh_token para gerar um token novo e não ficar utilizando o refresh_token e deixar o token normal "obsoleto"
+
+## 4 - A gente vai alterar o refresh_Token e o ensureAuthenticate para melhorar a lógica
+
+## 5 - Quem vai mandar em tudo é o token e o refresh_token vai ser utilizado só pra gerar um novo token quando aquele "token" expirar
+
+## 6 - Nós vamos fazer somente uma pequena alteração para que seja retornado no useCaseRefresh_token o nosso "newToken" e o nosso "refresh_token" a gente criou esse newToken no final do useCase.
+
+## 7 - Nós vamos ter que recuperar no nosso "ensureAuthenticate" pelo token, se não ele vai ficar retornando token inválido.
+
+## 8 - Nas aulas a seguir a gente tinha colocado no nosso "ensureAuthenticated" para recuperar a partir do "Refresh_token" e agora nós voltamos para o token.
+
+## 9 - Para testar => Coloque o tempo de expiração do token em auth "para 30s por exemplo, pra dar tempo de voce testar" e pega o refresh_token gerado na sessão , passa no campo token , na rota "refreshToken" e a resposta da requisição ele vai retornar um token , que será o token que vai poder utilizar novamente.
+
+## ++++++++++++++++++++++++++ CONFIGURAÇÃO AWS (CRIAÇÃO DE CONTA).
+
+## 1 - Primeiro vamos ver a respeito da pasta "tmp" que nós salvamos os nossos uploads isso é bom para quando não estiver em produção pq a app vai crescer muito vai ter muitas imagens e vai encher o disco da sua máquina, para isso vamos arrumar essa parte.
+
+## 2 - Storages (S3 => Amazon) => Armazenamentos especificos dentro da clound que a gente consegue fazer upload de arquivos pra dentro dele, a própria empresa tem o serviço de storage e toda essa parte fica com responsabilidade dele , de espaço e hardware fica tudo por conta deles.
+
+## 3 - Temos que criar um "iam" na aws "services" que é um usuário com chaves
+
+## 4 - Colocamos o acesso "programático" que é basicamente a gente vai gerar através de chaves
+
+## 5 - Para cada serviço da amazon ele tem um politica de permissão que a gente pode dar acesso, a gente pesquisa pelo serviço que quer, pode liberar algumas coisas , a gente coloca como full acesse
+
+## 6 - A gente pode acessar essas permissões, que está em json e personalizar tambem as permissões que a gente quer para aquele determinado serviço
+
+## 7 - A gente vai copiar o "chave de acesso secreta" e a "chave secreta" desse usuário para que possamos utilizar o serviço desse usuário, o nome dessa pasta "storage" criada se chama bucket.
+
+## 8 - Você pode salvar essas credenciais em um arquivo ou baixar o documento "csv" e salvar no pc , porque pode não ser possível recuperar essas credenciais novamente
+
+## 9 - Depois da chave criada, a gente vai em services novamente e pesquisa por "s3"
+
+## 10 - Vamos criar um "bucket" e retirar a opção "Bloquear todo o acesso ao publico", porque futuramente a gente quer que esses uploads sejam vistos pelos usuários que estão acessando a página, e possam ver as imagens dos carros por exemplo.
+
+## 11 - Reconhece as configurações do blloqueio, afirmando que tem certeza em deixar público.
+
+## 12 - após criar o bucket , ele vai tá dísponivel nos serviços "s3" e em seguida o seu usuário tambem vai ta disponivel em "iam".
+
+## 13 - A gente tem duas possibilidades de fazer o upload de arquivos nesse "bucket" manualmente clicando no botão "carregar" e colocando a imagem da nossa máquina e através do código quando a gente acessar determinada rota, que é exatamente o que a gente vai fazer ao invés de acessar a pasta "tmp" que é o que faz sentido, e não fazer de forma manual.
+
+## +++++++++++++++++++++++++++++++++++++++++++++++++ PROVIDER DE UPLOAD COM O S3(AWS-SDK)
+
+## 1 -Vamos baixar a bibilioteca "npm i aws-sdk"
+
+## 2 -A gente vai colocar as credenciais do nosso usuário com o bucket em váriaveis de ambiente, porém a aws ela possui um nome especifico, para essas váriaveis de ambiente que ela já pode pegar em "aws sdk enviroment".
+
+## 3 - Quando subir o projeto, essas váriaveis já vão estar dísponiveis para a nossa aplicação.
+
+## 4 - Podemos colocar o nome do nosso "bucket" nas váriaveis de ambiente também.
+
+## 5 - O upload de "avatar" a gente ta fazendo tudo aqui dentro do nosso código, mas nós precisamos ter um upload para a produção no "s3" e um upload para desenvolvimento que é na pasta "tmp" e gente vai chamar esse "s3" de provider, do mesmo jeito que a gente criou o provider de "email" e o provider de "data", ele tem que ser um provider tambem porque futuramente se a gente quiser esse serviço de "storage" para outra empresa, tem que ser possível.
+
+## 6 - // 2 - A gente vai ter duas implementations , o localStorage, que é para quando a gente tiver utilizando em ambiente de desenvolvimento. E a gente vai ter o outro, que vai ser o "s3 storage" que vai ser utilizado para o ambiente de produção
+
+## 7 - Vamos ter que fazer algumas alterações no "multer" , no config, porque o multer vai ser necessário para fazer os uploads tanto no local, quanto no "s3" da amazon
+
+## 8 - Nós vamos precisar "injetar" o nosso provider de storage no "useCase" de updateAvatar para resultar tambem
+
+## 9 - A lógica do "useCase" continuou a mesma, a única coisa que mudou foi "substituir os metodos de salvar e deletar que estavam no utils e interface e coloquei a implementação do repositorio do meu provider" para que eu consiga mudar o serviço mais pra freente se eu quiser.
+
+## ++++++++++++++++++++++++++++++++ APLICAÇÃO DO S3 NA APLICAÇÃO, IMPLEMENTAÇÃO DO PROVIDER S3 STORAGE
+
+## 1 - Nós vamos utilizar uma condicional igual utilizamos para acessar o banco de dados nos testes de integração, se tiver em produção, quero que a o meu "disk" utilize o S3Provider se estiver em "desenvolvimento" quero que utilize o meu "localStorageProvider", para separar estas imagens.
+
+## ++++++++++++++++++++++++++++++++ CRIANDO URL DE ACESSO AO AVATAR , CONGIGURANDO O UPLOAD DE IMAGENS DE CARROS ATRAVÉS DO NOSSO PROVIDER CRIADO
+
+## 1 - Nós vamos criar uma rota para que o usuário consiga ver o "profile dele" a url que o usuário tem de sua foto, para que ele consiga ver suas informações , porque a gente não tem isso ainda, é como se fosse um rota de perfil.
+
+## 2 - Vamos criar um useCase e uma rota que o usuário consiga acessar suas informações o seu "porfile".
+
+## 3 - Repare que eu consigo sempre pegar o id do usuário utilizando o "req.user" que a gente definiu na pasta "types" que seria uma tipagem do express , para a gente pegar o id pelo token do usuário passado.
+
+## 4 - // 1- Essa rota vai ser passado o token do usuário autenticado e ele vao retornar as informações deste usuário autenticado como o "id", "driver_license". "avatar " e etc, 2 - Só que ele tambem ta retornando a senha hasheada do usuário e a gente não quer isso, é sensível e is admin tambem não deve retornar. 3 - E a gente não ta retornando a url do avatar para o usuário acessar para ver o avatra dele , a a gente avi ter que criar isso.
+
+## 5 - Conceito de Maper => "mapper" que é quando a gente não quer retornar para o usuário o "objeto" completo, só algumas informações de forma melhorada, como é o caso da nossa rota profile em que a gente quer retornar uma "url" acessível e não quer retornar a senha hasheada do usuário quando a gent dar um "get" neste usuário.
+
+## 6 - Gerar url => ("class-transformer"), bibilioteca para gerar url => npm i class-transformer, com essa bibilioteca a gente consegue manipulara a nossa entidade
+
+## 7 - // 2 - Vou criar uma função com essa bibilioteca para quando a gente fizer um requisição eu tenha tambem a url, "Expose" ele vai expor essa informação, essa função vai dentro da entidade que a gente ta fazendo o useCase, ou seja , users.
+
+## 8 - // 4 - A gente vai utilizar um "switch" se a gente tiver utilizano "local" a url vai ser local , se a gente tiver utilizando o "s3" a url vai ser do s3.
+
+## 9 - Como eu to utilizando arquivo staticos na minha aplicação para eu fornecer a url para o usuário "local" eu tenho que passar aquele middleware que a gente utilizou quando tava utilizando view engineer "ejs" para poder pegar imagens staticas => app.use("/avatar", express.static());
+
+## 10 - no login da nasa utilizei isso => app.use(express.static(path.join(\_\_dirname , "public"))). passando o caminho de arquivos staticos da minha pasta de arquivos.
+
 ## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando junto, ele testa as rotas da aplicação e não os metodos.
 
 ## OBS => npm test -- --runInBand ("Utilizar este comando para nao rodar os testes unitários ao mesmo tempo que o de integração pode dar erro de chave duplicada por exemplo").

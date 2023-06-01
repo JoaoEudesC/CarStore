@@ -6,6 +6,8 @@ import { CreateCarController } from "../../../../modules/cars/useCases/createCar
 import { CreateCarSpecificationController } from "../../../../modules/cars/useCases/createCarSpecification/CreateCarSpecificationController";
 import { ListAvailableCarsController } from "../../../../modules/cars/useCases/listAvailableCars/ListAvailableCarsController";
 import { UploadCarImageController } from "../../../../modules/cars/useCases/uploadCarImage/UploadCarImageController";
+import { carSpecificationsCreateValidation } from "../../../../validations/CarSpecificationsValidations";
+import { carCreateValidation } from "../../../../validations/CarValidations";
 import { ensureAdmin } from "../middlewares/ensureAdmin";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
@@ -19,6 +21,7 @@ const uploadCarImagesController = new UploadCarImageController();
 // Rota de criação de carros
 carsRoutes.post(
     "/",
+    carCreateValidation,
     ensureAuthenticated,
     ensureAdmin,
     createCarController.handle
@@ -30,13 +33,14 @@ carsRoutes.get("/available", listAvailableCarsController.handle); // Aqui eu lis
 // Rota para CreateCarSpecifications (Chaves estrangeiras das tabelas "cars" e "specifications")
 carsRoutes.post(
     "/specifications/:id",
+    carSpecificationsCreateValidation,
     ensureAuthenticated,
     ensureAdmin,
     createCarSpecificationController.handle
 );
 
 // Função de upload do nosso config
-const uploadImageCar = multer(uploadConfig.upload("./tmp/cars"));
+const uploadImageCar = multer(uploadConfig);
 
 // Criação de post de imagens
 carsRoutes.post(

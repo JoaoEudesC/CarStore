@@ -4,6 +4,7 @@ import { Router } from "express";
 
 import { ResetPasswordUserController } from "../../../../modules/accounts/useCases/resetPasswordUser/ResetPasswordUserController";
 import { SendForgotPasswordMailController } from "../../../../modules/accounts/useCases/sendForgotPasswordMail/SendForgotPasswordMailController";
+import { resetPasswordCreateValidation } from "../../../../validations/ResetPasswordValidations";
 
 const passwordRoutes = Router();
 
@@ -14,7 +15,11 @@ const resetPasswordUserController = new ResetPasswordUserController();
 passwordRoutes.post("/forgot", sendForgotPasswordMailController.handle);
 
 // Rota para reset de password
-passwordRoutes.post("/reset", resetPasswordUserController.handle);
+passwordRoutes.post(
+    "/reset",
+    resetPasswordCreateValidation,
+    resetPasswordUserController.handle
+);
 
 export { passwordRoutes };
 

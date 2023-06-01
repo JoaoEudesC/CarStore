@@ -5,7 +5,6 @@ import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken"; // Vamos utilizar essa função para verificar o nosso token.
 
 import auth from "../../../../config/auth";
-import { UsersTokensRepository } from "../../../../modules/accounts/infra/typeorm/repositories/UsersTokenRepository";
 import { AppError } from "../../../errors/AppError";
 
 dotenv.config();
@@ -16,30 +15,17 @@ export async function ensureAuthenticated(
     next: NextFunction
 ) {
     const authHeader = req.headers.authorization;
-    const usersTokenRepository = new UsersTokensRepository();
 
     if (!authHeader) {
         throw new AppError("Token missing", 401); // Caso o token não tenha sido passado
     }
     const [, token] = authHeader.split(" ");
     try {
-        const { sub: user_id } = verify(token, auth.secret_refresh_token);
+        const { sub: user_id } = verify(token, auth.secret_token);
 
         if (typeof user_id !== "string") {
             throw new Error("Invalid user id"); // Aqui precisei fazer uma verificação primeiro, para dizer que o tipo, do user_id não pode vir undefined, se vier , vai da erro(se não o typescript reclama, pq eu tipei como string e ele pode retornar undefined)
         }
-
-        const user = await usersTokenRepository.findByUserIdAndRefreshToken(
-            user_id,
-            token
-        );
-
-        if (!user) {
-            throw new AppError("User does not exists!", 401);
-        }
-        req.user = {
-            id: user_id,
-        };
 
         next();
     } catch (error) {

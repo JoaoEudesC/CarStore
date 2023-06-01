@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
-import { deleteFile } from "../../../../utils/file";
+import { IStorageProvider } from "../../../../shared/container/providers/StorageProvider/IStorageProvider";
 import { IUsersRepository } from "../../repositories/IUserRepository";
 
 interface IRequest {
@@ -12,13 +12,19 @@ interface IRequest {
 export class UpdateUserAvatarUseCase {
     constructor(
         @inject("UsersRepository")
-        private usersRepository: IUsersRepository
+        private usersRepository: IUsersRepository,
+
+        @inject("StorageProvider")
+        private storageProvider: IStorageProvider
     ) {}
     async execute({ user_id, avatar_File }: IRequest): Promise<void> {
         const user = await this.usersRepository.findById(user_id);
+
         if (user.avatar) {
-            await deleteFile(`./tmp/avatar/${user.avatar}`);
+            await this.storageProvider.delete(user.avatar, "avatar");
         }
+
+        await this.storageProvider.save(avatar_File, "avatar");
 
         user.avatar = avatar_File;
 
@@ -34,3 +40,4 @@ export class UpdateUserAvatarUseCase {
 // 5 - E criar o nosso controller
 // 6 - Aqui a gente vai precisar receber basicamente duas informações, que é o id do usuário e o avatar.
 // 7 - Nos já possuimos "rotas autenticadas", por isso aqui nos não vamos precisar verificar se o usuário existe e sim somenete fazer o upload de avatar.
+// 8 -
