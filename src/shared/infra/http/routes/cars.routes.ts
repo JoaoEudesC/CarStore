@@ -21,7 +21,6 @@ const uploadCarImagesController = new UploadCarImageController();
 // Rota de criação de carros
 carsRoutes.post(
     "/",
-    carCreateValidation,
     ensureAuthenticated,
     ensureAdmin,
     createCarController.handle

@@ -11,7 +11,6 @@ const createSpecificationController = new CreateSpecificationController();
 // Rota de criação de specificação
 specificationRoutes.post(
     "/",
-    specificationsCreateValidation,
     ensureAuthenticated,
     createSpecificationController.handle
 );

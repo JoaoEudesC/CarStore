@@ -1055,6 +1055,54 @@ await request(app).get("/cars/available").expect(200);
 
 ## 10 - no login da nasa utilizei isso => app.use(express.static(path.join(\_\_dirname , "public"))). passando o caminho de arquivos staticos da minha pasta de arquivos.
 
+## ++++++++++++++++++++++++++++++++++++++++++++++++++++ CONFIGURAÇÃO DO NOSSO ENVIO DE EMAIL EM PRODUÇÃO
+
+## 1 - Temos que configuralo para produção pois estamos utilizando uma bibilioteca que apenas testa o envio de email, não realmente envia o email, simula um envio de email.
+
+## 2 - Podemos utilizar algumas bibiliotecas para auxiliar no envio do email como o "sendGrid", "mailgun", "mailchimp" todos eles possuem acesso a partir de um smtp para configurar e auxiliar no envio de email de verdade.
+
+## 3 - Nós vamos utilizar o próprio serviço que a amazon fornece para nós de envio de email, que se chama "ses", simple email services, nós temos acesso a envio de email gratuito naquele périodo de 12 meses qeu ganhamos.
+
+## 4 - Vantagem de utilizar o "ses" => Geralmente se abre uma requisição para cada envio de email, então se voce quiser enviar um email de publicidade para 1000 emails por exemplo, corre um grande risco pelo volume de requisições de o seu email ir parar na caixa de "spam", já com o "ses" ele não faz um requisição para cada envio de email, então se eu tiver um envio de email em massa ele utilizará a mesma conexão para o envio de todos os emails, resultando em uma única requisição e não enviando os emails para o spam.
+
+## 5 - ipDedicado => Se a gente não tiver um "ip" dedicado a nossa aplicação, possa ser que o nosso envio de email esteja utilizando o mesmo ip que outras aplicações que estão utilizando aquele envio de email, então se um email de outro serviço for denuciado, corre risco de afetar o nosso envio de email tambem e interromper o nosso gerenciamento, a gente gerencia a nossa própria reputação, se o ip não for dedicado a gente depende da reputação de outros serviços e apis.
+
+## 6 - a gente pode utilizar o envio de email via "smtp" pegando as "credentials" mas a própria amazon orienta fazer o envio de email via "api" afirma que é bem melhor e mais reconmendavél
+
+## 7 - Problema do "ses" a gente tem que possuir um dominío para realizar o envio de email, ele demora de 24 a 48 horas para verificar esse dominio e voce precisa ter um email a ser verificado dentro do "amazon ses" que seria por onde ele vai enviar os emails.
+
+## 8 - Portanto temos que comprar um dominio, ou podemos criar a identidade como um "email" e não como um ip diretamente, porém voce vai ter que fazer algumas configurações e habilitar algumas seguranças dentro do seu email e ele possui um limite para voce fazer o envio de email.
+
+## 9 - Depois que comprar um dominio no "google domains" voce vai precisar criar emails dentro desse dominio para o envio, é tres dolares por cada email criado, mas voce pode fazer essa configuração no "zoho" um site que permite que seja feita a mesma configuração de graça de até 5 contas emails, dentro do zoho vamos ter que fazer uma configuração do nosso dominio e do nosso dns também.
+
+## 10 - Depois das configurações do zoho, ele vai disponibilizar pra a gente um email.
+
+## 11 - Posso no lugar de colocar um dominio, colocar um email a ser chamado como identidade, que será de onde serão enviados os emails.
+
+## 12 - Precisamos ir dentro do "IAM" manage access => que é onde está o nosso usuário que havia sido criado para o "s3", eu preciso concender permissão para o "ses" para que a gente possa utilizar a key deste usuário, que é aquela que a gente colocou no nosso enviroment., a gente concedeu as permissões em anexar politicas para o "s3" full access e é exatamente o que nós vamos fazer para o ses também neste usuário, conceber o "full access" para o ses também neste usuário.
+
+## 13 - Se a gente quiser criar outro usuário para ter essas permissões também é possível, mas neste caso a gente utilizou o mesmo usuário criado do "s3" para dar a permissão ao "ses" e utilizar a mesma chave => que está no nosso dotenv.
+
+## +++++++++++++++++++++++++++++++++++++++++++ CRIANDO PROVIDER DE ENVIO DE EMAIL ATRAVÉS DO SES
+
+## 1 - O NodeMailler ele dá suporte para o "sess" então a gente consegue utilizar essa bibilioteca para o envio de email através do "ses"
+
+## 2 - é só pesquisar "nodemailler sess" assim como nós pesquisamos na outra aplicação "nodemailler gmail ou hotmail" para vermos a implementação, a diferença é que utilizamos a validação via "smtp" e aqui nós vamos utilizar a validação via "api"
+
+## 3 - Vamo criar um provider igual fizemos para o "ethereal" e utilizar as váriaveis de ambinete igual fizemos no storage para identificar quando vamos utilizar o "ethreal" para teste ou o "ses" para o envio do email em produção.
+
+## 4 - Para testar o envio do email => Para testar o envio do email => A gente já tem uma função sendForgotEmail e devemos enviar novamente e ver se funciona
+
+## 5 - Personalização do hbs para o "ses" ele funciona diferente, nós vamos precisar ter um "html" por fora de todo o arquivo handleBars englobando tudo, com outras pltaformas de envio de email não precisa, porque o handleBars já assum que é um html, mas com o "ses" é preciso, ou seja, voce praticamente tem que montar uma estrutura html igual um html 5.
+
+## 6 - Tenho que remover o display "flex" porque o display "flex" não funciona no handleBars.
+
+## 7 - Quando a gente for enviar o código para a produção, a gente não pode enviar o arquivo ".env" pois está cheio de informações sensiveis.
+
+## 8 - Por isso vamos criar um "dotenvExample" em que quando subir para a produção, a gente vai disponibilizar apenas esse nosso arquivo de exemplo.
+
+## 9 - Se voce não tiver um dominio, para criar um email dentro dele como pede a configuração da amazon, tudo que voce deve fazer é verificar os emails que voce quer enviar pois ele so vai enviar para emails verificados na região.
+
 ## OBS -> Perceba que é um teste de integração para cada useCase assim como é um teste unitário para cada UseCase também, a diferenaça que o teste unitário testa função por função individualmente de cada rota e o teste de integração testa a funcionalidade da rota inteira diretamente com a ligação com o banco de dados , se realamente aquilo tudo está funcionando junto, ele testa as rotas da aplicação e não os metodos.
 
 ## OBS => npm test -- --runInBand ("Utilizar este comando para nao rodar os testes unitários ao mesmo tempo que o de integração pode dar erro de chave duplicada por exemplo").

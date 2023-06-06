@@ -3,7 +3,7 @@ import multer from "multer";
 
 import uploadConfig from "../../../../config/upload";
 import { CreateUserController } from "../../../../modules/accounts/useCases/createUser/createUserController";
-import { ProfileUserController } from "../../../../modules/accounts/useCases/profileUserUseCase/profileUserController";
+import { ProfileUserController } from "../../../../modules/accounts/useCases/seeProfile/profileUserController";
 import { UpdateUserAvatarController } from "../../../../modules/accounts/useCases/updateUserAvatar/UpdateUserAvatarController";
 import { userCreateValidation } from "../../../../validations/UserValidations";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
@@ -21,7 +21,6 @@ usersRoutes.post("/", createUserController.handle);
 const uploadAvatar = multer(uploadConfig); // Isto vai fazer com que essas informações sejam redirecionadas para a pasta avatr criada dentro de "tmp", dentro do upload.single, eu passei o nome do arquivo.
 usersRoutes.patch(
     "/avatar",
-    userCreateValidation,
     ensureAuthenticated,
     uploadAvatar.single("avatar"),
     updateUserAvatarController.handle

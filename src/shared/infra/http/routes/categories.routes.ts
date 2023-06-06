@@ -20,7 +20,6 @@ const listCategoriesController = new ListCategoriesController();
 // Rota para cadastrar nova categoria!!!
 categoriesRoutes.post(
     "/",
-    categoryCreateValidation,
     ensureAuthenticated,
     ensureAdmin,
     createCategoryController.handle

@@ -1,13 +1,11 @@
-// Middleware de autenticação de usuário
-
-import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
-import { verify } from "jsonwebtoken"; // Vamos utilizar essa função para verificar o nosso token.
+import { verify } from "jsonwebtoken";
 
 import auth from "../../../../config/auth";
+import { UsersRepository } from "../../../../modules/accounts/infra/typeorm/repositories/UsersRepository";
 import { AppError } from "../../../errors/AppError";
 
-dotenv.config();
+const usersRepository = new UsersRepository(); // Crie uma instância do repositório de usuários
 
 export async function ensureAuthenticated(
     req: Request,
@@ -17,15 +15,23 @@ export async function ensureAuthenticated(
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        throw new AppError("Token missing", 401); // Caso o token não tenha sido passado
+        throw new AppError("Token missing", 401);
     }
-    const [, token] = authHeader.split(" ");
-    try {
-        const { sub: user_id } = verify(token, auth.secret_token);
 
-        if (typeof user_id !== "string") {
-            throw new Error("Invalid user id"); // Aqui precisei fazer uma verificação primeiro, para dizer que o tipo, do user_id não pode vir undefined, se vier , vai da erro(se não o typescript reclama, pq eu tipei como string e ele pode retornar undefined)
+    const [, token] = authHeader.split(" ");
+
+    try {
+        const { sub: user_id } = verify(token, auth.secret_token) as {
+            sub: string;
+        };
+
+        const user = await usersRepository.findById(user_id);
+
+        if (!user) {
+            throw new AppError("User not found", 401);
         }
+
+        req.user = user; // Defina o objeto do usuário em req.user
 
         next();
     } catch (error) {
